@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Language" content="vi-VN" />
+<meta name="generator" content="Adobe RoboHelp 11" />
+<title>Giải Thuật</title>
+<link rel="StyleSheet" href="../../default.css" type="text/css" />
+<link rel="StyleSheet" href="../../code.style.css" type="text/css" />
+</head>
+
+<body>
+<?rh-region_start type="header" style="width: 100%; position: relative;" ?>
+	<p style="font-size: 10pt; color: #808080;"><span style="color: #c0c0c0;">Membership 
+	 Document</span> </p>
+<?rh-region_end type="header" ?>
+<p style="color: #808080;"><span class="Light_xx">GUEST CALL</span><span 
+	 style="font-size: 18pt;"> </span><span style="font-size: 14pt;">| 
+ </span><span class="Light_x">GIẢI THUẬT</span></p>
+<hr style="border-top-style: Solid; border-top-width: 1px; color: #d7d7d7; 
+	 background-color: #d7d7d7;" size="1" align="center" />
+<p style="color: #808080;">&#160;</p>
+<p>&#160;</p>
+<p><font style="font-size: x-small;" size="2">[ I ] LOADING:</font></p>
+<ol>
+	<li>Nhờ vào <span class="nolink">[ShowGuestCallEvent]</span>, 
+	    ta lấy được danh sách card Type mà user chọn =&gt; Lấy danh sách MemberCard 
+	    thwo Card Type này (để làm tooltip)</li>
+	<li>Nhờ vào <span class="nolink">[ShowGuestCallEvent]</span>, 
+	    gọi hàm <span class="nolink">[GetGuestCall]</span> và thực thi lấy 
+	    danh sách Guest Call từ DB</li>
+</ol>
+<p>&#160;</p>
+<p><font style="font-size: x-small;" size="2">Giải thuật của <span class="nolink">[GetGuestCall]</span> 
+ (xử lý trong các Store Proc.)</font></p>
+<ul>
+	<li><p><font style="font-size: x-small;" size="2">Early Usage<br />
+	</font><font style="font-size: x-small;" size="2">Lấy tất cả các card 
+	 mà có ngày Sold_Date thỏa: trước ngày <span class="nolink">[SelectedEuDate]</span> 
+	 xxx ngày. Trong dó xxx: được qui định bởi cờ [FlgSalesEAPeriod]</font></p></li>
+	<li><p><font style="font-size: x-small;" size="2">Birthday<br />
+	</font><font style="font-size: x-small;" size="2">Lấy tất cả các card 
+	 mà chủ sở hữu có ngày sinh nhật trong khoảng <span class="nolink">[FromBdDate]</span> 
+	 và <span class="nolink">[ToBdDate]</span></font></p></li>
+	<li><p><font style="font-size: x-small;" size="2">Spouse DOB<br />
+	</font><font style="font-size: x-small;" size="2">Lấy tất cả các card 
+	 mà chủ sở hữu có ngày sinh nhật của vợ trong khoảng <span class="nolink">[FromDobDate]</span> 
+	 và <span class="nolink">[ToDobDate]</span></font></p></li>
+	<li><p><font style="font-size: x-small;" size="2">Wedding<br />
+	</font><font style="font-size: x-small;" size="2">Lấy tất cả các card 
+	 mà chủ sở hữu có ngày kỷ niệm ngày cưới trong khoảng <span class="nolink">[FromWeddingDate]</span> 
+	 và <span class="nolink">[ToWeddingDate]</span></font></p></li>
+	<li><p><font style="font-size: x-small;" size="2">4 Months<br />
+	</font><font style="font-size: x-small;" size="2">Lấy tất cả các card 
+	 mà có ngày Expiry_Date trong khoảng: [<span class="nolink">[Selected4Date]</span>+xxx(tháng)-<span 
+	 class="nolink">[First4]</span>] và [<span class="nolink">[Selected4Date]</span>+xxx(tháng)+<span 
+	 class="nolink">[Second4]</span>]. Trong đó xxx là số thàng được qui 
+	 định bởi FlgSales4MonthsPeriod</font></p></li>
+	<li><p><font style="font-size: x-small;" size="2">6 Months<br />
+	</font><font style="font-size: x-small;" size="2">Lấy tất cả các card 
+	 mà có ngày Expiry_Date trong khoảng: [<span class="nolink">[Selected6Date]</span>+xxx(tháng)-<span 
+	 class="nolink">[First6]</span>] và [<span class="nolink">[Selected6Date]</span>+xxx(tháng)+<span 
+	 class="nolink">[Second6]</span>]. Trong đó xxx là số thàng được qui 
+	 định bởi FlgSales6MonthsPeriod</font></p></li>
+	<li><p><font style="font-size: x-small;" size="2">8 Months<br />
+	</font><font style="font-size: x-small;" size="2">Lấy tất cả các card 
+	 mà có ngày Expiry_Date trong khoảng: [<span class="nolink">[Selected8Date]</span>+xxx(tháng)-<span 
+	 class="nolink">[First8]</span>] và [<span class="nolink">[Selected8Date]</span>+xxx(tháng)+<span 
+	 class="nolink">[Second8]</span>]. Trong đó xxx là số thàng được qui 
+	 định bởi FlgSales8MonthsPeriod</font></p></li>
+	<li><p><font style="font-size: x-small;" size="2">Expiry Date<br />
+	</font><font style="font-size: x-small;" size="2">Lấy tất cả các card 
+	 mà có ngày Expiry_Date trong khoảng: [<span class="nolink">[ExpDateMark]</span>-<span 
+	 class="nolink">[NumDayBefore]</span>(ngày)] và [<span class="nolink">[ExpDateMark]</span>+<span 
+	 class="nolink">[NumDayAfter]</span>(ngày)]. Trong đó xxx là số thàng 
+	 được qui định bởi FlgSales8MonthsPeriod</font></p></li>
+</ul>
+<p>&#160;</p>
+<p><font style="font-size: x-small;" size="2">[ II ] HÀNH VI:</font></p>
+<ul>
+	<li><font style="font-size: x-small;" size="2">Mỗi dòng call trên datagrid 
+	 có đánh dấu nó thuộc loại nào</font></li>
+	<li><font style="font-size: x-small;" size="2">Khi 1 call được lưu 
+	 nó sẽ không xuất hiện nữa nếu như thỏa các điều kiện của loại đó</font></li>
+</ul>
+<p>&#160;</p>
+<p>&#160;</p>
+<?rh-region_start type="footer" style="width: 100%; position: relative;" ?>
+	<hr style="color: #c0c0c0; background-color: #c0c0c0; border-top-style: Solid; 
+		 border-top-width: 1px;" size="1" align="center" />
+	<p style="font-size: 10pt; color: #c0c0c0;">Copyright 2014 <?rh-symbol_start 
+	 name="Copyright" ?>©<?rh-symbol_end ?> PhamNguyenCo. Allrights reserved.</p>
+<?rh-region_end type="footer" ?>
+</body>
+</html>

@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Language" content="vi-VN" />
+<meta name="template" content="_Code.htt" />
+<meta name="generator" content="Adobe RoboHelp 11" />
+<title>func_GetGuestCallByAnniversary</title>
+<link rel="StyleSheet" href="..\..\code.style.css" type="text/css" />
+</head>
+
+<body><?rh-placeholder type="header" ?>
+<p>&#160;</p>
+<!-- HTML generated using hilite.me --><div style="overflow: auto; width: auto; 
+											 border: solid #808080; border-width: .1em .1em .1em .8em; 
+											 padding: .2em .6em; background-color: #ffffff;">
+	<pre color:="" #0000aa;"="" style="margin: 0; >: USE '[Membership]<span' style=;">
+GO<span style="color: #aaaaaa; font-style: italic;">
+/****** Object: &#160;UserDefinedFunction [dbo].[func_GetGuestCallByAnniversary] &#160;&#160;&#160;Script Date: 8/1/2014 9:40:38 AM ******/</span><span style="color: #0000aa;">
+SET</span> ANSI_NULLS <span style="color: #0000aa;">ON</span><span style="color: #0000aa;">
+GO</span><span style="color: #0000aa;">
+SET</span> QUOTED_IDENTIFIER <span style="color: #0000aa;">ON</span><span style="color: #0000aa;">
+GO</span><span style="color: #aaaaaa; font-style: italic;">
+-- Date 2013-03-15 10:41:46 </span><span style="color: #aaaaaa; font-style: italic;">
+-- Database 'Membership' </span><span style="color: #aaaaaa; font-style: italic;">
+--L?y Profile theo Anniversary n?m trong kho?ng &quot; before &gt;= Anniversary &lt;= after &quot; </span><span style="color: #0000aa;">
+ALTER</span> <span style="color: #0000aa;">FUNCTION</span> [dbo].[func_GetGuestCallByAnniversary] (
+	@<span style="color: #0000aa;">before</span> <span style="color: #00aaaa;">DATE</span>
+	, @<span style="color: #0000aa;">after</span> <span style="color: #00aaaa;">DATE</span>
+	, @isWeedingChecked <span style="color: #00aaaa;">BIT</span>
+	, @isActive <span style="color: #00aaaa;">BIT</span>
+	, @isInactive <span style="color: #00aaaa;">BIT</span>
+	, @CardTypeList <span style="color: #00aaaa;">VARCHAR</span>(<span style="color: #009999;">100</span>)
+	)<span style="color: #0000aa;">
+RETURNS</span> @tempTable <span style="color: #0000aa;">TABLE</span> (
+	Lead_ID <span style="color: #00aaaa;">INT</span>
+	, Card_ID NVARCHAR(<span style="color: #009999;">20</span>)
+	, Sold_Date <span style="color: #00aaaa;">DATE</span>
+	, Lead_Name <span style="color: #00aaaa;">VARCHAR</span>(<span style="color: #009999;">60</span>)
+	, Mobile_No <span style="color: #00aaaa;">VARCHAR</span>(<span style="color: #009999;">30</span>)
+	, Birthday <span style="color: #00aaaa;">DATE</span>
+	, Anniversary <span style="color: #00aaaa;">DATE</span>
+	, SpouseDOB <span style="color: #00aaaa;">DATE</span>
+	, IsEU <span style="color: #00aaaa;">BIT</span>
+	, IsBD <span style="color: #00aaaa;">BIT</span>
+	, IsSpouse <span style="color: #00aaaa;">BIT</span>
+	, IsWedding <span style="color: #00aaaa;">BIT</span>
+	, Is4Month <span style="color: #00aaaa;">BIT</span>
+	, Is8Month <span style="color: #00aaaa;">BIT</span>
+	, Is6Month <span style="color: #00aaaa;">BIT</span>
+	, IsExpDate <span style="color: #00aaaa;">BIT</span>
+	, Status_ID <span style="color: #00aaaa;">INT</span>
+	)<span style="color: #0000aa;">
+AS</span><span style="color: #0000aa;">
+BEGIN</span>
+	IF @isWeedingChecked = <span style="color: #009999;">1</span>
+	<span style="color: #0000aa;">BEGIN</span>
+		<span style="color: #0000aa;">DECLARE</span> @setting <span style="color: #00aaaa;">VARCHAR</span>(<span style="color: #009999;">8</span>) = (
+				<span style="color: #0000aa;">SELECT</span> SettingValue
+				<span style="color: #0000aa;">FROM</span> ADM_Settings
+				<span style="color: #0000aa;">WHERE</span> Setting_ID = <span style="color: #aa5500;">'flgMemberCards_GuestServiceCallCardStatus'</span>
+				)
+		<span style="color: #aaaaaa; font-style: italic;">--select @setting </span>
+		<span style="color: #0000aa;">DECLARE</span> @Temp <span style="color: #0000aa;">TABLE</span> (Card_ID <span style="color: #00aaaa;">VARCHAR</span>(<span style="color: #009999;">20</span>))
+		<span style="color: #0000aa;">DECLARE</span> @isIssued <span style="color: #00aaaa;">BIT</span> = <span style="color: #0000aa;">CONVERT</span>(<span style="color: #00aaaa;">BIT</span>, <span style="color: #0000aa;">SUBSTRING</span>(@setting, <span style="color: #009999;">4</span>, <span style="color: #009999;">1</span>)) <span style="color: #aaaaaa; font-style: italic;">--//Issued </span>
+		<span style="color: #0000aa;">DECLARE</span> @isCancel <span style="color: #00aaaa;">BIT</span> = <span style="color: #0000aa;">CONVERT</span>(<span style="color: #00aaaa;">BIT</span>, <span style="color: #0000aa;">SUBSTRING</span>(@setting, <span style="color: #009999;">5</span>, <span style="color: #009999;">1</span>)) <span style="color: #aaaaaa; font-style: italic;">--//Canceled </span>
+		<span style="color: #0000aa;">DECLARE</span> @isExp <span style="color: #00aaaa;">BIT</span> = <span style="color: #0000aa;">CONVERT</span>(<span style="color: #00aaaa;">BIT</span>, <span style="color: #0000aa;">SUBSTRING</span>(@setting, <span style="color: #009999;">6</span>, <span style="color: #009999;">1</span>)) <span style="color: #aaaaaa; font-style: italic;">--//Expiry </span>
+		<span style="color: #0000aa;">DECLARE</span> @isRef <span style="color: #00aaaa;">BIT</span> = <span style="color: #0000aa;">CONVERT</span>(<span style="color: #00aaaa;">BIT</span>, <span style="color: #0000aa;">SUBSTRING</span>(@setting, <span style="color: #009999;">7</span>, <span style="color: #009999;">1</span>)) <span style="color: #aaaaaa; font-style: italic;">--//Refund </span>
+		<span style="color: #0000aa;">DECLARE</span> @isReprint <span style="color: #00aaaa;">BIT</span> = <span style="color: #0000aa;">CONVERT</span>(<span style="color: #00aaaa;">BIT</span>, <span style="color: #0000aa;">SUBSTRING</span>(@setting, <span style="color: #009999;">8</span>, <span style="color: #009999;">1</span>)) <span style="color: #aaaaaa; font-style: italic;">--//Reprint </span>
+		<span style="color: #0000aa;">DECLARE</span> @cardTypeTblTemp <span style="color: #0000aa;">AS</span> <span style="color: #0000aa;">TABLE</span> (CardType_ID <span style="color: #00aaaa;">VARCHAR</span>(<span style="color: #009999;">10</span>))
+		<span style="color: #0000aa;">INSERT</span> <span style="color: #0000aa;">INTO</span> @cardTypeTblTemp
+		<span style="color: #0000aa;">SELECT</span> *
+		<span style="color: #0000aa;">FROM</span> [dbo].[func_InsertStringToTable](@CardTypeList)
+		IF dbo.func_CheckSettingBoolean(<span style="color: #aa5500;">'flgMemberCards_GuestServiceCallExcludeHistory'</span>) = <span style="color: #009999;">0</span>
+		<span style="color: #0000aa;">BEGIN</span>
+			<span style="color: #0000aa;">INSERT</span> <span style="color: #0000aa;">INTO</span> @tempTable
+			<span style="color: #0000aa;">SELECT</span> TEMP.Lead_ID
+				, TEMP.Card_ID
+				, TEMP.Sold_Date
+				, TEMP.Lead_Name
+				, TEMP.Mobile_No
+				, TEMP.Birthday
+				, TEMP.Anniversary
+				, TEMP.SpouseDOB
+				, <span style="color: #009999;">0</span>
+				, <span style="color: #009999;">0</span>
+				, <span style="color: #009999;">0</span>
+				, <span style="color: #009999;">1</span>
+				, <span style="color: #009999;">0</span>
+				, <span style="color: #009999;">0</span>
+				, <span style="color: #009999;">0</span>
+				, <span style="color: #009999;">0</span>
+				, TEMP.Status_ID
+			<span style="color: #0000aa;">FROM</span> (
+				<span style="color: #0000aa;">SELECT</span> mc.Lead_ID
+					, mc.Card_ID
+					, mc.Sold_Date
+					, p.Lead_Name
+					, p.Mobile_No
+					, p.Birthday
+					, p.Anniversary
+					, p.SpouseDOB
+					, DATEADD(<span style="color: #0000aa;">YEAR</span>, (<span style="color: #0000aa;">YEAR</span>(GETDATE()) - <span style="color: #0000aa;">YEAR</span>(p.Anniversary)), p.Anniversary) <span style="color: #0000aa;">AS</span> TempAnn
+					, mc.Status_ID
+				<span style="color: #0000aa;">FROM</span> dbo.Profiles p
+					, dbo.func_UnionMemberCardsANDCardHistory() <span style="color: #0000aa;">AS</span> mc
+				<span style="color: #0000aa;">WHERE</span> p.Anniversary <span style="color: #0000aa;">IS</span> <span style="color: #0000aa;">NOT</span> <span style="color: #0000aa;">NULL</span>
+					<span style="color: #0000aa;">AND</span> mc.Lead_ID = p.Lead_ID
+					<span style="color: #0000aa;">AND</span> (
+						(
+							@isActive = <span style="color: #009999;">1</span>
+							<span style="color: #0000aa;">AND</span> mc.[Active] = <span style="color: #009999;">1</span>
+							)
+						<span style="color: #0000aa;">OR</span> (
+							@isInactive = <span style="color: #009999;">1</span>
+							<span style="color: #0000aa;">AND</span> mc.[Active] = <span style="color: #009999;">0</span>
+							)
+						)
+					<span style="color: #0000aa;">AND</span> mc.CardType_ID <span style="color: #0000aa;">IN</span> (
+						<span style="color: #0000aa;">SELECT</span> *
+						<span style="color: #0000aa;">FROM</span> @cardTypeTblTemp
+						)
+					<span style="color: #0000aa;">AND</span> (
+						(
+							@isIssued = <span style="color: #009999;">1</span>
+							<span style="color: #0000aa;">AND</span> mc.Status_ID = <span style="color: #009999;">5</span>
+							)
+						<span style="color: #0000aa;">OR</span> (
+							@isCancel = <span style="color: #009999;">1</span>
+							<span style="color: #0000aa;">AND</span> (
+								mc.Status_ID = <span style="color: #009999;">6</span>
+								<span style="color: #0000aa;">AND</span> mc.<span style="color: #0000aa;">Type</span> = <span style="color: #009999;">3</span>
+								)
+							)
+						<span style="color: #0000aa;">OR</span> (
+							(
+								@isExp = <span style="color: #009999;">0</span>
+								<span style="color: #0000aa;">AND</span> (
+									mc.Status_ID &lt;&gt; <span style="color: #009999;">7</span>
+									<span style="color: #0000aa;">OR</span> mc.[Expiry_Date] &gt;= GETDATE()
+									)
+								)
+							<span style="color: #0000aa;">OR</span> (
+								@isExp = <span style="color: #009999;">1</span>
+								<span style="color: #0000aa;">AND</span> (
+									mc.Status_ID = <span style="color: #009999;">7</span>
+									<span style="color: #0000aa;">OR</span> (mc.[Expiry_Date] &lt; GETDATE())
+									)
+								)
+							)
+						<span style="color: #0000aa;">OR</span> (
+							@isRef = <span style="color: #009999;">1</span>
+							<span style="color: #0000aa;">AND</span> (
+								mc.<span style="color: #0000aa;">Type</span> = <span style="color: #009999;">2</span>
+								<span style="color: #0000aa;">AND</span> mc.Status_ID = <span style="color: #009999;">8</span>
+								)
+							)
+						<span style="color: #0000aa;">OR</span> (
+							@isReprint = <span style="color: #009999;">1</span>
+							<span style="color: #0000aa;">AND</span> mc.[<span style="color: #0000aa;">Type</span>] = <span style="color: #009999;">1</span>
+							)
+						)
+				) TEMP
+			<span style="color: #0000aa;">WHERE</span> TempAnn <span style="color: #0000aa;">BETWEEN</span> DATEADD(<span style="color: #0000aa;">YEAR</span>, (<span style="color: #0000aa;">YEAR</span>(GETDATE()) - <span style="color: #0000aa;">YEAR</span>(@<span style="color: #0000aa;">before</span>)), @<span style="color: #0000aa;">before</span>)
+					<span style="color: #0000aa;">AND</span> DATEADD(<span style="color: #0000aa;">YEAR</span>, (<span style="color: #0000aa;">YEAR</span>(GETDATE()) - <span style="color: #0000aa;">YEAR</span>(@<span style="color: #0000aa;">after</span>)), @<span style="color: #0000aa;">after</span>)
+				<span style="color: #0000aa;">AND</span> <span style="color: #0000aa;">NOT</span> <span style="color: #0000aa;">EXISTS</span> (
+					<span style="color: #0000aa;">SELECT</span> *
+					<span style="color: #0000aa;">FROM</span> Calls
+					<span style="color: #0000aa;">WHERE</span> Card_ID = TEMP.Card_ID
+						<span style="color: #0000aa;">AND</span> Active = <span style="color: #009999;">1</span>
+						<span style="color: #0000aa;">AND</span> Wedding = <span style="color: #009999;">1</span>
+					)
+		<span style="color: #0000aa;">END</span>
+		<span style="color: #0000aa;">ELSE</span>
+		<span style="color: #0000aa;">BEGIN</span>
+			<span style="color: #0000aa;">INSERT</span> <span style="color: #0000aa;">INTO</span> @tempTable
+			<span style="color: #0000aa;">SELECT</span> TEMP.Lead_ID
+				, TEMP.Card_ID
+				, TEMP.Sold_Date
+				, TEMP.Lead_Name
+				, TEMP.Mobile_No
+				, TEMP.Birthday
+				, TEMP.Anniversary
+				, TEMP.SpouseDOB
+				, <span style="color: #009999;">0</span>
+				, <span style="color: #009999;">0</span>
+				, <span style="color: #009999;">0</span>
+				, <span style="color: #009999;">1</span>
+				, <span style="color: #009999;">0</span>
+				, <span style="color: #009999;">0</span>
+				, <span style="color: #009999;">0</span>
+				, <span style="color: #009999;">0</span>
+				, TEMP.Status_ID
+			<span style="color: #0000aa;">FROM</span> (
+				<span style="color: #0000aa;">SELECT</span> mc.Lead_ID
+					, mc.Card_ID
+					, mc.Sold_Date
+					, p.Lead_Name
+					, p.Mobile_No
+					, p.Birthday
+					, p.Anniversary
+					, p.SpouseDOB
+					, DATEADD(<span style="color: #0000aa;">YEAR</span>, (<span style="color: #0000aa;">YEAR</span>(GETDATE()) - <span style="color: #0000aa;">YEAR</span>(p.Anniversary)), p.Anniversary) <span style="color: #0000aa;">AS</span> TempAnn
+					, mc.Status_ID
+				<span style="color: #0000aa;">FROM</span> dbo.Profiles p
+					, MemberCards <span style="color: #0000aa;">AS</span> mc
+				<span style="color: #0000aa;">WHERE</span> p.Anniversary <span style="color: #0000aa;">IS</span> <span style="color: #0000aa;">NOT</span> <span style="color: #0000aa;">NULL</span>
+					<span style="color: #0000aa;">AND</span> mc.Lead_ID = p.Lead_ID
+					<span style="color: #0000aa;">AND</span> (
+						(
+							@isActive = <span style="color: #009999;">1</span>
+							<span style="color: #0000aa;">AND</span> mc.[Active] = <span style="color: #009999;">1</span>
+							)
+						<span style="color: #0000aa;">OR</span> (
+							@isInactive = <span style="color: #009999;">1</span>
+							<span style="color: #0000aa;">AND</span> mc.[Active] = <span style="color: #009999;">0</span>
+							)
+						)
+					<span style="color: #0000aa;">AND</span> mc.CardType_ID <span style="color: #0000aa;">IN</span> (
+						<span style="color: #0000aa;">SELECT</span> *
+						<span style="color: #0000aa;">FROM</span> @cardTypeTblTemp
+						)
+					<span style="color: #0000aa;">AND</span> (
+						(
+							@isIssued = <span style="color: #009999;">1</span>
+							<span style="color: #0000aa;">AND</span> mc.Status_ID = <span style="color: #009999;">5</span>
+							)
+						<span style="color: #0000aa;">OR</span> (
+							@isCancel = <span style="color: #009999;">1</span>
+							<span style="color: #0000aa;">AND</span> (mc.Status_ID = <span style="color: #009999;">6</span>)
+							)
+						<span style="color: #0000aa;">OR</span> (
+							(
+								@isExp = <span style="color: #009999;">0</span>
+								<span style="color: #0000aa;">AND</span> (
+									mc.Status_ID &lt;&gt; <span style="color: #009999;">7</span>
+									<span style="color: #0000aa;">OR</span> mc.[Expiry_Date] &gt;= GETDATE()
+									)
+								)
+							<span style="color: #0000aa;">OR</span> (
+								@isExp = <span style="color: #009999;">1</span>
+								<span style="color: #0000aa;">AND</span> (
+									mc.Status_ID = <span style="color: #009999;">7</span>
+									<span style="color: #0000aa;">OR</span> (mc.[Expiry_Date] &lt; GETDATE())
+									)
+								)
+							)
+						<span style="color: #0000aa;">OR</span> (
+							@isRef = <span style="color: #009999;">1</span>
+							<span style="color: #0000aa;">AND</span> (mc.Status_ID = <span style="color: #009999;">8</span>)
+							) <span style="color: #aaaaaa; font-style: italic;">--OR </span>
+						<span style="color: #aaaaaa; font-style: italic;">--(@isReprint = 1 AND mc.[Type] = 1) </span>
+						)
+				) TEMP
+			<span style="color: #0000aa;">WHERE</span> TempAnn <span style="color: #0000aa;">BETWEEN</span> DATEADD(<span style="color: #0000aa;">YEAR</span>, (<span style="color: #0000aa;">YEAR</span>(GETDATE()) - <span style="color: #0000aa;">YEAR</span>(@<span style="color: #0000aa;">before</span>)), @<span style="color: #0000aa;">before</span>)
+					<span style="color: #0000aa;">AND</span> DATEADD(<span style="color: #0000aa;">YEAR</span>, (<span style="color: #0000aa;">YEAR</span>(GETDATE()) - <span style="color: #0000aa;">YEAR</span>(@<span style="color: #0000aa;">after</span>)), @<span style="color: #0000aa;">after</span>)
+				<span style="color: #0000aa;">AND</span> <span style="color: #0000aa;">NOT</span> <span style="color: #0000aa;">EXISTS</span> (
+					<span style="color: #0000aa;">SELECT</span> *
+					<span style="color: #0000aa;">FROM</span> Calls
+					<span style="color: #0000aa;">WHERE</span> Card_ID = TEMP.Card_ID
+						<span style="color: #0000aa;">AND</span> Active = <span style="color: #009999;">1</span>
+						<span style="color: #0000aa;">AND</span> Wedding = <span style="color: #009999;">1</span>
+					)
+		<span style="color: #0000aa;">END</span>
+	<span style="color: #0000aa;">END</span>
+	<span style="color: #0000aa;">RETURN</span><span style="color: #0000aa;">
+END</span></pre>
+</div>
+</body>
+</html>

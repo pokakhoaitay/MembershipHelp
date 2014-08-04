@@ -1,0 +1,19 @@
+﻿/*Created with Adobe RoboHelp 11.*/
+@font-face { font-family: "SegoeUILight"; src: url('Resources/Fonts/702392579-segoeuil.eot'); src: url('Resources/Fonts/702392579-segoeuil.eot?#iefix') format('embedded-opentype'), url('Resources/Fonts/702392579-segoeuil.svg#Segoe UI Light') format('svg'), url('Resources/Fonts/702392579-segoeuil.woff') format('woff'), url('Resources/Fonts/702392579-segoeuil.ttf') format('truetype'); font-weight: normal; font-style: normal; }
+
+body { margin: 0; padding: 0px; background-color: #eee; font-family: monospace; font-size: 12px; }
+
+SQLCode { font-size: 13px; font-weight: bold; font-family: monospace;; white-space: pre; -o-tab-size: 4; -moz-tab-size: 4; -webkit-tab-size: 4; }
+.SQLComment { color: #00AA00; }
+.SQLString { color: #AA0000; }
+.SQLFunction { color: #AA00AA; }
+.SQLKeyword { color: #0000AA; }
+.SQLOperator { color: #777777; }
+.SQLErrorHighlight { background-color: #FFFF00; }
+
+img { border: 0; }
+.backButon { vertical-align: middle; text-decoration: none; font-family: SegoeUILight; color: #fff; cursor: pointer; }
+.backButon img { vertical-align: middle; }
+.backButon span { vertical-align: middle; margin-top: 0px; position: relative; font-size: 20px; display: inline-block; }
+#head { background-color: #ccc; padding: 10px 10px; font-family: "SegoeUILight"; font-size: 16px; }
+P.Preformatted { line-height: normal; margin-bottom: 14pt; margin-top: 14pt; x-text-tab-stops: repeat 1in; white-space: nowrap; font-size: 12px; background-color: #ffffff; font-family: monospace !important; }

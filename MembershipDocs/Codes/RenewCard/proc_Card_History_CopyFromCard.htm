@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta name="template" content="_Code.htt" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Language" content="vi-VN" />
+<meta name="generator" content="Adobe RoboHelp 11" />
+<title>proc_Card_History_CopyFromCard</title>
+<link rel="StyleSheet" href="..\..\code.style.css" type="text/css" />
+</head>
+
+<body>
+<?rh-placeholder type="header" ?>
+<!-- HTML generated using hilite.me --><div>
+	<pre style="margin: 20px;">
+USE [Membership]<span style="color: #0000aa;">
+GO</span><span style="color: #aaaaaa; font-style: italic;">
+/****** Object: &#160;StoredProcedure [dbo].[Card_History_CopyFromCard] &#160;&#160;&#160;Script Date: 7/31/2014 4:33:56 PM ******/</span><span style="color: #0000aa;">
+SET</span> ANSI_NULLS <span style="color: #0000aa;">ON</span><span style="color: #0000aa;">
+GO</span><span style="color: #0000aa;">
+SET</span> QUOTED_IDENTIFIER <span style="color: #0000aa;">ON</span><span style="color: #0000aa;">
+GO</span><span style="color: #aaaaaa; font-style: italic;">
+-- =============================================</span><span style="color: #aaaaaa; font-style: italic;">
+-- Author:		&lt;Author,,Name&gt;</span><span style="color: #aaaaaa; font-style: italic;">
+-- Create date: &lt;Create Date,,&gt;</span><span style="color: #aaaaaa; font-style: italic;">
+-- Description:	&lt;Description,,&gt;</span><span style="color: #aaaaaa; font-style: italic;">
+-- =============================================</span><span style="color: #0000aa;">
+ALTER</span> <span style="color: #0000aa;">PROCEDURE</span> [dbo].[Card_History_CopyFromCard]
+	@New_Card_ID nvarchar(<span style="color: #009999;">20</span>),
+	@Old_Card_ID nvarchar(<span style="color: #009999;">20</span>),
+	@<span style="color: #0000aa;">Type</span> <span style="color: #00aaaa;">int</span><span style="color: #0000aa;">
+AS</span><span style="color: #0000aa;">
+BEGIN</span>
+	<span style="color: #aaaaaa; font-style: italic;">-- SET NOCOUNT ON added to prevent extra result sets from</span>
+	<span style="color: #aaaaaa; font-style: italic;">-- interfering with SELECT statements.</span>
+	<span style="color: #0000aa;">SET</span> NOCOUNT <span style="color: #0000aa;">ON</span>;
+&#160;&#160;&#160;&#160;<span style="color: #0000aa;">INSERT</span> <span style="color: #0000aa;">INTO</span> Card_History
+				<span style="color: #0000aa;">select</span> @New_Card_ID, Card_ID, @<span style="color: #0000aa;">Type</span>,Lead_ID,[Programme_ID]
+					 &#160;,[Is_Primary]
+					 &#160;,[Name_On_Card]
+					 &#160;,[CardType_ID]
+					 &#160;,[Sold_Date]
+					 &#160;,[Expiry_Date]
+					 &#160;,[Member_Since]
+					 &#160;,[Register_Date]
+					 &#160;,[Cancel_Date]
+					 &#160;,[Upgraded_Date]
+					 &#160;,[Renewal]
+					 &#160;,[Renewal_Date]
+					 &#160;,[Printing_Date]
+					 &#160;,[Issued_Date]
+					 &#160;,[Refund_Date]
+					 &#160;,[Last_Status_Changed]
+					 &#160;,[SalesPerson]
+					 &#160;,[Delivery_By]
+					 &#160;,[Introduced_By]
+					 &#160;,[Payment_ID]
+					 &#160;,[CreditCard]
+					 &#160;,[Reference]
+					 &#160;,[Expiry_CreditCard]
+					 &#160;,[Week]
+					 &#160;,[Price]
+					 &#160;,[Currency]
+					 &#160;,[Currency_Rate]
+					 &#160;,[Status_ID]
+					 &#160;,[Total_Points]
+					 &#160;,[Total_Nights]
+					 &#160;,[Total_Revenue]
+					 &#160;,[PointBalance]
+					 &#160;,[RoomRevenue]
+					 &#160;,[SeminaRevenue]
+					 &#160;,[BookingRevenue]
+					 &#160;,[FoodBeverage]
+					 &#160;,[OtherRevenue]
+					 &#160;,[Approver_Unused]
+					 &#160;,[Approver_Issued]
+					 &#160;,[Approver_Expired]
+					 &#160;,[Approver_Printing]
+					 &#160;,[Approver_Awaiting]
+					 &#160;,[Approver_Cancel]
+					 &#160;,[Approver_Renew]
+					 &#160;,[Approver_Refund]
+					 &#160;,[Created_By]
+					 &#160;,[Created_Date]
+					 &#160;,[Changed_By]
+					 &#160;,[Changed_Date]
+					 &#160;,[Active]
+					 &#160;,<span style="color: #0000aa;">null</span>
+					 &#160;,[Benefit_Renewal]
+					 &#160;,[Note]
+					 &#160;<span style="color: #0000aa;">from</span> MemberCards <span style="color: #0000aa;">where</span> Card_ID=@Old_Card_ID<span style="color: #0000aa;">
+END</span></pre>
+</div>
+</body>
+</html>

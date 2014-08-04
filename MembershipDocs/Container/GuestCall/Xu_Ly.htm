@@ -1,0 +1,164 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Language" content="vi-VN" />
+<meta name="robots" content="NOODP" />
+<meta name="generator" content="Adobe RoboHelp 11" />
+    <title>Xử Lý</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, IE=Edge" http-equiv="X-UA-Compatible" />
+    <link href="../IncludeFiles/default.css" rel="stylesheet" />
+    <link href="../IncludeFiles/code.style.css" rel="stylesheet" />
+    <link href="../IncludeFiles/bootstrap.min.css" rel="stylesheet" />
+</head>
+
+<body>
+<?rh-region_start type="header" style="width: 100%; position: relative;" ?>
+	<p style="font-size: 10pt; color: #808080;"><span style="color: #c0c0c0;">Membership 
+	 Document</span> </p>
+<?rh-region_end type="header" ?>
+<p style="color: #808080;"><span class="Light_xx">GUEST CALL</span><span 
+	 style="font-size: 18pt;"> </span><span style="font-size: 14pt;">| 
+ </span><span class="Light_x">XỬ LÝ</span></p>
+<hr style="border-top-style: Solid; border-top-width: 1px; color: #d7d7d7; 
+                                                                                                                                                                                                                                                                                                                                                    background-color: #d7d7d7;" size="1" align="center" />
+<p>&#160;</p>
+    <h3 style="font-family: SegoeUILight">View Load / Button &quot;Refresh&quot; click:</h3>
+<ol>
+	<li style="font-size: x-small;"><div>
+		<span>Gọi <strong>LoadData()</strong> &#160;&#160;<font style="font-size: x-small;" 
+		 size="2">[Xem Code]</font></span> 
+	</div></li>
+	<li style="font-size: x-small;"><div>
+		<span>Gọi <strong>_service.GetGuestCallAsync()&#160;</strong>&#160;<font 
+		 style="font-size: x-small;" size="2"><a href="code_GetGuestCall.htm">[Xem 
+		 Code]</a></font></span> 
+	</div>
+	<ol>
+		<li style="font-size: x-small;"><div>
+			<span>Gọi Procedure: <font style="font-family: Verdana;" face="Verdana"><strong>MemberCards_GetGuestCalls</strong></font>&#160;&#160;</span>&#160; 
+			 
+		</div>
+		<ul style="font-size: x-small;">
+			<li style="font-size: x-small;"><div>
+				<span>Các Procedure/Function liên quan:</span> 
+			</div>
+			<ul style="font-size: x-small;">
+				<li style="font-size: x-small;"><div>
+					<span><strong>func_GetGuestCallByAnniversary</strong>: 
+					 </span><font color="#808080"><span>Lấy tất cả các 
+					 card mà chủ sở hữu có ngày sinh nhật của vợ trong 
+					 khoảng </span><span class="nolink">[FromDobDate]</span><span> 
+					 và</span></font><font color="#000080"><span> </span></font><span 
+					 class="nolink"><font color="#808080">[ToDobDate]<br />
+					</font></span><font color="#000080"><span class="nolink">&#160;&#160;&#160;&#160;&#160;&#160;</span><span 
+					 class="nolink" style="font-size: x-small;"><a href="func_GetGuestCallByAnniversary.htm">[Xem 
+					 Code]</a></span></font> 
+				</div></li>
+				<li style="font-size: x-small;"><div>
+					<span><strong>func_GetGuestCallByBirthDay</strong>: 
+					 </span><font color="#808080"><span>Lấy tất cả các 
+					 card mà chủ sở hữu có ngày sinh nhật trong khoảng 
+					 </span><span class="nolink">[FromBdDate]</span><span> 
+					 và</span></font><font color="#000080"><span> </span></font><span 
+					 class="nolink"><font color="#808080">[ToBdDate]<br />
+					</font></span><span class="nolink"><font color="#000080">&#160;&#160;&#160;&#160;&#160;&#160;</font></span><span 
+					 class="nolink"><font style="font-size: x-small;" color="#000080" 
+											 size="2"><a href="func_GetGuestCallByBirthday.htm" 
+														 target="_blank">[Xem 
+					 Code]</a></font></span><font color="#000080"><span 
+					 class="nolink"> </span></font>
+				</div></li>
+				<li style="font-size: x-small;"><div>
+					<span><strong>func_GetGuestCallBySoldDate</strong>: 
+					 truyền vào các tham số:</span> 
+				</div>
+				<ul style="font-size: x-small;">
+					<li style="font-size: x-small;"><div>
+						<span><em>checkedType=1:</em> </span><font color="#808080"><span>Lấy 
+						 tất cả các card mà có ngày Sold_Date thỏa: trước 
+						 ngày </span><span class="nolink">[SelectedEuDate]</span><span> 
+						 xxx ngày. Trong dó xxx: được qui định bởi cờ [FlgSalesEAPeriod]</span></font> 
+						 
+					</div></li>
+					<li style="font-size: x-small;"><div>
+						<span><font color="#000080">c</font></span><span><em>heckedType=4:</em> 
+						 </span><font color="#808080"><span>Lấy tất cả 
+						 các card mà có ngày Expiry_Date trong khoảng: 
+						 [ </span><span class="nolink">[Selected4Date]</span><span>+xxx(tháng)- 
+						 </span><span class="nolink">[First4]</span><span>] 
+						 và [ </span><span class="nolink">[Selected4Date]</span><span> 
+						 +xxx(tháng)+ </span><span class="nolink">[Second4]</span><span>]. 
+						 Trong đó xxx là số thàng được qui định bởi FlgSales4MonthsPeriod</span></font> 
+						 
+					</div></li>
+					<li style="font-size: x-small;"><div>
+						<span><em>checkedType=6:</em> <font color="#808080">Lấy 
+						 tất cả các card mà có ngày Expiry_Date trong khoảng: 
+						 [ [Selected6Date]+xxx(tháng)-[First6]] và [ [Selected6Date] 
+						 +xxx(tháng)+[Second6]]. Trong đó xxx là số thàng 
+						 được qui định bởi FlgSales6MonthsPeriod</font></span> 
+						 
+					</div></li>
+					<li style="font-size: x-small;"><div>
+						<span><em>checkedType=8:</em> </span><font color="#808080"><span>Lấy 
+						 tất cả các card mà có ngày Expiry_Date trong khoảng: 
+						 [</span><span class="nolink">[Selected8Date]</span><span>+xxx(tháng)-</span><span 
+						 class="nolink">[First8]</span><span> ] và [ </span><span 
+						 class="nolink">[Selected8Date]</span><span>+xxx(tháng)+</span><span 
+						 class="nolink">[Second8]</span><span>]. Trong 
+						 đó xxx là số thàng được qui định bởi FlgSales8MonthsPeriod&#160;<br />
+						</span></font><font color="#808080"><span style="font-size: x-small;"><a 
+						 href="func_GetGuestCallBySoldDate.htm">[Xem Code]</a></span></font> 
+						 
+					</div></li>
+				</ul></li>
+				<li style="font-size: x-small;"><div>
+					<span><strong>func_GetGuestCallBySpouseDOB</strong> 
+					 : </span><font color="#808080"><span>Lấy tất cả các 
+					 card mà chủ sở hữu có ngày sinh nhật của vợ trong 
+					 khoảng </span><span class="nolink">[FromDobDate]</span><span> 
+					 và </span><span class="nolink">[ToDobDate]</span></font><span>&#160;<br />
+					&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<font 
+					 style="font-size: x-small;" size="2"><a href="func_GetGuestCallBySpouseDOB.htm">[Xem 
+					 Code]</a></font></span> 
+				</div></li>
+				<li style="font-size: x-small;"><div>
+					<span><strong>func_UnionMemberCardsANDCardHistory</strong> 
+					 : <font color="#808080">Hội 2 bảng MemberCards và 
+					 CardHistory lại</font></span> 
+				</div></li>
+				<li style="font-size: x-small;"><div>
+					<span><strong>func_InsertStringToTable</strong> : Function 
+					 cắt chuỗi cách bởi dấu &quot;;&quot; hoặc &quot;,&quot; 
+					 đưa vào 1 table</span> 
+				</div></li>
+			</ul></li>
+		</ul>
+		<ul style="font-size: x-small;">
+			<li style="font-size: x-small;"><div>
+				<span>Merge các record tìm thấy và insert vào bảng 
+				 <strong>Calls</strong></span> 
+			</div></li>
+			<li style="font-size: x-small;"><div>
+				<span>Lấy dữ liệu trong bảng <strong>Calls</strong></span> 
+				 
+			</div></li>
+		</ul></li>
+		<li style="font-size: x-small;"><div>
+			Hiển thị kết quả ở bước 1. lên view 
+		</div></li>
+	</ol></li>
+</ol>
+<p>&#160;</p>
+<p>&#160;</p>
+<?rh-region_start type="footer" style="width: 100%; position: relative;" ?>
+	<hr style="color: #c0c0c0; background-color: #c0c0c0; border-top-style: Solid; 
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  border-top-width: 1px;" size="1" align="center" />
+	<p style="font-size: 10pt; color: #c0c0c0;">Copyright 2014 <?rh-symbol_start 
+	 name="Copyright" ?>©<?rh-symbol_end ?> PhamNguyenCo. Allrights reserved.</p>
+<?rh-region_end type="footer" ?>
+</body>
+</html>

@@ -1,0 +1,72 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Giải Thuật</title>
+    <link href="../../IncludeFiles/bootstrap.min.css" rel="stylesheet" />
+    <link href="../../IncludeFiles/default.css" rel="stylesheet" />
+    
+</head>
+<body>
+
+    <div id="mem_header">
+        <div class="wrapper">
+            <div class="doc_title">Membership Document</div>
+            <span>IMPORT FB</span> <span class="last">| Giải Thuật</span>
+        </div>
+        <hr />
+    </div>
+    <div id="mem_body">
+        <div class="wrapper">
+            
+            <!--| TRY |-->
+            <h3 class="para_title">TRY</h3>
+            <ul style="list-style: decimal">
+                <li>Đọc file import .IMP với ngày Import Date được chọn</li>
+                <li>Lưu những gì đọc được vào bảng tạm <b>Spend_FB_Trial</b></li>
+                <li>Đọc ngược từ bảng Spend_FB_Trial và hiển thị lên view</li>
+                <li>Cập nhật trạng thái ngài import được chọn là TRY</li>
+            </ul>
+
+            <!--| BOOK |--> 
+            <h3 class="para_title">BOOK</h3>
+            <ul style="list-style: decimal">
+                <li>
+                    Lưu danh sánh Spend FB hiển thị trên manh hình vào bảng <b>Spend_FB</b>
+                    <br/>
+                    <div style="font-size: 80%; color: #888;">
+                        Danh sách này có được:
+                        <ul style="list-style: square">
+                            <li>TRY trước đó</li>
+                            <li>REOPEN lại</li>
+                        </ul>
+                    </div>
+                </li>
+                <li>Cập nhật trạng thái ngài import được chọn là BOOK</li>
+            </ul>
+            
+            <!--| REOPEN |-->
+            <h3 class="para_title">REOPEN</h3>
+            <ol>
+                <li>Chọn ngày cần Reopen</li>
+                <li>Chuyển trạng thái ngày được chọn sang REOPEN</li>
+                <li>Xóa dữ liệu bảng Spend_FB thỏa: ngày Book_Date = Import_Date được chọn</li>
+                <li>Đọc lại dữ liệu trong bảng Spend_FB_Trial thỏa: Book_Datre = Import_Date được chọn. Hiển thị lên view</li>
+            </ol>
+            <br/>
+            <div class="alert alert-info" role="alert">
+                Tất cả các xử trên đều kiểm tra Card Type và Programme mà User chọn để working
+            </div>
+        </div>
+    </div>
+    <div id="mem_footer">
+        <div class="wrapper">
+            Copyright &copy; 2014 | phamnguyenco.com
+        </div>
+        <div class="clearfix"></div>
+    </div>
+
+    <script src="../../IncludeFiles/jquery-1.11.1.min.js"></script>
+    <script src="../../IncludeFiles/bootstrap.min.js"></script>
+    <script src="../../IncludeFiles/app.js"></script>
+</body>
+</html>

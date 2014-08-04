@@ -1,0 +1,240 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Language" content="vi-VN" />
+<meta name="robots" content="NOODP" />
+<meta name="generator" content="Adobe RoboHelp 11" />
+<title>Xu Ly</title>
+<link rel="StyleSheet" href="..\..\default.css" type="text/css" />
+</head>
+
+<body>
+<?rh-region_start type="header" style="width: 100%; position: relative;" ?>
+	<p style="font-size: 10pt; color: #808080;"><span style="color: #c0c0c0;">&#160;&#160;Membership 
+	 Document </span></p>
+<?rh-region_end type="header" ?>
+<p style="color: #808080;"><span class="Light_xx"><?rh-udv_start name="reprint_title" ?>REPRINT CARD<?rh-udv_end ?></span> 
+ <span class="Light_x">| XỬ LÝ</span> </p>
+<hr style="border-top-style: Solid; border-top-width: 1px; color: #d7d7d7; 
+	 background-color: #d7d7d7;" size="1" align="center" />
+<ol>
+	<li><p>User click button Reprint tại màn hình Member Card Detail</p></li>
+	<ul style="list-style: square;">
+		<li><p>Gọi <span class="Method_Name">ReprintExecute()</span></p></li>
+		<li><p>Gọi <span style="color: #800080;">_cardService.ReprintThisCardAsync(MemberCardDetail.CardID)</span></p></li>
+		<li><p>Gọi Procedure / Function:<span style="color: #008080;"> 
+		 </span><span class="Proc_Name"><a href="proc_MemberCards_Update_Reprint.htm" 
+											 style="color: #008080;">MemberCards_Update_Reprint</a>, 
+		 </span><span style="color: #008080;"><a href="../RewnewCard/proc_Card_History_CopyFromCard.htm" 
+												 style="color: #008080;">Card_History_CopyFromCard</a>,</span> 
+		 <a href="../RewnewCard/proc_GetMaxCardIDByCardType.htm" style="color: #008080;">func_GetMaxCardIDByCardType</a></p></li>
+		<ul style="list-style: square;">
+			<li><p>Tìm Card Type ID và Programme ID của card hiện tại<br />
+			<a class="show-code" onclick=" toggle_visibility('c1', this) " 
+				 href="#">[ Expand Code ]</a> <br />
+			</p>
+			<div class="local-code" id="c1">
+				<pre class="SQLCode">
+<span class="SQLKeyword">DECLARE</span> @oldCardTypeID <span class="SQLKeyword">INT</span> <span class="SQLOperator">=</span> <span class="SQLOperator">(</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLKeyword">SELECT</span> CardType_ID
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLKeyword">FROM</span> MemberCards
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLKeyword">WHERE</span> Card_ID <span class="SQLOperator">=</span> @OldCardIdParam
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLOperator">)</span><span class="SQLKeyword">
+DECLARE</span> @oldProgID <span class="SQLKeyword">INT</span> <span class="SQLOperator">=</span> <span class="SQLOperator">(</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLKeyword">SELECT</span> Programme_ID
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLKeyword">FROM</span> MemberCards
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLKeyword">WHERE</span> Card_ID <span class="SQLOperator">=</span> @OldCardIdParam
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLOperator">)</span>
+				</pre>
+			</div></li>
+			<li><p>Tìm được Replace_Range. Chính là CardType_ID cho card 
+			 mới <br />
+			<a class="show-code" onclick=" toggle_visibility('c2', this) " 
+				 href="#">[ Expand Code ]</a> <br />
+			</p>
+			<div class="local-code" id="c2">
+				<pre class="SQLCode">
+<span class="SQLKeyword">DECLARE</span> @newCardTypeID <span class="SQLKeyword">INT</span> <span class="SQLOperator">=</span> <span class="SQLOperator">(</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLKeyword">SELECT</span> Replace_Range
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLKeyword">FROM</span> MAS_CardTypes
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLKeyword">WHERE</span> CardType_ID <span class="SQLOperator">=</span> @oldCardTypeID
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLOperator">)</span><span class="SQLKeyword">
+IF</span> @newCardTypeID <span class="SQLKeyword">IS</span> <span class="SQLKeyword">NULL</span><span class="SQLKeyword">
+BEGIN</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLKeyword">DECLARE</span> @msg1 <span class="SQLKeyword">VARCHAR</span><span class="SQLOperator">(</span>100<span class="SQLOperator">)</span> <span class="SQLOperator">=</span> <span class="SQLString">'The Replace Range is not defined'</span><span class="SQLOperator">;</span>
+	throw 50001
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLOperator">,</span>@msg1
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLOperator">,</span>1<span class="SQLOperator">;</span><span class="SQLKeyword">
+END</span><span class="SQLKeyword">
+IF</span> <span class="SQLOperator">NOT</span> <span class="SQLOperator">EXISTS</span> <span class="SQLOperator">(</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLKeyword">SELECT</span> <span class="SQLOperator">*</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLKeyword">FROM</span> MAS_CardTypes
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLKeyword">WHERE</span> CardType_ID <span class="SQLOperator">=</span> @newCardTypeID
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLOperator">)</span><span class="SQLKeyword">
+BEGIN</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLKeyword">DECLARE</span> @msg2 <span class="SQLKeyword">VARCHAR</span><span class="SQLOperator">(</span>100<span class="SQLOperator">)</span> <span class="SQLOperator">=</span> <span class="SQLString">'The Replace Range '</span> <span class="SQLOperator">+</span> <span class="SQLFunction">cast</span><span class="SQLOperator">(</span>@newCardTypeID <span class="SQLKeyword">AS</span> <span class="SQLKeyword">VARCHAR</span><span class="SQLOperator">)</span> <span class="SQLOperator">+</span> <span class="SQLString">' not found Card Type ID reference'</span><span class="SQLOperator">;</span>
+	throw 50001
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLOperator">,</span>@msg2
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLOperator">,</span>1<span class="SQLOperator">;</span><span class="SQLKeyword">
+END</span><span class="SQLKeyword">
+DECLARE</span> @newCardFormat <span class="SQLKeyword">VARCHAR</span><span class="SQLOperator">(</span>20<span class="SQLOperator">)</span> <span class="SQLOperator">=</span> <span class="SQLOperator">(</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLKeyword">SELECT</span> Starting_Card_ID
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLKeyword">FROM</span> MAS_CardTypes
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLKeyword">WHERE</span> CardType_ID <span class="SQLOperator">=</span> @newCardTypeID
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLOperator">)</span><span class="SQLKeyword">
+DECLARE</span> @newProgID <span class="SQLKeyword">INT</span> <span class="SQLOperator">=</span> <span class="SQLOperator">(</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLKeyword">SELECT</span> Programme_ID
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLKeyword">FROM</span> MAS_CardTypes
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLKeyword">WHERE</span> CardType_ID <span class="SQLOperator">=</span> @newCardTypeID
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLOperator">)</span>
+				</pre>
+			</div></li>
+			<li><p>Kiểm tra xem CardType_ID có bằng <b style="color: #ff0000;">1</b>? 
+			 </p></li>
+			<ul style="list-style: square;">
+				<li><p><span style="font-weight: bold;">Đúng</span>: Kiểm 
+				 tra cờ <span style="font-style: italic;">flgMemberCards_ReplaceTheSame</span>. 
+				 Nếu Đúng: Card ID mới có dạng: 11xxx, với xxx là toàn 
+				 bộ chữ số phía sau của Card ID cũ bỏ đi 2 chữ số đầu tiên. 
+				 Nếu Sai: Card ID mới tính bằng cách lấy Card ID lớn nhất+1 
+				 thuộc về card type và programme tìm được ở bước 3 </p></li>
+				<li><p><span style="font-weight: bold;">Sai</span>: Kiểm 
+				 tra Card ID cũ có bắt đầu bằng C130 </p></li>
+				<ul style="list-style: square;">
+					<li><p><span style="color: #000000;">Đúng</span>:<br />
+					Kiểm tra cờ <span style="font-style: italic;">flgMemberCards_ReplaceTheSame</span>. 
+					 Nếu Đúng: Card ID mới có dạng: C131xxx, với xxx là 
+					 toàn bộ chữ số phía sau của Card ID cũ bot đi 2 chữ 
+					 số đầu tiên. Nếu Sai: Card ID mới tính bằng cách lấy 
+					 Card ID lớn nhất+1 thuộc về card type và programme 
+					 tìm được ở bước 3 </p></li>
+					<li><p><span style="color: #000000;">Sai</span>:<br />
+					Card ID mới tính bằng cách lấy Card ID lớn nhất+1 thuộc 
+					 về card type và programme tìm được ở bước 3 </p></li>
+				</ul>
+			</ul>
+			<a class="show-code" onclick=" toggle_visibility('c3', this) " 
+				 href="#">[ Expand Code ]</a> 
+			<div class="local-code" id="c3">
+				<pre class="SQLCode">
+<span class="SQLKeyword">IF</span> @oldCardTypeID <span class="SQLOperator">=</span> 1<span class="SQLKeyword">
+BEGIN</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLKeyword">IF</span> dbo<span class="SQLOperator">.</span>func_CheckSettingBoolean<span class="SQLOperator">(</span><span class="SQLString">'flgMemberCards_ReplaceTheSame'</span><span class="SQLOperator">)</span> <span class="SQLOperator">=</span> 1
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLKeyword">BEGIN</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLKeyword">SET</span> @newCardId <span class="SQLOperator">=</span> <span class="SQLFunction">LEFT</span><span class="SQLOperator">(</span>@newCardFormat<span class="SQLOperator">,</span> 2<span class="SQLOperator">)</span> <span class="SQLOperator">+</span> <span class="SQLOperator">(</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLKeyword">SELECT</span> <span class="SQLOperator">(</span><span class="SQLFunction">SUBSTRING</span><span class="SQLOperator">(</span>@OldCardIdParam<span class="SQLOperator">,</span> 3<span class="SQLOperator">,</span> <span class="SQLFunction">LEN</span><span class="SQLOperator">(</span>@OldCardIdParam<span class="SQLOperator">)</span><span class="SQLOperator">)</span><span class="SQLOperator">)</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLOperator">)</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLKeyword">END</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLKeyword">ELSE</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLKeyword">BEGIN</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLKeyword">SET</span> @newCardId <span class="SQLOperator">=</span> <span class="SQLOperator">(</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLKeyword">SELECT</span> [dbo]<span class="SQLOperator">.</span>[func_GetMaxCardIDByCardType]<span class="SQLOperator">(</span>@oldProgID<span class="SQLOperator">,</span> @oldCardTypeID<span class="SQLOperator">,</span> 2<span class="SQLOperator">,</span> <span class="SQLComment">--Replace mode</span>
+						1<span class="SQLOperator">)</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLOperator">)</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLKeyword">DECLARE</span> @t <span class="SQLKeyword">VARCHAR</span><span class="SQLOperator">(</span>20<span class="SQLOperator">)</span> <span class="SQLOperator">=</span> <span class="SQLOperator">(</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLKeyword">SELECT</span> Starting_Card_ID
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLKeyword">FROM</span> MAS_CardTypes
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLKeyword">WHERE</span> CardType_ID <span class="SQLOperator">=</span> @newCardTypeID
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLOperator">)</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLKeyword">SET</span> @newCardId <span class="SQLOperator">=</span> <span class="SQLFunction">LEFT</span><span class="SQLOperator">(</span>@t<span class="SQLOperator">,</span> 2<span class="SQLOperator">)</span> <span class="SQLOperator">+</span> <span class="SQLOperator">(</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLKeyword">SELECT</span> <span class="SQLOperator">(</span><span class="SQLFunction">SUBSTRING</span><span class="SQLOperator">(</span>@newCardId<span class="SQLOperator">,</span> 3<span class="SQLOperator">,</span> <span class="SQLFunction">LEN</span><span class="SQLOperator">(</span>@newCardId<span class="SQLOperator">)</span><span class="SQLOperator">)</span><span class="SQLOperator">)</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLOperator">)</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLKeyword">END</span><span class="SQLKeyword">
+END</span><span class="SQLKeyword">
+ELSE</span><span class="SQLKeyword">
+BEGIN</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLComment">--- flgMemberCards_ReplaceTheSame=Y</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLComment">--Ex: Khi replace Card C0 01035, thì check MAS_CardTypes.Replace_Range &#160;nếu dùng range C1xxxxx, sẽ thay bằng Card C1 01035</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLComment">--- flgMemberCard_ReplaceTheSame=N</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLComment">--Ex: Khi replace Card C0 01035, thì check MAS_CardTypes.Replace_Range &#160;nếu dùng range C1xxxxx, sẽ thay bằng Card Max( của rangeC1 xxxxx)		</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLKeyword">IF</span> <span class="SQLFunction">SUBSTRING</span><span class="SQLOperator">(</span>@OldCardIdParam<span class="SQLOperator">,</span> 1<span class="SQLOperator">,</span> 4<span class="SQLOperator">)</span> <span class="SQLOperator">=</span> <span class="SQLString">'C130'</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLKeyword">BEGIN</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLKeyword">IF</span> dbo<span class="SQLOperator">.</span>func_CheckSettingBoolean<span class="SQLOperator">(</span><span class="SQLString">'flgMemberCards_ReplaceTheSame'</span><span class="SQLOperator">)</span> <span class="SQLOperator">=</span> 1
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLKeyword">BEGIN</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLKeyword">SET</span> @newCardId <span class="SQLOperator">=</span> <span class="SQLFunction">REPLACE</span><span class="SQLOperator">(</span>@OldCardIdParam<span class="SQLOperator">,</span> <span class="SQLString">'C130'</span><span class="SQLOperator">,</span> <span class="SQLString">'C131'</span><span class="SQLOperator">)</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLKeyword">END</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLKeyword">ELSE</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLKeyword">BEGIN</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLKeyword">SET</span> @newCardId <span class="SQLOperator">=</span> <span class="SQLOperator">(</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLKeyword">SELECT</span> [dbo]<span class="SQLOperator">.</span>[func_GetMaxCardIDByCardType]<span class="SQLOperator">(</span>@oldProgID<span class="SQLOperator">,</span> @oldCardTypeID<span class="SQLOperator">,</span> 2<span class="SQLOperator">,</span> <span class="SQLComment">--Replace mode</span>
+							1<span class="SQLOperator">)</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLOperator">)</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLKeyword">END</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLKeyword">END</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLKeyword">ELSE</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLKeyword">BEGIN</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLKeyword">SET</span> @newCardId <span class="SQLOperator">=</span> <span class="SQLOperator">(</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLKeyword">SELECT</span> [dbo]<span class="SQLOperator">.</span>[func_GetMaxCardIDByCardType]<span class="SQLOperator">(</span>@oldProgID<span class="SQLOperator">,</span> @oldCardTypeID<span class="SQLOperator">,</span> 2<span class="SQLOperator">,</span> <span class="SQLComment">--Replace mode</span>
+						1<span class="SQLOperator">)</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLOperator">)</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLKeyword">END</span><span class="SQLKeyword">
+END</span></pre>
+			</div>
+			<li><p>Nếu card id mới có trùng thì thông báo và không cho 
+			 lưu </p></li>
+			<li><p>Update Cancel_Date, Changed_Date cho card cũ là ngày 
+			 hiện tại </p></li>
+			<li><p>Copy toàn bộ thông tin card cũ sang Card_History (có 
+			 đánh dấu card này bị replace) </p></li>
+			<li><p>Đổi Card ID cũ sang Card ID mới, với Printing_Date, 
+			 Changed_Date là ngày hiện tại </p></li>
+			<a class="show-code" onclick=" toggle_visibility('c4', this) " 
+				 href="#">[ Expand Code ]</a> <br />
+			
+			<div class="local-code" id="c4">
+				<pre class="SQLCode">
+<span class="SQLKeyword">IF</span> <span class="SQLOperator">EXISTS</span> <span class="SQLOperator">(</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLKeyword">SELECT</span> <span class="SQLOperator">*</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLKeyword">FROM</span> MemberCards
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLKeyword">WHERE</span> Card_ID <span class="SQLOperator">=</span> @newCardId
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLOperator">)</span><span class="SQLKeyword">
+BEGIN</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLKeyword">DECLARE</span> @msg <span class="SQLKeyword">NVARCHAR</span><span class="SQLOperator">(</span>150<span class="SQLOperator">)</span> <span class="SQLOperator">=</span> <span class="SQLString">N'The Card ID '</span> <span class="SQLOperator">+</span> @newCardId
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLKeyword">RAISERROR</span> <span class="SQLOperator">(</span>
+			50005
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLOperator">,</span> 16
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLOperator">,</span> 1
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLOperator">,</span> @msg
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLOperator">,</span> <span class="SQLString">'MemberCards'</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLOperator">)</span> <span class="SQLComment">--Thong bao trung card, dung sp_addmessage</span><span class="SQLKeyword">
+END</span><span class="SQLKeyword">
+ELSE</span><span class="SQLKeyword">
+BEGIN</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLKeyword">UPDATE</span> MemberCards
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLKeyword">SET</span> Cancel_Date <span class="SQLOperator">=</span> <span class="SQLFunction">getdate</span><span class="SQLOperator">(</span><span class="SQLOperator">)</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLOperator">,</span> Changed_By <span class="SQLOperator">=</span> @CreatedByParam
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLOperator">,</span> changed_date <span class="SQLOperator">=</span> <span class="SQLFunction">GETDATE</span><span class="SQLOperator">(</span><span class="SQLOperator">)</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLKeyword">WHERE</span> Card_ID <span class="SQLOperator">=</span> @OldCardIdParam
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLKeyword">EXEC</span> dbo<span class="SQLOperator">.</span>Card_History_CopyFromCard @newCardId
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLOperator">,</span> @OldCardIdParam
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLOperator">,</span> 1
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLKeyword">UPDATE</span> MemberCards
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLKeyword">SET</span> Card_ID <span class="SQLOperator">=</span> @newCardId
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLOperator">,</span> CardType_ID <span class="SQLOperator">=</span> @newCardTypeID
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLOperator">,</span> Programme_ID <span class="SQLOperator">=</span> @newProgID
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLOperator">,</span> Printing_Date <span class="SQLOperator">=</span> <span class="SQLFunction">getdate</span><span class="SQLOperator">(</span><span class="SQLOperator">)</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLOperator">,</span> Changed_By <span class="SQLOperator">=</span> @CreatedByParam
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLOperator">,</span> changed_date <span class="SQLOperator">=</span> <span class="SQLFunction">GETDATE</span><span class="SQLOperator">(</span><span class="SQLOperator">)</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span class="SQLKeyword">WHERE</span> Card_ID <span class="SQLOperator">=</span> @OldCardIdParam<span class="SQLKeyword">
+END</span></pre>
+			</div>
+		</ul>
+	</ul>
+</ol>
+<p>&#160;</p>
+<p>&#160;</p>
+<?rh-region_start type="footer" style="width: 100%; position: relative;" ?>
+	<hr style="border-top-style: Solid; border-top-width: 1px; color: #d7d7d7; 
+		 background-color: #d7d7d7;" size="1" align="center" />
+	<p style="font-size: 10pt; color: #c0c0c0;">Copyright 2014 <?rh-symbol_start 
+	 name="Copyright" ?>©<?rh-symbol_end ?> PhamNguyenCo. Allrights reserved. 
+	 </p>
+    <?rh-region_end type="footer" ?>
+    
+    <script src="../../jquery-1.11.1.min.js"></script>
+    <script src="../../bootstrap.min.js"></script>
+    <script src="../../app.js"></script>
+</body>
+</html>

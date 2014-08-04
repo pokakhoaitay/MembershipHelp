@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Language" content="vi-VN" />
+<meta name="robots" content="NOODP" />
+<meta name="generator" content="Adobe RoboHelp 11" />
+<title>Xu Ly</title>
+<link rel="StyleSheet" href="../../default.css" type="text/css" />
+</head>
+
+<body>
+<?rh-region_start type="header" style="width: 100%; position: relative;" ?>
+	<p style="font-size: 10pt; color: #808080;"><span style="color: #c0c0c0;">Membership 
+	 Document</span> </p>
+<?rh-region_end type="header" ?>
+<p style="color: #808080;"><span class="Light_xx">RENEW CARD</span><span 
+	 style="font-size: 18pt;"> </span><span style="font-size: 14pt;">| 
+ </span><span class="Light_x">XỬ LÝ</span></p>
+<hr style="border-top-style: Solid; border-top-width: 1px; color: #d7d7d7; 
+	 background-color: #d7d7d7;" size="1" align="center" />
+<p style="font-weight: bold; color: #000000;">&#160;</p>
+<p style="font-weight: bold; color: #000000;">LOAD</p>
+<ol>
+	<li style="list-style: decimal; color: #565656;"><p style="color: #565656;">User 
+	 click button &quot;Renew&quot;</p></li>
+	<ul style="list-style: square; color: #565656;">
+		<li style="color: #565656;"><p style="color: #565656;">Gọi <span 
+		 class="Method_Name">ShowRenewExecute()</span></p></li>
+		<li style="color: #565656;"><p style="color: #565656;">Gọi <span 
+		 class="Method_Name">GetMaxCardId()</span> </p></li>
+		<li style="color: #565656;"><p style="color: #565656;">Gọi <a href="javascript:BSSCPopup('code_GetMaxCardIdAsync.htm');" 
+		 id="a1" title="View Code" style="font-weight: normal; color: #565656;"><span 
+		 class="Method_Name">_memberCardService.GetMaxCardIdAsync(programmeId, 
+		 cardTypeId, 1)</span></a></p></li>
+		<ul style="list-style: square; color: #565656;">
+			<li style="color: #565656;"><p style="color: #565656;">Gọi 
+			 các Store procedure:</p></li>
+			<ul style="list-style: square; color: #565656;">
+				<li style="color: #565656;"><p style="color: #565656;"><a 
+				 href="proc_GetMaxCardIDByCardType.htm"><span class="Proc_Name" 
+				 style="color: #008080;">GetMaxCardIDByCardType:</span></a><span 
+				 class="Proc_Name" style="color: #565656;"> </span>Procedure 
+				 tính Card ID lớn nhất khi biết Programme ID và Card Type 
+				 ID. Mô tả:</p></li>
+			</ul>
+		</ul>
+	</ul>
+</ol>
+<ul style="list-style: square; color: #565656;">
+	<ul style="list-style: square; color: #565656;">
+		<ul style="list-style: square; color: #565656;">
+			<ul style="list-style: square; color: #565656;">
+				<ul style="list-style: square; color: #565656;">
+					<li style="color: #565656;"><p style="color: #565656;">Từ 
+					 Card Type ID và Programme ID của card hiện tại</p></li>
+					<li style="color: #565656;"><p style="color: #565656;">Lấy 
+					 được Renew_Range. Đây chính là CardType_ID cho card 
+					 mới, và từ đó lấy được Programme_ID cho card mới</p></li>
+					<li style="color: #565656;"><p style="color: #565656;">Query 
+					 trong MemberCards và tìm card lớn nhất mà có CardType_ID 
+					 và Programme_ID tìm được ở bước trên và cộng thêm 
+					 1 đơn vị</p></li>
+				</ul>
+			</ul>
+		</ul>
+	</ul>
+</ul>
+<ol start="2" style="list-style: decimal;">
+	<li style="color: #565656;"><p style="color: #565656;">Chương trình 
+	 show view</p></li>
+	<ul style="list-style: square;">
+		<li style="color: #565656;"><p style="color: #565656;">Hiển thị 
+		 kết quả tính toán ở bước 1</p></li>
+		<li style="color: #565656;"><p style="color: #565656;">Gọi <span 
+		 class="Method_Name"><a href="code_CreateNewCard.htm" style="color: #800080;">CreateNewCard()</a></span> 
+		 Xử lý tính ngày Expiry_Date cho card mới:</p></li>
+		<ul style="list-style: square; color: #565656;">
+			<li style="color: #565656;"><p style="color: #565656;">Nếu 
+			 Renew trong khoảng từ ngày 1 - ngày 15 sẽ lấy ngày 28 tháng 
+			 đó + 1 năm.</p></li>
+			<li style="color: #565656;"><p style="color: #565656;">Nếu 
+			 sau ngày 15 thì lấy ngày 15 của tháng sau + 1 năm.</p></li>
+		</ul>
+		<li style="color: #565656;"><p style="color: #565656;">Sold_Date, 
+		 Renew_Date là ngày hiện tại</p></li>
+	</ul>
+</ol>
+<p style="color: #565656;">&#160;</p>
+<p style="color: #565656; font-weight: bold;">Các setting liên quan:</p>
+<ul style="list-style: square; font-weight: normal;">
+	<li style="color: #565656;"><p style="color: #565656; font-weight: normal;">flgMemberCards_AutoIssue: 
+	 </p></li>
+	<ul style="list-style: square; font-weight: normal;">
+		<li style="color: #565656;"><p style="color: #565656; font-weight: normal;">True: 
+		 Không cho phép Sửa Card# Expired Date, Sold Date, Renewal Date</p></li>
+		<li style="color: #565656;"><p style="color: #565656; font-weight: normal;">False: 
+		 Cho phép Sửa Card#, Expired Date, Sold Date, Renewal Date.</p></li>
+	</ul>
+	<li style="color: #565656;"><p style="color: #565656; font-weight: normal;">flgMemberCards_HideBenefits: 
+	 Ẩn/Hiện/Enable/Disable vùng Benefit</p></li>
+	<ul style="list-style: square; font-weight: normal;">
+		<li style="color: #565656;"><p style="color: #565656; font-weight: normal;">Setting 
+		 có dạng <span style="font-weight: bold;">X:Y;X:Y2: </span>với 
+		 <span style="font-weight: bold;">X</span> từ [0-2](0: Disable, 
+		 1: Enable, 2: Hide); <span style="font-weight: bold;">Y</span> 
+		 là Card Type ID của card hiện tại</p></li>
+	</ul>
+</ul>
+<p>&#160;</p>
+<p style="font-weight: bold; color: #000000;">SAVE</p>
+<ol>
+	<li style="color: #565656;"><p>User click button &quot;Save&quot;</p></li>
+	<ul style="list-style: square; color: #565656;">
+		<li style="color: #565656;"><p>Gọi <span class="Method_Name">SaveRenewExecute()</span></p></li>
+		<li style="color: #565656;"><p>Kiểm tra need Approval:<span class="Method_Name" 
+		 style="color: #565656;"> </span></p></li>
+	</ul>
+</ol>
+<p style="margin-left: 120px; font-style: italic; font-size: 8pt;">IsNeedApproval 
+ = (string.IsNullOrEmpty(NewMemberCard.ApproverCancel) &amp;&amp; NewMemberCard.StatusId 
+ == (int) GlobalEnum.CardStatusEnum.Cancelled) || (string.IsNullOrEmpty(NewMemberCard.ApproverExpired) 
+ &amp;&amp; NewMemberCard.StatusId == (int) GlobalEnum.CardStatusEnum.Expired) 
+ || (string.IsNullOrEmpty(NewMemberCard.ApproverIssued) &amp;&amp; NewMemberCard.StatusId 
+ == (int) GlobalEnum.CardStatusEnum.Issused) || (string.IsNullOrEmpty(NewMemberCard.ApproverRefund) 
+ &amp;&amp; NewMemberCard.StatusId == (int) GlobalEnum.CardStatusEnum.Refund);</p>
+<ol>
+	<ul style="list-style: square; color: #565656;">
+		<li style="color: #565656;"><p>Gọi <span class="Method_Name">_memberCardService.UpdateMemberCardAsync(NewMemberCard, 
+		 IsNeedApproval, true, MaxCardId);</span></p></li>
+		<ul style="list-style: square; color: #565656;">
+			<li style="color: #565656;"><p>Gọi Procedure: <span class="Proc_Name"><a 
+			 href="proc_MemberCards_Update.htm" style="color: #008080;">MemberCards_Update</a>:</span><span 
+			 class="Proc_Name"> </span></p></li>
+			<ul style="list-style: square; color: #565656;">
+				<li style="color: #565656;"><p style="color: #565656;"><span 
+				 class="Proc_Name" style="color: #565656;">Copy thông tin 
+				 card cũ sang card mới, với Price mới từ bảng MAS_CardTypes, 
+				 Card_ID, Programme_ID, CardType_ID, Sold_Date, Renew_Date, 
+				 Expiry_Date &#160;mới đã tính trước đó-&gt;Insert cào 
+				 bảng MemberCard</span></p></li>
+				<li style="color: #565656;"><p><span class="Proc_Name" 
+													 style="color: #565656;">Gọi 
+				 Procedure</span><span class="Proc_Name"> </span><a href="proc_Card_History_CopyFromCard.htm" 
+				 style="color: #008080;">Card_History_CopyFromCard</a> 
+				 để copy thông tin card cũ vào bảng CardHistory (move action)</p></li>
+				<li style="color: #565656;"><p>Xóa đi card cũ trong bảng 
+				 MemberCards</p></li>
+			</ul>
+		</ul>
+		<li style="color: #565656;"><p>Gọi<span class="Method_Name"> _logService.CreateLog()</span>: 
+		 tạo log</p></li>
+	</ul>
+</ol>
+<p style="font-weight: bold; color: #000000;">&#160;</p>
+<p>&#160;</p>
+<p>&#160;</p>
+<p>&#160;</p>
+<?rh-region_start type="footer" style="width: 100%; position: relative;" ?>
+	<hr style="border-top-style: Solid; border-top-width: 1px; color: #d7d7d7; 
+		 background-color: #d7d7d7;" size="1" align="center" />
+	<p style="font-size: 10pt; color: #c0c0c0;">Copyright 2014 <?rh-symbol_start 
+	 name="Copyright" ?>©<?rh-symbol_end ?> PhamNguyenCo. Allrights reserved.</p>
+<?rh-region_end type="footer" ?>
+<?rh-script_start ?><script type="text/javascript" language="JavaScript1.2">//<![CDATA[
+	if( typeof( FilePopupInit ) != 'function' ) FilePopupInit = new Function();
+	FilePopupInit('a1');
+//]]></script><?rh-script_end ?>
+</body>
+</html>

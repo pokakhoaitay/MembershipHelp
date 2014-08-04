@@ -1,0 +1,1559 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+ <meta name="template" content="_Code.htt" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Adobe RoboHelp 11" />
+<title>func_GetGuestCallByBirthDay</title>
+<style type="text/css">/*<![CDATA[*/
+html,
+body {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11pt;
+}
+/* Default Font */
+/*]]>*/</style>
+ <link rel="StyleSheet" href="..\..\code.style.css" type="text/css" />
+</head>
+
+<body><?rh-placeholder type="header" ?>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#0000FF" face="Consolas">USE</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">[Membership]</font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#0000FF" face="Consolas">GO</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#008000" face="Consolas">/****** Object: 
+ UserDefinedFunction [dbo].[func_GetGuestCallByBirthDay] Script Date: 7/30/2014 
+ 3:28:46 PM ******/</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#0000FF" face="Consolas">SET</font></font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#0000FF" face="Consolas">ANSI_NULLS</font></font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#0000FF" face="Consolas">ON</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#0000FF" face="Consolas">GO</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#0000FF" face="Consolas">SET</font></font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#0000FF" face="Consolas">QUOTED_IDENTIFIER</font></font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#0000FF" face="Consolas">ON</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#0000FF" face="Consolas">GO</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#008000" face="Consolas">-- Date 2013-03-15 
+ 10:41:46</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#008000" face="Consolas">-- Database 
+ 'Membership'</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#008000" face="Consolas">--L?y Profile 
+ theo Birthday n?m trong kho?ng &quot; before &gt;= BIRTHDAY &lt;= after 
+ &quot;</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#0000FF" face="Consolas">ALTER</font></font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#0000FF" face="Consolas">FUNCTION</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">[dbo]</font></font><font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">.</font></font></font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" face="Consolas">[func_GetGuestCallByBirthDay]</font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#808080" face="Consolas">(</font></font></font></p>
+<p><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+				 face="Consolas">@before</font></font> <font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#0000FF" 
+	 face="Consolas">DATE</font></font></font><font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">,</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">@after</font></font> <font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#0000FF" face="Consolas">DATE</font></font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">,</font></font></font> <font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">@isBDChecked</font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#0000FF" face="Consolas">BIT</font></font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">,</font></font></font> <font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">@isActive</font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#0000FF" face="Consolas">BIT</font></font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">,</font></font></font> <font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">@isInactive</font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#0000FF" face="Consolas">BIT</font></font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">,</font></font></font></p>
+<p><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+				 face="Consolas">@CardTypeList</font></font> <font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#0000FF" 
+	 face="Consolas">VARCHAR</font></font></font><font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">(</font></font></font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" face="Consolas">100</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">)</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#808080" face="Consolas">)</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#0000FF" face="Consolas">RETURNS</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">@tempTable</font></font> <font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#0000FF" 
+	 face="Consolas">TABLE</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#808080" face="Consolas">(</font></font></font></p>
+<p><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+				 face="Consolas">Lead_ID</font></font> <font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#0000FF" 
+	 face="Consolas">INT</font></font></font><font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">,</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">Card_ID</font></font> <font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#0000FF" face="Consolas">NVARCHAR</font></font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">(</font></font></font><font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">20</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">),</font></font></font> <font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">Sold_Date</font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#0000FF" face="Consolas">DATE</font></font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">,</font></font></font> <font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">Lead_Name</font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#0000FF" face="Consolas">VARCHAR</font></font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">(</font></font></font><font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">60</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">),</font></font></font></p>
+<p><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+				 face="Consolas">Mobile_No</font></font> <font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#0000FF" 
+	 face="Consolas">VARCHAR</font></font></font><font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">(</font></font></font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" face="Consolas">30</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">),</font></font></font> <font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">Birthday</font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#0000FF" face="Consolas">DATE</font></font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">,</font></font></font> <font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">Anniversary</font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#0000FF" face="Consolas">DATE</font></font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">,</font></font></font> <font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">SpouseDOB</font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#0000FF" face="Consolas">DATE</font></font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">,</font></font></font> <font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">IsEU</font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#0000FF" face="Consolas">BIT</font></font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">,</font></font></font> <font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">IsBD</font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#0000FF" face="Consolas">BIT</font></font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">,</font></font></font> <font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">IsSpouse</font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#0000FF" face="Consolas">BIT</font></font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">,</font></font></font> <font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">IsWedding</font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#0000FF" face="Consolas">BIT</font></font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">,</font></font></font> <font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">Is4Month</font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#0000FF" face="Consolas">BIT</font></font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">,</font></font></font></p>
+<p><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+				 face="Consolas">Is8Month</font></font> <font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#0000FF" 
+	 face="Consolas">BIT</font></font></font><font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">,</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">Is6Month</font></font> <font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#0000FF" face="Consolas">BIT</font></font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">,</font></font></font> <font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">IsExpDate</font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#0000FF" face="Consolas">BIT</font></font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">,</font></font></font> <font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">Status_ID</font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#0000FF" face="Consolas">INT</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#808080" face="Consolas">)</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#0000FF" face="Consolas">AS</font></font></font></p>
+<p><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+				 face="Consolas">　</font></font></p>
+<p><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+				 face="Consolas">　</font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#0000FF" face="Consolas">BEGIN</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#0000FF" face="Consolas">IF</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">@isBDChecked</font></font> <font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">=</font></font></font> <font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">1</font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#0000FF" face="Consolas">BEGIN</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#0000FF" face="Consolas">DECLARE</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">@setting</font></font> <font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#0000FF" face="Consolas">VARCHAR</font></font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">(</font></font></font><font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">8</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">)</font></font></font> <font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">=</font></font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">(</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#0000FF" face="Consolas">SELECT</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">SettingValue</font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#0000FF" face="Consolas">FROM</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">ADM_Settings</font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#0000FF" face="Consolas">WHERE</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">Setting_ID</font></font> <font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">=</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#FF0000" face="Consolas">'flgMemberCards_GuestServiceCallCardStatus'</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#808080" face="Consolas">)</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#008000" face="Consolas">--select 
+ @setting</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#0000FF" face="Consolas">DECLARE</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">@Temp</font></font> <font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#0000FF" face="Consolas">TABLE</font></font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">(</font></font></font><font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">Card_ID</font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#0000FF" face="Consolas">VARCHAR</font></font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">(</font></font></font><font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">20</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">))</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#0000FF" face="Consolas">DECLARE</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">@isIssued</font></font> <font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#0000FF" 
+	 face="Consolas">BIT</font></font></font> <font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">=</font></font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#FF00FF" face="Consolas">CONVERT</font></font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">(</font></font></font><font><font><font style="font-size: x-small; 
+															 font-family: Consolas;" 
+															 size="2" color="#0000FF" 
+															 face="Consolas">BIT</font></font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">,</font></font></font> <font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#FF00FF" face="Consolas">SUBSTRING</font></font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">(</font></font></font><font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">@setting</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">,</font></font></font> <font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">4</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">,</font></font></font> <font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">1</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">))</font></font></font> <font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#008000" face="Consolas">--//Issued</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#0000FF" face="Consolas">DECLARE</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">@isCancel</font></font> <font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#0000FF" 
+	 face="Consolas">BIT</font></font></font> <font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">=</font></font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#FF00FF" face="Consolas">CONVERT</font></font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">(</font></font></font><font><font><font style="font-size: x-small; 
+															 font-family: Consolas;" 
+															 size="2" color="#0000FF" 
+															 face="Consolas">BIT</font></font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">,</font></font></font> <font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#FF00FF" face="Consolas">SUBSTRING</font></font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">(</font></font></font><font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">@setting</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">,</font></font></font> <font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">5</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">,</font></font></font> <font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">1</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">))</font></font></font><font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#008000" face="Consolas">--//Canceled</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#0000FF" face="Consolas">DECLARE</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">@isExp</font></font> <font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#0000FF" face="Consolas">BIT</font></font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">=</font></font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#FF00FF" face="Consolas">CONVERT</font></font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">(</font></font></font><font><font><font style="font-size: x-small; 
+															 font-family: Consolas;" 
+															 size="2" color="#0000FF" 
+															 face="Consolas">BIT</font></font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">,</font></font></font> <font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#FF00FF" face="Consolas">SUBSTRING</font></font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">(</font></font></font><font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">@setting</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">,</font></font></font> <font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">6</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">,</font></font></font> <font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">1</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">))</font></font></font><font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#008000" face="Consolas">--//Expiry</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#0000FF" face="Consolas">DECLARE</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">@isRef</font></font> <font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#0000FF" face="Consolas">BIT</font></font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">=</font></font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#FF00FF" face="Consolas">CONVERT</font></font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">(</font></font></font><font><font><font style="font-size: x-small; 
+															 font-family: Consolas;" 
+															 size="2" color="#0000FF" 
+															 face="Consolas">BIT</font></font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">,</font></font></font> <font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#FF00FF" face="Consolas">SUBSTRING</font></font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">(</font></font></font><font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">@setting</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">,</font></font></font> <font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">7</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">,</font></font></font> <font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">1</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">))</font></font></font><font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#008000" face="Consolas">--//Refund</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#0000FF" face="Consolas">DECLARE</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">@isReprint</font></font> <font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#0000FF" 
+	 face="Consolas">BIT</font></font></font> <font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">=</font></font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#FF00FF" face="Consolas">CONVERT</font></font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">(</font></font></font><font><font><font style="font-size: x-small; 
+															 font-family: Consolas;" 
+															 size="2" color="#0000FF" 
+															 face="Consolas">BIT</font></font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">,</font></font></font> <font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#FF00FF" face="Consolas">SUBSTRING</font></font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">(</font></font></font><font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">@setting</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">,</font></font></font> <font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">8</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">,</font></font></font> <font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">1</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">))</font></font></font><font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#008000" face="Consolas">--//Reprint</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#0000FF" face="Consolas">DECLARE</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">@cardTypeTblTemp</font></font> <font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#0000FF" 
+	 face="Consolas">AS</font></font></font> <font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#0000FF" face="Consolas">TABLE</font></font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">(</font></font></font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" face="Consolas">CardType_ID</font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#0000FF" face="Consolas">VARCHAR</font></font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">(</font></font></font><font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">10</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">))</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#0000FF" face="Consolas">INSERT</font></font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#0000FF" face="Consolas">INTO</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">@cardTypeTblTemp</font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#0000FF" face="Consolas">SELECT</font></font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">*</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#0000FF" face="Consolas">FROM</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">[dbo]</font></font><font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">.</font></font></font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" face="Consolas">[func_InsertStringToTable]</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">(</font></font></font><font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">@CardTypeList</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">)</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#0000FF" face="Consolas">IF</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">dbo</font></font><font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">.</font></font></font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" face="Consolas">func_CheckSettingBoolean</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">(</font></font></font><font><font><font style="font-size: x-small; 
+															 font-family: Consolas;" 
+															 size="2" color="#FF0000" 
+															 face="Consolas">'flgMemberCards_GuestServiceCallExcludeHistory'</font></font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">)</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#808080" face="Consolas">=</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">0</font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#0000FF" face="Consolas">BEGIN</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#0000FF" face="Consolas">INSERT</font></font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#0000FF" face="Consolas">INTO</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">@tempTable</font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#0000FF" face="Consolas">SELECT</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">Lead_ID</font></font><font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">,</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">Card_ID</font></font><font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">,</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">Sold_Date</font></font><font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">,</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">Lead_Name</font></font><font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">,</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">Mobile_No</font></font><font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">,</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">Birthday</font></font><font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">,</font></font></font></p>
+<p><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+				 face="Consolas">Anniversary</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">,</font></font></font> <font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">SpouseDOB</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">,</font></font></font> <font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">0</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">,</font></font></font> <font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">1</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">,</font></font></font> <font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">0</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">,</font></font></font> <font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">0</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">,</font></font></font> <font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">0</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">,</font></font></font> <font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">0</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">,</font></font></font> <font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">0</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">,</font></font></font> <font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">0</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">,</font></font></font> <font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">temp</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">.</font></font></font><font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">Status_ID</font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#0000FF" face="Consolas">FROM</font></font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">(</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#0000FF" face="Consolas">SELECT</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">mc</font></font><font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">.</font></font></font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" face="Consolas">Lead_ID</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">,</font></font></font> <font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">mc</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">.</font></font></font><font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">Card_ID</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">,</font></font></font> <font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">mc</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">.</font></font></font><font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">Sold_Date</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">,</font></font></font> <font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">p</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">.</font></font></font><font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">Lead_Name</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">,</font></font></font></p>
+<p><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+				 face="Consolas">p</font></font><font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">.</font></font></font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" face="Consolas">Mobile_No</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">,</font></font></font> <font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">p</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">.</font></font></font><font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">Birthday</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">,</font></font></font> <font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">p</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">.</font></font></font><font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">Anniversary</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">,</font></font></font> <font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">p</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">.</font></font></font><font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">SpouseDOB</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">,</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#FF00FF" face="Consolas">DATEADD</font></font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">(</font></font></font><font><font><font style="font-size: x-small; 
+															 font-family: Consolas;" 
+															 size="2" color="#FF00FF" 
+															 face="Consolas">YEAR</font></font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">,</font></font></font> <font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">(</font></font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#FF00FF" 
+	 face="Consolas">YEAR</font></font></font><font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">(</font></font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#FF00FF" 
+	 face="Consolas">GETDATE</font></font></font><font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">())</font></font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">-</font></font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#FF00FF" face="Consolas">YEAR</font></font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">(</font></font></font><font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">Birthday</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">)),</font></font></font> <font><font style="font-size: x-small; 
+															 font-family: Consolas;" 
+															 size="2" face="Consolas">Birthday</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">)</font></font></font> <font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#0000FF" face="Consolas">AS</font></font></font></p>
+<p><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+				 face="Consolas">TempBD</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">,</font></font></font> <font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">mc</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">.</font></font></font><font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">Status_ID</font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#0000FF" face="Consolas">FROM</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">Profiles p</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">,</font></font></font> <font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">dbo</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">.</font></font></font><font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">func_UnionMemberCardsANDCardHistory</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">()</font></font></font> <font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#0000FF" face="Consolas">AS</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">mc</font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#0000FF" face="Consolas">WHERE</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">Birthday</font></font> <font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">IS</font></font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">NOT</font></font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">NULL</font></font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">AND</font></font></font></p>
+<p><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+				 face="Consolas">mc</font></font><font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">.</font></font></font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" face="Consolas">Lead_ID</font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">=</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">p</font></font><font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">.</font></font></font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" face="Consolas">Lead_ID</font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">AND</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#808080" face="Consolas">(</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#808080" face="Consolas">(</font></font></font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" face="Consolas">@isActive</font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">=</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">1</font></font> <font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">AND</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">mc</font></font><font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">.</font></font></font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" face="Consolas">[Active]</font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">=</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">1</font></font><font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">)</font></font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">OR</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#808080" face="Consolas">(</font></font></font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" face="Consolas">@isInactive</font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">=</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">1</font></font> <font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">AND</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">mc</font></font><font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">.</font></font></font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" face="Consolas">[Active]</font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">=</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">0</font></font><font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">)</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#808080" face="Consolas">)</font></font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">AND</font></font></font></p>
+<p><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+				 face="Consolas">mc</font></font><font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">.</font></font></font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" face="Consolas">CardType_ID</font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">IN</font></font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">(</font></font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#0000FF" 
+	 face="Consolas">SELECT</font></font></font> <font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">*</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#0000FF" face="Consolas">FROM</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">@cardTypeTblTemp</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">)</font></font></font> <font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">AND</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#808080" face="Consolas">(</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#808080" face="Consolas">(</font></font></font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" face="Consolas">@isIssued</font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">=</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">1</font></font> <font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">AND</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">mc</font></font><font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">.</font></font></font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" face="Consolas">Status_ID</font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">=</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">5</font></font><font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">)</font></font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">OR</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#808080" face="Consolas">(</font></font></font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" face="Consolas">@isCancel</font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">=</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">1</font></font> <font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">AND</font></font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">(</font></font></font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" face="Consolas">mc</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">.</font></font></font><font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">Status_ID</font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">=</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">6</font></font> <font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">AND</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">mc</font></font><font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">.</font></font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#0000FF" 
+	 face="Consolas">Type</font></font></font> <font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">=</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">3</font></font><font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">))</font></font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">OR</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#808080" face="Consolas">(</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#808080" face="Consolas">(</font></font></font></p>
+<p><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+				 face="Consolas">@isExp</font></font> <font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">=</font></font></font> <font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">0</font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">AND</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#808080" face="Consolas">(</font></font></font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" face="Consolas">mc</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">.</font></font></font><font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">Status_ID</font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">&lt;&gt;</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">7</font></font> <font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">or</font></font></font></p>
+<p><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+				 face="Consolas">mc</font></font><font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">.</font></font></font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" face="Consolas">[Expiry_Date]</font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">&gt;=</font></font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#FF00FF" face="Consolas">GETDATE</font></font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">())</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#808080" face="Consolas">)</font></font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">OR</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#808080" face="Consolas">(</font></font></font></p>
+<p><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+				 face="Consolas">@isExp</font></font> <font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">=</font></font></font> <font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">1</font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">AND</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#808080" face="Consolas">(</font></font></font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" face="Consolas">mc</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">.</font></font></font><font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">Status_ID</font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">=</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">7</font></font> <font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">OR</font></font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">(</font></font></font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" face="Consolas">mc</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">.</font></font></font><font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">[Expiry_Date]</font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">&lt;</font></font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#FF00FF" face="Consolas">GETDATE</font></font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">()))</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#808080" face="Consolas">)</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#808080" face="Consolas">)</font></font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">OR</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#808080" face="Consolas">(</font></font></font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" face="Consolas">@isRef</font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">=</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">1</font></font> <font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">AND</font></font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">(</font></font></font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" face="Consolas">mc</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">.</font></font></font><font><font><font style="font-size: x-small; 
+															 font-family: Consolas;" 
+															 size="2" color="#0000FF" 
+															 face="Consolas">Type</font></font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">=</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">2</font></font> <font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">AND</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">mc</font></font><font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">.</font></font></font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" face="Consolas">Status_ID</font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">=</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">8</font></font><font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">))</font></font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">OR</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#808080" face="Consolas">(</font></font></font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" face="Consolas">@isReprint</font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">=</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">1</font></font> <font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">AND</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">mc</font></font><font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">.</font></font></font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" face="Consolas">[Type]</font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">=</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">1</font></font><font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">)</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#808080" face="Consolas">)</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#808080" face="Consolas">)</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">temp</font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#0000FF" face="Consolas">WHERE</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">TempBD</font></font> <font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">BETWEEN</font></font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#FF00FF" face="Consolas">DATEADD</font></font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">(</font></font></font><font><font><font style="font-size: x-small; 
+															 font-family: Consolas;" 
+															 size="2" color="#FF00FF" 
+															 face="Consolas">YEAR</font></font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">,</font></font></font> <font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">(</font></font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#FF00FF" 
+	 face="Consolas">YEAR</font></font></font><font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">(</font></font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#FF00FF" 
+	 face="Consolas">GETDATE</font></font></font><font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">())</font></font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">-</font></font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#FF00FF" face="Consolas">YEAR</font></font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">(</font></font></font><font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">@before</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">)),</font></font></font> <font><font style="font-size: x-small; 
+															 font-family: Consolas;" 
+															 size="2" face="Consolas">@before</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">)</font></font></font> <font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">AND</font></font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#FF00FF" face="Consolas">DATEADD</font></font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">(</font></font></font><font><font><font style="font-size: x-small; 
+															 font-family: Consolas;" 
+															 size="2" color="#FF00FF" 
+															 face="Consolas">YEAR</font></font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">,</font></font></font> <font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">(</font></font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#FF00FF" 
+	 face="Consolas">YEAR</font></font></font><font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">(</font></font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#FF00FF" 
+	 face="Consolas">GETDATE</font></font></font><font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">())</font></font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">-</font></font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#FF00FF" face="Consolas">YEAR</font></font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">(</font></font></font><font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">@after</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">)),</font></font></font> <font><font style="font-size: x-small; 
+															 font-family: Consolas;" 
+															 size="2" face="Consolas">@after</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">)</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#0000FF" face="Consolas">END</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#0000FF" face="Consolas">ELSE</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#0000FF" face="Consolas">BEGIN</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#0000FF" face="Consolas">INSERT</font></font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#0000FF" face="Consolas">INTO</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">@tempTable</font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#0000FF" face="Consolas">SELECT</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">Lead_ID</font></font><font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">,</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">Card_ID</font></font><font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">,</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">Sold_Date</font></font><font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">,</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">Lead_Name</font></font><font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">,</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">Mobile_No</font></font><font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">,</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">Birthday</font></font><font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">,</font></font></font></p>
+<p><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+				 face="Consolas">Anniversary</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">,</font></font></font> <font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">SpouseDOB</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">,</font></font></font> <font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">0</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">,</font></font></font> <font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">1</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">,</font></font></font> <font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">0</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">,</font></font></font> <font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">0</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">,</font></font></font> <font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">0</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">,</font></font></font> <font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">0</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">,</font></font></font> <font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">0</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">,</font></font></font> <font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">0</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">,</font></font></font> <font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">temp</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">.</font></font></font><font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">Status_ID</font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#0000FF" face="Consolas">FROM</font></font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">(</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#0000FF" face="Consolas">SELECT</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">mc</font></font><font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">.</font></font></font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" face="Consolas">Lead_ID</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">,</font></font></font> <font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">mc</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">.</font></font></font><font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">Card_ID</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">,</font></font></font> <font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">mc</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">.</font></font></font><font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">Sold_Date</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">,</font></font></font> <font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">p</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">.</font></font></font><font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">Lead_Name</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">,</font></font></font></p>
+<p><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+				 face="Consolas">p</font></font><font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">.</font></font></font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" face="Consolas">Mobile_No</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">,</font></font></font> <font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">p</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">.</font></font></font><font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">Birthday</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">,</font></font></font> <font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">p</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">.</font></font></font><font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">Anniversary</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">,</font></font></font> <font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">p</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">.</font></font></font><font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">SpouseDOB</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">,</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#FF00FF" face="Consolas">DATEADD</font></font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">(</font></font></font><font><font><font style="font-size: x-small; 
+															 font-family: Consolas;" 
+															 size="2" color="#FF00FF" 
+															 face="Consolas">YEAR</font></font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">,</font></font></font> <font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">(</font></font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#FF00FF" 
+	 face="Consolas">YEAR</font></font></font><font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">(</font></font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#FF00FF" 
+	 face="Consolas">GETDATE</font></font></font><font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">())</font></font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">-</font></font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#FF00FF" face="Consolas">YEAR</font></font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">(</font></font></font><font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">Birthday</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">)),</font></font></font> <font><font style="font-size: x-small; 
+															 font-family: Consolas;" 
+															 size="2" face="Consolas">Birthday</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">)</font></font></font> <font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#0000FF" face="Consolas">AS</font></font></font></p>
+<p><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+				 face="Consolas">TempBD</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">,</font></font></font> <font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">mc</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">.</font></font></font><font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">Status_ID</font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#0000FF" face="Consolas">FROM</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">Profiles p</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">,</font></font></font> <font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">MemberCards</font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#0000FF" face="Consolas">AS</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">mc</font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#0000FF" face="Consolas">WHERE</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">Birthday</font></font> <font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">IS</font></font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">NOT</font></font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">NULL</font></font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">AND</font></font></font></p>
+<p><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+				 face="Consolas">mc</font></font><font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">.</font></font></font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" face="Consolas">Lead_ID</font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">=</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">p</font></font><font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">.</font></font></font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" face="Consolas">Lead_ID</font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">AND</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#808080" face="Consolas">(</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#808080" face="Consolas">(</font></font></font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" face="Consolas">@isActive</font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">=</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">1</font></font> <font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">AND</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">mc</font></font><font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">.</font></font></font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" face="Consolas">[Active]</font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">=</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">1</font></font><font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">)</font></font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">OR</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#808080" face="Consolas">(</font></font></font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" face="Consolas">@isInactive</font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">=</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">1</font></font> <font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">AND</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">mc</font></font><font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">.</font></font></font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" face="Consolas">[Active]</font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">=</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">0</font></font><font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">)</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#808080" face="Consolas">)</font></font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">AND</font></font></font></p>
+<p><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+				 face="Consolas">mc</font></font><font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">.</font></font></font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" face="Consolas">CardType_ID</font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">IN</font></font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">(</font></font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#0000FF" 
+	 face="Consolas">SELECT</font></font></font> <font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">*</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#0000FF" face="Consolas">FROM</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">@cardTypeTblTemp</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">)</font></font></font> <font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">AND</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#808080" face="Consolas">(</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#808080" face="Consolas">(</font></font></font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" face="Consolas">@isIssued</font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">=</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">1</font></font> <font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">AND</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">mc</font></font><font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">.</font></font></font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" face="Consolas">Status_ID</font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">=</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">5</font></font><font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">)</font></font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">OR</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#808080" face="Consolas">(</font></font></font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" face="Consolas">@isCancel</font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">=</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">1</font></font> <font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">AND</font></font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">(</font></font></font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" face="Consolas">mc</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">.</font></font></font><font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">Status_ID</font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">=</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">6</font></font><font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">))</font></font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">OR</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#808080" face="Consolas">(</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#808080" face="Consolas">(</font></font></font></p>
+<p><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+				 face="Consolas">@isExp</font></font> <font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">=</font></font></font> <font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">0</font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">AND</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#808080" face="Consolas">(</font></font></font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" face="Consolas">mc</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">.</font></font></font><font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">Status_ID</font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">&lt;&gt;</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">7</font></font><font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">or</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">mc</font></font><font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">.</font></font></font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" face="Consolas">[Expiry_Date]</font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">&gt;=</font></font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#FF00FF" face="Consolas">GETDATE</font></font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">())</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#808080" face="Consolas">)</font></font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">OR</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#808080" face="Consolas">(</font></font></font></p>
+<p><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+				 face="Consolas">@isExp</font></font> <font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">=</font></font></font> <font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">1</font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">AND</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#808080" face="Consolas">(</font></font></font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" face="Consolas">mc</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">.</font></font></font><font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">Status_ID</font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">=</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">7</font></font> <font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">OR</font></font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">(</font></font></font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" face="Consolas">mc</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">.</font></font></font><font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">[Expiry_Date]</font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">&lt;</font></font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#FF00FF" face="Consolas">GETDATE</font></font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">()))</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#808080" face="Consolas">)</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#808080" face="Consolas">)</font></font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">OR</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#808080" face="Consolas">(</font></font></font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" face="Consolas">@isRef</font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">=</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">1</font></font> <font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">AND</font></font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">(</font></font></font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" face="Consolas">mc</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">.</font></font></font><font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">Status_ID</font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">=</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">8</font></font><font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">))</font></font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#008000" face="Consolas">--OR</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#008000" face="Consolas">--(@isReprint 
+ = 1 AND mc.[Type] = 1)</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#808080" face="Consolas">)</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#808080" face="Consolas">)</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">temp</font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#0000FF" face="Consolas">WHERE</font></font></font> 
+ <font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+			 face="Consolas">TempBD</font></font> <font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">BETWEEN</font></font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#FF00FF" face="Consolas">DATEADD</font></font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">(</font></font></font><font><font><font style="font-size: x-small; 
+															 font-family: Consolas;" 
+															 size="2" color="#FF00FF" 
+															 face="Consolas">YEAR</font></font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">,</font></font></font> <font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">(</font></font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#FF00FF" 
+	 face="Consolas">YEAR</font></font></font><font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">(</font></font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#FF00FF" 
+	 face="Consolas">GETDATE</font></font></font><font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">())</font></font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">-</font></font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#FF00FF" face="Consolas">YEAR</font></font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">(</font></font></font><font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">@before</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">)),</font></font></font> <font><font style="font-size: x-small; 
+															 font-family: Consolas;" 
+															 size="2" face="Consolas">@before</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">)</font></font></font> <font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">AND</font></font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#FF00FF" face="Consolas">DATEADD</font></font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">(</font></font></font><font><font><font style="font-size: x-small; 
+															 font-family: Consolas;" 
+															 size="2" color="#FF00FF" 
+															 face="Consolas">YEAR</font></font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">,</font></font></font> <font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">(</font></font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#FF00FF" 
+	 face="Consolas">YEAR</font></font></font><font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">(</font></font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#FF00FF" 
+	 face="Consolas">GETDATE</font></font></font><font><font><font style="font-size: x-small; 
+	 font-family: Consolas;" size="2" color="#808080" face="Consolas">())</font></font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#808080" face="Consolas">-</font></font></font> 
+ <font><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+					 color="#FF00FF" face="Consolas">YEAR</font></font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">(</font></font></font><font><font style="font-size: x-small; 
+														 font-family: Consolas;" 
+														 size="2" face="Consolas">@after</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">)),</font></font></font> <font><font style="font-size: x-small; 
+															 font-family: Consolas;" 
+															 size="2" face="Consolas">@after</font></font><font><font><font 
+	 style="font-size: x-small; font-family: Consolas;" size="2" color="#808080" 
+	 face="Consolas">)</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#0000FF" face="Consolas">END</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#0000FF" face="Consolas">END</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#0000FF" face="Consolas">RETURN</font></font></font></p>
+<p><font><font><font style="font-size: x-small; font-family: Consolas;" 
+					 size="2" color="#0000FF" face="Consolas">END</font></font></font></p>
+<p><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+				 face="Consolas">　</font></font></p>
+<p><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+				 face="Consolas">　</font></font></p>
+<p><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+				 face="Consolas">　</font></font></p>
+<p><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+				 face="Consolas">　</font></font></p>
+<p><font><font style="font-size: x-small; font-family: Consolas;" size="2" 
+				 face="Consolas">　</font></font></p>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Language" content="vi-VN" />
+<meta name="robots" content="NOODP" />
+<meta name="generator" content="Adobe RoboHelp 11" />
+<title>Giai Thuat</title>
+<link rel="StyleSheet" href="../../default.css" type="text/css" />
+</head>
+
+<body>
+<?rh-region_start type="header" style="width: 100%; position: relative;" ?>
+	<p style="font-size: 10pt; color: #808080;"><span style="color: #c0c0c0;">Membership 
+	 Document</span> </p>
+<?rh-region_end type="header" ?>
+<p style="color: #808080;"><span class="Light_xx">RENEW CARD</span><span 
+	 style="font-size: 18pt;"> </span><span style="font-size: 14pt;">| 
+ </span><span class="Light_x">GIẢI THUẬT</span></p>
+<hr style="border-top-style: Solid; border-top-width: 1px; color: #d7d7d7; 
+	 background-color: #d7d7d7;" size="1" align="center" />
+<p style="color: #808080;">&#160;</p>
+<p style="font-weight: bold;"><span class="RC_Font">LOAD</span></p>
+<ol>
+	<li><p><span class="RC_Font">User click button &quot;Renew&quot;</span></p></li>
+	<li><p><span class="RC_Font">Chương trình show view, và tính toán Card 
+	 ID lớn nhất cho Card mới</span></p></li>
+	<li><p><span class="RC_Font">Xử lý tìm Card lớn nhất:</span></p>
+	<ol>
+		<li><p><span class="RC_Font">Tìm Card Type ID và Programme ID của 
+		 card hiện tại</span></p></li>
+		<li><p><span class="RC_Font">Lấy được Renew_Range. Đây chính là 
+		 CardType_ID cho card mới, và từ đó lấy được Programme_ID cho card 
+		 mới</span></p></li>
+		<li><p><span class="RC_Font">Query trong MemberCards và tìm card 
+		 lớn nhất mà có CardType_ID và Programme_ID tìm được ở bước trên 
+		 và cộng thêm 1 đơn vị</span></p></li>
+	</ol>
+	<p>&#160;</p></li>
+	<li><p><span class="RC_Font">Xử lý tính ngày Expiry_Date cho card mới:</span></p>
+	<ul>
+		<li style="list-style: square;"><p><span class="RC_Font">Nếu Renew 
+		 trong khoảng từ ngày 1 - ngày 15 sẽ lấy ngày 28 tháng đó + 1 năm.</span></p></li>
+		<li style="list-style: square;"><p><span class="RC_Font">Nếu sau 
+		 ngày 15 thì lấy ngày 15 của tháng sau + 1 năm.</span></p></li>
+	</ul>
+	<p>&#160;</p></li>
+	<li><p><span class="RC_Font">Sold_Date, Renew_Date là ngày hiện tại</span></p></li>
+</ol>
+<p>&#160;</p>
+<p style="font-weight: bold;"><span class="RC_Font">SAVE</span></p>
+<ol>
+	<li><p><span class="RC_Font">User click button &quot;Save&quot;</span></p></li>
+	<li><p><span class="RC_Font">Kiểm tra Card ID mới mà user có chỉnh 
+	 sửa xem có trùng không, nếu có thông báo và không cho lưu</span></p></li>
+	<li><p><span class="RC_Font">Tiến hành copy toàn bộ thông tin card 
+	 cũ sang Card mới nhưng với Card_ID, Programme_ID, CardType_ID, Sold_Date, 
+	 Renew_Date, Expiry_Date đã tính lúc view được load</span></p></li>
+	<li><p><span class="RC_Font">Lưu card này vào DB</span></p></li>
+	<li><p><span class="RC_Font">Move card cũ vào bảng Card_History</span></p></li>
+	<li><p><span class="RC_Font">Tạo log</span></p></li>
+</ol>
+<p>&#160;</p>
+<p>&#160;</p>
+<?rh-region_start type="footer" style="width: 100%; position: relative;" ?>
+	<hr style="border-top-style: Solid; border-top-width: 1px; color: #d7d7d7; 
+		 background-color: #d7d7d7;" size="1" align="center" />
+	<p style="font-size: 10pt; color: #c0c0c0;">Copyright 2014 <?rh-symbol_start 
+	 name="Copyright" ?>©<?rh-symbol_end ?> PhamNguyenCo. Allrights reserved.</p>
+<?rh-region_end type="footer" ?>
+</body>
+</html>

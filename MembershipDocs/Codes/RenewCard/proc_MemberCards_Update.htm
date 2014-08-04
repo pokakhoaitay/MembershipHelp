@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta name="template" content="_Code.htt" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Language" content="vi-VN" />
+<meta name="robots" content="NOODP" />
+<meta name="generator" content="Adobe RoboHelp 11" />
+<title>proc_MemberCards_Update</title>
+<link rel="StyleSheet" href="..\..\code.style.css" type="text/css" />
+</head>
+
+<body>
+<?rh-placeholder type="header" ?>
+<p><pre class="SQLCode"><span class="SQLKeyword">BEGIN</span>
+	<span class="SQLKeyword">DECLARE</span> @creditCard <span class="SQLKeyword">AS</span> <span class="SQLKeyword">NVARCHAR</span><span class="SQLOperator">(</span>30<span class="SQLOperator">)</span> <span class="SQLOperator">=</span> <span class="SQLOperator">(</span>
+			<span class="SQLKeyword">SELECT</span> CreditCard
+			<span class="SQLKeyword">FROM</span> dbo<span class="SQLOperator">.</span>func_UnionMemberCardsANDCardHistory<span class="SQLOperator">(</span><span class="SQLOperator">)</span> <span class="SQLKeyword">AS</span> fumcah
+			<span class="SQLKeyword">WHERE</span> Card_ID <span class="SQLOperator">=</span> @CardIdParam
+			<span class="SQLOperator">)</span>
+	<span class="SQLKeyword">DECLARE</span> @currency <span class="SQLKeyword">VARCHAR</span><span class="SQLOperator">(</span>3<span class="SQLOperator">)</span> <span class="SQLOperator">=</span> <span class="SQLOperator">(</span>
+			<span class="SQLKeyword">SELECT</span> Currency
+			<span class="SQLKeyword">FROM</span> dbo<span class="SQLOperator">.</span>func_UnionMemberCardsANDCardHistory<span class="SQLOperator">(</span><span class="SQLOperator">)</span> <span class="SQLKeyword">AS</span> fumcah
+			<span class="SQLKeyword">WHERE</span> Card_ID <span class="SQLOperator">=</span> @CardIdParam
+			<span class="SQLOperator">)</span>
+	<span class="SQLKeyword">DECLARE</span> @currencyRate <span class="SQLKeyword">FLOAT</span> <span class="SQLOperator">=</span> <span class="SQLOperator">(</span>
+			<span class="SQLKeyword">SELECT</span> Currency_Rate
+			<span class="SQLKeyword">FROM</span> dbo<span class="SQLOperator">.</span>func_UnionMemberCardsANDCardHistory<span class="SQLOperator">(</span><span class="SQLOperator">)</span> <span class="SQLKeyword">AS</span> fumcah
+			<span class="SQLKeyword">WHERE</span> Card_ID <span class="SQLOperator">=</span> @CardIdParam
+			<span class="SQLOperator">)</span>
+	<span class="SQLKeyword">DECLARE</span> @priceInMasCardType <span class="SQLKeyword">FLOAT</span> <span class="SQLOperator">=</span> <span class="SQLOperator">(</span>
+			<span class="SQLKeyword">SELECT</span> Price
+			<span class="SQLKeyword">FROM</span> MAS_CardTypes
+			<span class="SQLKeyword">WHERE</span> CardType_ID <span class="SQLOperator">=</span> @CardTypeIdParam
+			<span class="SQLOperator">)</span>
+
+	<span class="SQLKeyword">EXEC</span> MemberCards_Insert @Programme_ID <span class="SQLOperator">=</span> @ProgrammeIdParam
+		<span class="SQLOperator">,</span>@Card_ID <span class="SQLOperator">=</span> @RenewCardIdParam
+		<span class="SQLOperator">,</span>@Lead_ID <span class="SQLOperator">=</span> @LeadIdParam
+		<span class="SQLOperator">,</span>@Is_Primary <span class="SQLOperator">=</span> @IsPrimaryParam
+		<span class="SQLOperator">,</span>@Name_On_Card <span class="SQLOperator">=</span> @NameOnCardParam
+		<span class="SQLOperator">,</span>@SalesPerson <span class="SQLOperator">=</span> @SalesPersonParam
+		<span class="SQLOperator">,</span>@CardType_ID <span class="SQLOperator">=</span> @CardTypeIdParam
+		<span class="SQLOperator">,</span>@Sold_Date <span class="SQLOperator">=</span> @SoldDateParam
+		<span class="SQLOperator">,</span>@Expiry_Date <span class="SQLOperator">=</span> @ExpiryDateParam
+		<span class="SQLOperator">,</span>@Member_Since <span class="SQLOperator">=</span> @MemberSinceParam
+		<span class="SQLOperator">,</span>@Register_Date <span class="SQLOperator">=</span> @RegisterDateParam
+		<span class="SQLOperator">,</span>@Cancel_Date <span class="SQLOperator">=</span> @CancelDateParam
+		<span class="SQLOperator">,</span>@Week <span class="SQLOperator">=</span> @WeekParam
+		<span class="SQLOperator">,</span>@Renewal <span class="SQLOperator">=</span> <span class="SQLKeyword">NULL</span>
+		<span class="SQLOperator">,</span>@Renewal_Date <span class="SQLOperator">=</span> @RenewalDateParam
+		<span class="SQLOperator">,</span>@Printing_Date <span class="SQLOperator">=</span> @PrintingDateParam
+		<span class="SQLOperator">,</span>@Issued_Date <span class="SQLOperator">=</span> @IssuedDateParam
+		<span class="SQLOperator">,</span>@Refund_Date <span class="SQLOperator">=</span> @RefundDateParam
+		<span class="SQLOperator">,</span>@Last_Status_Changed <span class="SQLOperator">=</span> @LasteStatusChangedDateParam
+		<span class="SQLOperator">,</span>@Introduced_By <span class="SQLOperator">=</span> @IntroducedByParam
+		<span class="SQLOperator">,</span>@Payment_ID <span class="SQLOperator">=</span> @PaymentIdParam
+		<span class="SQLOperator">,</span>@CreditCard <span class="SQLOperator">=</span> @creditCard
+		<span class="SQLOperator">,</span>@Reference <span class="SQLOperator">=</span> @ReferenceParam
+		<span class="SQLOperator">,</span>@Price <span class="SQLOperator">=</span> @priceInMasCardType
+		<span class="SQLOperator">,</span>@Currency <span class="SQLOperator">=</span> @currency
+		<span class="SQLOperator">,</span>@Currency_Rate <span class="SQLOperator">=</span> @currencyRate
+		<span class="SQLOperator">,</span>@Status_ID <span class="SQLOperator">=</span> 5 <span class="SQLComment">--Chuy?n v? Issued ngay luôn</span>
+		<span class="SQLOperator">,</span>@Benefit_Renewal <span class="SQLOperator">=</span> @Benefit_Renewal
+		<span class="SQLOperator">,</span>@Approver_Issued <span class="SQLOperator">=</span> @ApproverIssuedParam
+		<span class="SQLOperator">,</span>@Approver_Expired <span class="SQLOperator">=</span> @ApproverExpiredParam
+		<span class="SQLOperator">,</span>@Approver_Cancel <span class="SQLOperator">=</span> @ApproverCancelParam
+		<span class="SQLOperator">,</span>@Approver_Renew <span class="SQLOperator">=</span> @ApproverRenewParam
+		<span class="SQLOperator">,</span>@Approver_Refund <span class="SQLOperator">=</span> @ApproverRefundParam
+		<span class="SQLOperator">,</span>@Created_By <span class="SQLOperator">=</span> @ChangedByParam
+		<span class="SQLOperator">,</span>@Active <span class="SQLOperator">=</span> 1
+		<span class="SQLOperator">,</span>@DeliveryByParam <span class="SQLOperator">=</span> @DeliveryByParam
+		<span class="SQLOperator">,</span>@Note <span class="SQLOperator">=</span> @NoteParam
+
+	<span class="SQLComment">--//Add vao bang history</span>
+	<span class="SQLComment">--insert into Card_History values (@RenewCardIdParam,@CardIdParam,(select Expiry_Date from MemberCards where Card_ID=@CardIdParam), 0,@LeadIdParam, @ChangedByParam,getdate())</span>
+	<span class="SQLKeyword">EXEC</span> dbo<span class="SQLOperator">.</span>Card_History_CopyFromCard @RenewCardIdParam
+		<span class="SQLOperator">,</span>@CardIdParam
+		<span class="SQLOperator">,</span>0
+
+	<span class="SQLKeyword">DELETE</span>
+	<span class="SQLKeyword">FROM</span> MemberCards
+	<span class="SQLKeyword">WHERE</span> Card_ID <span class="SQLOperator">=</span> @CardIdParam
+<span class="SQLKeyword">END</span>
+</pre></p>
+</body>
+</html>

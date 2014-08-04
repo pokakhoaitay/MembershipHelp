@@ -1,0 +1,60 @@
+[OPTIONS]
+Compatibility=1.1 or later
+Compiled file=Container.chm
+Contents file=Container.hhc
+Index file=Container.hhk
+Language=0x042A
+Title=Container
+Error log file=Errlog.txt
+Default Window=main
+
+[WINDOWS]
+main="Container","Container.hhc","Container.hhk","GuestCall\GiaiThuat.htm","",,,,,0x41520,240,0x184E,[262,184,762,584],,,,1,0,0,0
+
+[FILES]
+GuestCall\GiaiThuat.htm
+GuestCall\So_Do.htm
+GuestCall\Xu_Ly.htm
+Import\FB\Giai_Thuat.html
+ReprintCard\Giai_Thuat.htm
+ReprintCard\So_Do.htm
+ReprintCard\Xu_Ly.htm
+RewnewCard\Giai_Thuat.htm
+RewnewCard\So_Do.htm
+RewnewCard\Xu_Ly.htm
+IncludeFiles\app.js
+IncludeFiles\bootstrap.min.css
+IncludeFiles\bootstrap.min.js
+IncludeFiles\code.style.css
+IncludeFiles\default.css
+IncludeFiles\jquery-1.10.2.min.js
+IncludeFiles\jquery-1.11.1.min.js
+IncludeFiles\jquery-1.9.1.js
+IncludeFiles\jquery-1.9.1.min.js
+IncludeFiles\jquery-1.9.1.min.js.map
+IncludeFiles\jquery-2.1.0.min.js
+IncludeFiles\Resources\Fonts\702392579-segoeuil.eot
+IncludeFiles\Resources\Fonts\702392579-segoeuil.svg
+IncludeFiles\Resources\Fonts\702392579-segoeuil.ttf
+IncludeFiles\Resources\Fonts\702392579-segoeuil.woff
+IncludeFiles\Resources\Fonts\777832032-segoeui.eot
+IncludeFiles\Resources\Fonts\777832032-segoeui.svg
+IncludeFiles\Resources\Fonts\777832032-segoeui.ttf
+IncludeFiles\Resources\Fonts\777832032-segoeui.woff
+IncludeFiles\Resources\Fonts\Fonts.fpj
+IncludeFiles\Resources\Fonts\RobotoCondensed-Light.eot
+IncludeFiles\Resources\Fonts\RobotoCondensed-Light.svg
+IncludeFiles\Resources\Fonts\RobotoCondensed-Light.ttf
+IncludeFiles\Resources\Fonts\RobotoCondensed-Light.woff
+IncludeFiles\Resources\Fonts\RobotoCondensed-Regular.eot
+IncludeFiles\Resources\Fonts\RobotoCondensed-Regular.svg
+IncludeFiles\Resources\Fonts\RobotoCondensed-Regular.ttf
+IncludeFiles\Resources\Fonts\RobotoCondensed-Regular.woff
+IncludeFiles\Resources\jquery-2.1.0.intellisense.js
+IncludeFiles\Resources\Presentation1.png
+IncludeFiles\Resources\reprint.png
+IncludeFiles\Resources\Resources.fpj
+IncludeFiles\Resources\Swap-Left.png
+IncludeFiles\Resources\Untitled-1.gif
+Import\FB\Xu_Ly.html
+

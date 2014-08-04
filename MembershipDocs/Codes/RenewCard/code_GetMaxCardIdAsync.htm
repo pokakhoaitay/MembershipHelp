@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+ <meta name="template" content="_CodePopup.htt" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Language" content="vi-VN" />
+<meta name="robots" content="NOODP" />
+<meta name="generator" content="Adobe RoboHelp 11" />
+<title>code_GetMaxCardIdAsync</title>
+<link rel="StyleSheet" href="..\..\code.style.css" type="text/css" />
+</head>
+
+<body><?rh-placeholder type="header" ?>
+<p>&#160;</p>
+<pre>
+<span style="color: #0000ff;">private</span><span style="color: #000000;"> </span><span style="color: #0000ff;">string</span><span style="color: #000000;"> GetMaxCard(</span><span style="color: #0000ff;">int</span><span style="color: #000000;"> programmeId, </span><span style="color: #0000ff;">int</span><span style="color: #000000;"> cardTypeId, </span><span style="color: #0000ff;">int</span><span style="color: #000000;"> mode)
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;{
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</span><span style="color: #0000ff;">string</span><span style="color: #000000;"> maxCardId = </span><span style="color: #0000ff;">null</span><span style="color: #000000;">;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</span><span style="color: #0000ff;">try</span><span style="color: #000000;">
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;{
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</span><span style="color: #0000ff;">using</span><span style="color: #000000;"> (DbCommand dbCommand = _db.GetStoredProcCommand(</span><span style="color: #800000;">&quot;[dbo].[GetMaxCardIDByCardType]&quot;</span><span style="color: #000000;">))
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;{
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;_db.AddInParameter(dbCommand, </span><span style="color: #800000;">&quot;@ProgrammeId&quot;</span><span style="color: #000000;">, DbType.Int32, programmeId);
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;_db.AddInParameter(dbCommand, </span><span style="color: #800000;">&quot;@CardTypeId&quot;</span><span style="color: #000000;">, DbType.Int32, cardTypeId);
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;_db.AddInParameter(dbCommand, </span><span style="color: #800000;">&quot;@Mode&quot;</span><span style="color: #000000;">, DbType.Int32, mode);
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</span><span style="color: #0000ff;">using</span><span style="color: #000000;"> (IDataReader reader = _db.ExecuteReader(dbCommand))
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;{
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</span><span style="color: #0000ff;">while</span><span style="color: #000000;"> (reader.Read())
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;{
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;maxCardId = reader.IsDBNull(</span><span style="color: #ff0000;">0</span><span style="color: #000000;">) ? </span><span style="color: #0000ff;">string</span><span style="color: #000000;">.Empty : reader.GetString(</span><span style="color: #ff0000;">0</span><span style="color: #000000;">);
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;}
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;}
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;}
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;}
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</span><span style="color: #0000ff;">catch</span><span style="color: #000000;"> (Exception ex)
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;{
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;ExceptionHandleManagement.ThrowException(RepositoryMessage.GetMaxCardForRenewMsg, ex);
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;}
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</span><span style="color: #0000ff;">return</span><span style="color: #000000;"> maxCardId;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;}</span></pre>
+</body>
+</html>

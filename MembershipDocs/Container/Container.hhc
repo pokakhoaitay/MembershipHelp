@@ -1,0 +1,97 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<HTML>
+<HEAD>
+<meta name="GENERATOR" content="Microsoft&reg; HTML Help Workshop 4.1">
+<!-- Sitemap 1.0 -->
+</HEAD>
+<BODY>
+<OBJECT type="text/site properties">
+	<param name="Window Styles" value="0x800237">
+</OBJECT>
+<UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Container">
+		</OBJECT>
+<UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="GuestCall">
+		</OBJECT>
+<UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="GiaiThuat">
+		<param name="Local" value="GuestCall\GiaiThuat.htm">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="So_Do">
+		<param name="Local" value="GuestCall\So_Do.htm">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Xu_Ly">
+		<param name="Local" value="GuestCall\Xu_Ly.htm">
+		</OBJECT>
+</UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Import">
+		</OBJECT>
+<UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="FB">
+		</OBJECT>
+<UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Giai_Thuat">
+		<param name="Local" value="Import\FB\Giai_Thuat.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Xu_Ly">
+		<param name="Local" value="Import\FB\Xu_Ly.html">
+		</OBJECT>
+</UL>
+</UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="IncludeFiles">
+		</OBJECT>
+<UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Resources">
+		</OBJECT>
+</UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="ReprintCard">
+		</OBJECT>
+<UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Giai_Thuat">
+		<param name="Local" value="ReprintCard\Giai_Thuat.htm">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="So_Do">
+		<param name="Local" value="ReprintCard\So_Do.htm">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Xu_Ly">
+		<param name="Local" value="ReprintCard\Xu_Ly.htm">
+		</OBJECT>
+</UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="RewnewCard">
+		</OBJECT>
+<UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Giai_Thuat">
+		<param name="Local" value="RewnewCard\Giai_Thuat.htm">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="So_Do">
+		<param name="Local" value="RewnewCard\So_Do.htm">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Xu_Ly">
+		<param name="Local" value="RewnewCard\Xu_Ly.htm">
+		</OBJECT>
+</UL>
+</UL>
+</UL>
+</BODY>
+</HTML>
+

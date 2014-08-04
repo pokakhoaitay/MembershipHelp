@@ -1,0 +1,79 @@
+Microsoft HTML Help Compiler 4.74.8702
+
+Compiling d:\HongTronJob\MembershipDocs\MembershipDocs\Container\Container.chm
+
+HHC3004: Warning: GiaiThuat.htm : The HTML tag "?xml version="1.0" encoding="utf-8" ?" is not a valid HTML tag (it does not begin with an alphanumeric character).
+HHC3004: Warning: GiaiThuat.htm : The HTML tag "?rh-region_start type="header" style="width: 100%;..." is not a valid HTML tag (it does not begin with an alphanumeric character).
+HHC3004: Warning: GiaiThuat.htm : The HTML tag "?rh-region_end type="header" ?" is not a valid HTML tag (it does not begin with an alphanumeric character).
+HHC3004: Warning: GiaiThuat.htm : The HTML tag "?rh-region_start type="footer" style="width: 100%;..." is not a valid HTML tag (it does not begin with an alphanumeric character).
+HHC3004: Warning: GiaiThuat.htm : The HTML tag "?rh-symbol_start 	 name="Copyright" ?" is not a valid HTML tag (it does not begin with an alphanumeric character).
+HHC3004: Warning: GiaiThuat.htm : The HTML tag "?rh-symbol_end ?" is not a valid HTML tag (it does not begin with an alphanumeric character).
+HHC3004: Warning: GiaiThuat.htm : The HTML tag "?rh-region_end type="footer" ?" is not a valid HTML tag (it does not begin with an alphanumeric character).
+HHC3004: Warning: So_Do.htm : The HTML tag "?xml version="1.0" encoding="utf-8" ?" is not a valid HTML tag (it does not begin with an alphanumeric character).
+HHC3004: Warning: So_Do.htm : The HTML tag "?rh-region_start type="header" style="width: 100%;..." is not a valid HTML tag (it does not begin with an alphanumeric character).
+HHC3004: Warning: So_Do.htm : The HTML tag "?rh-region_end type="header" ?" is not a valid HTML tag (it does not begin with an alphanumeric character).
+HHC3004: Warning: So_Do.htm : The HTML tag "?rh-region_start type="footer" style="width: 100%;..." is not a valid HTML tag (it does not begin with an alphanumeric character).
+HHC3004: Warning: So_Do.htm : The HTML tag "?rh-symbol_start 	 name="Copyright" ?" is not a valid HTML tag (it does not begin with an alphanumeric character).
+HHC3004: Warning: So_Do.htm : The HTML tag "?rh-symbol_end ?" is not a valid HTML tag (it does not begin with an alphanumeric character).
+HHC3004: Warning: So_Do.htm : The HTML tag "?rh-region_end type="footer" ?" is not a valid HTML tag (it does not begin with an alphanumeric character).
+HHC3004: Warning: Xu_Ly.htm : The HTML tag "?xml version="1.0" encoding="utf-8" ?" is not a valid HTML tag (it does not begin with an alphanumeric character).
+HHC3004: Warning: Xu_Ly.htm : The HTML tag "?rh-region_start type="header" style="width: 100%;..." is not a valid HTML tag (it does not begin with an alphanumeric character).
+HHC3004: Warning: Xu_Ly.htm : The HTML tag "?rh-region_end type="header" ?" is not a valid HTML tag (it does not begin with an alphanumeric character).
+HHC3004: Warning: Xu_Ly.htm : The HTML tag "?rh-region_start type="footer" style="width: 100%;..." is not a valid HTML tag (it does not begin with an alphanumeric character).
+HHC3004: Warning: Xu_Ly.htm : The HTML tag "?rh-symbol_start 	 name="Copyright" ?" is not a valid HTML tag (it does not begin with an alphanumeric character).
+HHC3004: Warning: Xu_Ly.htm : The HTML tag "?rh-symbol_end ?" is not a valid HTML tag (it does not begin with an alphanumeric character).
+HHC3004: Warning: Xu_Ly.htm : The HTML tag "?rh-region_end type="footer" ?" is not a valid HTML tag (it does not begin with an alphanumeric character).
+HHC3004: Warning: Giai_Thuat.htm : The HTML tag "?xml version="1.0" encoding="utf-8" ?" is not a valid HTML tag (it does not begin with an alphanumeric character).
+HHC3004: Warning: Giai_Thuat.htm : The HTML tag "?rh-region_start type="header" style="width: 100%;..." is not a valid HTML tag (it does not begin with an alphanumeric character).
+HHC3004: Warning: Giai_Thuat.htm : The HTML tag "?rh-region_end type="header" ?" is not a valid HTML tag (it does not begin with an alphanumeric character).
+HHC3004: Warning: Giai_Thuat.htm : The HTML tag "?rh-udv_start name="reprint_title" ?" is not a valid HTML tag (it does not begin with an alphanumeric character).
+HHC3004: Warning: Giai_Thuat.htm : The HTML tag "?rh-udv_end ?" is not a valid HTML tag (it does not begin with an alphanumeric character).
+HHC3004: Warning: So_Do.htm : The HTML tag "?xml version="1.0" encoding="utf-8" ?" is not a valid HTML tag (it does not begin with an alphanumeric character).
+HHC3004: Warning: So_Do.htm : The HTML tag "?rh-region_start type="header" style="width: 100%;..." is not a valid HTML tag (it does not begin with an alphanumeric character).
+HHC3004: Warning: So_Do.htm : The HTML tag "?rh-region_end type="header" ?" is not a valid HTML tag (it does not begin with an alphanumeric character).
+HHC3004: Warning: So_Do.htm : The HTML tag "?rh-region_start type="footer" style="width: 100%;..." is not a valid HTML tag (it does not begin with an alphanumeric character).
+HHC3004: Warning: So_Do.htm : The HTML tag "?rh-symbol_start 	 name="Copyright" ?" is not a valid HTML tag (it does not begin with an alphanumeric character).
+HHC3004: Warning: So_Do.htm : The HTML tag "?rh-symbol_end ?" is not a valid HTML tag (it does not begin with an alphanumeric character).
+HHC3004: Warning: So_Do.htm : The HTML tag "?rh-region_end type="footer" ?" is not a valid HTML tag (it does not begin with an alphanumeric character).
+HHC3004: Warning: Xu_Ly.htm : The HTML tag "?xml version="1.0" encoding="utf-8" ?" is not a valid HTML tag (it does not begin with an alphanumeric character).
+HHC3004: Warning: Xu_Ly.htm : The HTML tag "?rh-region_start type="header" style="width: 100%;..." is not a valid HTML tag (it does not begin with an alphanumeric character).
+HHC3004: Warning: Xu_Ly.htm : The HTML tag "?rh-region_end type="header" ?" is not a valid HTML tag (it does not begin with an alphanumeric character).
+HHC3004: Warning: Xu_Ly.htm : The HTML tag "?rh-udv_start name="reprint_title" ?" is not a valid HTML tag (it does not begin with an alphanumeric character).
+HHC3004: Warning: Xu_Ly.htm : The HTML tag "?rh-udv_end ?" is not a valid HTML tag (it does not begin with an alphanumeric character).
+HHC3004: Warning: Xu_Ly.htm : The HTML tag "?rh-region_start type="footer" style="width: 100%;..." is not a valid HTML tag (it does not begin with an alphanumeric character).
+HHC3004: Warning: Xu_Ly.htm : The HTML tag "?rh-symbol_start 	 name="Copyright" ?" is not a valid HTML tag (it does not begin with an alphanumeric character).
+HHC3004: Warning: Xu_Ly.htm : The HTML tag "?rh-symbol_end ?" is not a valid HTML tag (it does not begin with an alphanumeric character).
+HHC3004: Warning: Xu_Ly.htm : The HTML tag "?rh-region_end type="footer" ?" is not a valid HTML tag (it does not begin with an alphanumeric character).
+HHC3004: Warning: Giai_Thuat.htm : The HTML tag "?xml version="1.0" encoding="utf-8" ?" is not a valid HTML tag (it does not begin with an alphanumeric character).
+HHC3004: Warning: Giai_Thuat.htm : The HTML tag "?rh-region_start type="header" style="width: 100%;..." is not a valid HTML tag (it does not begin with an alphanumeric character).
+HHC3004: Warning: Giai_Thuat.htm : The HTML tag "?rh-region_end type="header" ?" is not a valid HTML tag (it does not begin with an alphanumeric character).
+HHC3004: Warning: Giai_Thuat.htm : The HTML tag "?rh-region_start type="footer" style="width: 100%;..." is not a valid HTML tag (it does not begin with an alphanumeric character).
+HHC3004: Warning: Giai_Thuat.htm : The HTML tag "?rh-symbol_start 	 name="Copyright" ?" is not a valid HTML tag (it does not begin with an alphanumeric character).
+HHC3004: Warning: Giai_Thuat.htm : The HTML tag "?rh-symbol_end ?" is not a valid HTML tag (it does not begin with an alphanumeric character).
+HHC3004: Warning: Giai_Thuat.htm : The HTML tag "?rh-region_end type="footer" ?" is not a valid HTML tag (it does not begin with an alphanumeric character).
+HHC3004: Warning: So_Do.htm : The HTML tag "?xml version="1.0" encoding="utf-8" ?" is not a valid HTML tag (it does not begin with an alphanumeric character).
+HHC3004: Warning: So_Do.htm : The HTML tag "?rh-region_start type="header" style="width: 100%;..." is not a valid HTML tag (it does not begin with an alphanumeric character).
+HHC3004: Warning: So_Do.htm : The HTML tag "?rh-region_end type="header" ?" is not a valid HTML tag (it does not begin with an alphanumeric character).
+HHC3004: Warning: So_Do.htm : The HTML tag "?rh-region_start type="footer" style="width: 100%;..." is not a valid HTML tag (it does not begin with an alphanumeric character).
+HHC3004: Warning: So_Do.htm : The HTML tag "?rh-symbol_start 	 name="Copyright" ?" is not a valid HTML tag (it does not begin with an alphanumeric character).
+HHC3004: Warning: So_Do.htm : The HTML tag "?rh-symbol_end ?" is not a valid HTML tag (it does not begin with an alphanumeric character).
+HHC3004: Warning: So_Do.htm : The HTML tag "?rh-region_end type="footer" ?" is not a valid HTML tag (it does not begin with an alphanumeric character).
+HHC3004: Warning: Xu_Ly.htm : The HTML tag "?xml version="1.0" encoding="utf-8" ?" is not a valid HTML tag (it does not begin with an alphanumeric character).
+HHC3004: Warning: Xu_Ly.htm : The HTML tag "?rh-region_start type="header" style="width: 100%;..." is not a valid HTML tag (it does not begin with an alphanumeric character).
+HHC3004: Warning: Xu_Ly.htm : The HTML tag "?rh-region_end type="header" ?" is not a valid HTML tag (it does not begin with an alphanumeric character).
+HHC3004: Warning: Xu_Ly.htm : The HTML tag "?rh-region_start type="footer" style="width: 100%;..." is not a valid HTML tag (it does not begin with an alphanumeric character).
+HHC3004: Warning: Xu_Ly.htm : The HTML tag "?rh-symbol_start 	 name="Copyright" ?" is not a valid HTML tag (it does not begin with an alphanumeric character).
+HHC3004: Warning: Xu_Ly.htm : The HTML tag "?rh-symbol_end ?" is not a valid HTML tag (it does not begin with an alphanumeric character).
+HHC3004: Warning: Xu_Ly.htm : The HTML tag "?rh-region_end type="footer" ?" is not a valid HTML tag (it does not begin with an alphanumeric character).
+HHC3004: Warning: Xu_Ly.htm : The HTML tag "?rh-script_start ?" is not a valid HTML tag (it does not begin with an alphanumeric character).
+HHC3004: Warning: Xu_Ly.htm : The HTML tag "?rh-script_end ?" is not a valid HTML tag (it does not begin with an alphanumeric character).
+
+Compile time: 0 minutes, 7 seconds
+13	Topics
+54	Local links
+0	Internet links
+0	Graphics
+
+
+Created d:\HongTronJob\MembershipDocs\MembershipDocs\Container\Container.chm, 4,458,573 bytes
+Compression decreased file by 5,065,517 bytes.

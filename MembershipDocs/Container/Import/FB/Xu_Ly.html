@@ -1,0 +1,873 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>Xử Lý</title>
+        <link href="../../IncludeFiles/bootstrap.min.css" rel="stylesheet" />
+        <link href="../../IncludeFiles/default.css" rel="stylesheet" />
+
+    </head>
+    <body>
+
+        <div id="mem_header">
+            <div class="wrapper">
+                <div class="doc_title">Membership Document</div>
+                <span>IMPORT FB</span> <span class="last">| xử lý</span>
+            </div>
+            <hr />
+        </div>
+        <div id="mem_body">
+            <div class="wrapper">
+
+                <!--| TRY |-->
+                <h3 class="para_title">TRY</h3>
+                <ul style="list-style: decimal">
+                    <li>
+                        Gọi <span class="Method_Name">TryExcute()</span> -> <span class="Method_Name">ImportActivity()</span> -> <span class="Method_Name">FbTrialFromFile()</span>
+                        <br />
+                        <a class="view_code" data-target="ReadFile" href="#">[ View Code ]</a>
+                        <pre id="ReadFile" class="local-code"><!--
+                            Code highlighting produced by Actipro SyntaxEditor
+                            http://www.ActiproSoftware.com/Products/DotNet/
+                            --><span style="color: #808080;">///</span><span style="color: #008000;"> </span><span style="color: #808080;">&lt;summary&gt;</span><span style="color: #008000;">
+</span><span style="color: #808080;">///</span><span style="color: #008000;"> Đọc dữ liệu từ file
+</span><span style="color: #808080;">///</span><span style="color: #008000;"> </span><span style="color: #808080;">&lt;/summary&gt;</span><span style="color: #008000;">
+</span><span style="color: #808080;">///</span><span style="color: #008000;"> </span><span style="color: #808080;">&lt;param name="path"&gt;</span><span style="color: #008000;">Đường dẫn tới file</span><span style="color: #808080;">&lt;/param&gt;</span><span style="color: #008000;">
+</span><span style="color: #808080;">///</span><span style="color: #008000;"> </span><span style="color: #808080;">&lt;returns&gt;&lt;/returns&gt;</span><span style="color: #008000;">
+</span><span style="color: #0000FF;">private</span><span style="color: #000000;"> Task&lt;SpendFbTrials&gt; FbTrialFromFile(</span><span style="color: #0000FF;">string</span><span style="color: #000000;"> path)
+{
+    </span><span style="color: #0000FF;">return</span><span style="color: #000000;"> Task&lt;SpendFbTrials&gt;.Factory.StartNew(() =&gt;
+    {
+        </span><span style="color: #0000FF;">try</span><span style="color: #000000;">
+        {
+            </span><span style="color: #0000FF;">using</span><span style="color: #000000;"> (var fileStream = </span><span style="color: #0000FF;">new</span><span style="color: #000000;"> FileStream(path, FileMode.Open))
+            {
+                </span><span style="color: #0000FF;">using</span><span style="color: #000000;"> (var reader = </span><span style="color: #0000FF;">new</span><span style="color: #000000;"> StreamReader(fileStream))
+                {
+                    var fbTrialCollection = </span><span style="color: #0000FF;">new</span><span style="color: #000000;"> SpendFbTrials();
+                    </span><span style="color: #0000FF;">int</span><span style="color: #000000;"> transId = </span><span style="color: #FF0000;">1</span><span style="color: #000000;">;
+                    </span><span style="color: #0000FF;">#region</span><span style="color: #000000;"> Read file
+                    </span><span style="color: #0000FF;">while</span><span style="color: #000000;"> (reader.Peek() &gt;= </span><span style="color: #FF0000;">0</span><span style="color: #000000;">)
+                    {
+                        </span><span style="color: #008000;">// System.Threading.Thread.Sleep(100);</span><span style="color: #000000;">
+                        </span><span style="color: #0000FF;">string</span><span style="color: #000000;"> lineContent = reader.ReadLine();
+                        </span><span style="color: #0000FF;">if</span><span style="color: #000000;"> (lineContent != </span><span style="color: #0000FF;">null</span><span style="color: #000000;"> &amp;&amp; lineContent.IndexOfAny(</span><span style="color: #0000FF;">new</span><span style="color: #000000;">[] {</span><span style="color: #800000;">','</span><span style="color: #000000;">}) == -</span><span style="color: #FF0000;">1</span><span style="color: #000000;">)
+                            </span><span style="color: #0000FF;">continue</span><span style="color: #000000;">;
+                        var listProperty = StringUtils.TrimString(lineContent, </span><span style="color: #800000;">','</span><span style="color: #000000;">);
+                        var cardId = listProperty[</span><span style="color: #FF0000;">0</span><span style="color: #000000;">];
+                        </span><span style="color: #0000FF;">string</span><span style="color: #000000;"> day = listProperty[</span><span style="color: #FF0000;">1</span><span style="color: #000000;">].Substring(</span><span style="color: #FF0000;">0</span><span style="color: #000000;">, </span><span style="color: #FF0000;">2</span><span style="color: #000000;">);
+                        </span><span style="color: #0000FF;">string</span><span style="color: #000000;"> month = listProperty[</span><span style="color: #FF0000;">1</span><span style="color: #000000;">].Substring(</span><span style="color: #FF0000;">2</span><span style="color: #000000;">, </span><span style="color: #FF0000;">2</span><span style="color: #000000;">);
+                        </span><span style="color: #0000FF;">string</span><span style="color: #000000;"> year = DateTime.Now.Year.ToString().Substring(</span><span style="color: #FF0000;">0</span><span style="color: #000000;">, </span><span style="color: #FF0000;">2</span><span style="color: #000000;">) + listProperty[</span><span style="color: #FF0000;">1</span><span style="color: #000000;">].Substring(</span><span style="color: #FF0000;">4</span><span style="color: #000000;">, </span><span style="color: #FF0000;">2</span><span style="color: #000000;">);
+                        </span><span style="color: #0000FF;">string</span><span style="color: #000000;"> dateString = month + </span><span style="color: #800000;">"/"</span><span style="color: #000000;"> + day + </span><span style="color: #800000;">"/"</span><span style="color: #000000;"> + year; </span><span style="color: #008000;">//+ " " + listProperty[2];</span><span style="color: #000000;">
+                        DateTime bookDate;
+                        DateTime.TryParse(dateString, </span><span style="color: #0000FF;">out</span><span style="color: #000000;"> bookDate);
+                        </span><span style="color: #0000FF;">if</span><span style="color: #000000;"> (!_controller.ImportDateList.Any(import =&gt; import.ImportDate == bookDate.Date))
+                            </span><span style="color: #0000FF;">continue</span><span style="color: #000000;">;
+                        var tempFbTrial = _controller.OutletCollection.FirstOrDefault(outlet =&gt; outlet.Description == listProperty[</span><span style="color: #FF0000;">8</span><span style="color: #000000;">]);
+                        </span><span style="color: #008000;">//Create new SpendFbTrial</span><span style="color: #000000;">
+                        var fbTrial = </span><span style="color: #0000FF;">new</span><span style="color: #000000;"> SpendFbTrial();
+                        fbTrial.TransId = transId++;
+                        fbTrial.CardID = cardId;
+                        fbTrial.BookDate = bookDate; </span><span style="color: #008000;">//CLOSINGDATETIME in file</span><span style="color: #000000;">
+                        fbTrial.TransTypeId = </span><span style="color: #FF0000;">2</span><span style="color: #000000;">; </span><span style="color: #008000;">//Default asign TransTypeId=2 (IMPORT FB)</span><span style="color: #000000;">
+                        var queryTransType = _controller.MasTransTypeCollection.FirstOrDefault(type =&gt; type.TransType == </span><span style="color: #FF0000;">2</span><span style="color: #000000;">);
+                        fbTrial.MasTransType.Description = queryTransType == </span><span style="color: #0000FF;">null</span><span style="color: #000000;"> ? </span><span style="color: #800000;">"_"</span><span style="color: #000000;"> : queryTransType.Description;
+                        fbTrial.Covers = Convert.ToInt32(listProperty[</span><span style="color: #FF0000;">3</span><span style="color: #000000;">]);
+                        fbTrial.Food = Convert.ToDouble(listProperty[</span><span style="color: #FF0000;">4</span><span style="color: #000000;">]);
+                        fbTrial.Beverage = Convert.ToDouble(listProperty[</span><span style="color: #FF0000;">5</span><span style="color: #000000;">]);
+                        fbTrial.Other = Convert.ToDouble(listProperty[</span><span style="color: #FF0000;">6</span><span style="color: #000000;">]);
+                        fbTrial.Discount = Convert.ToDouble(listProperty[</span><span style="color: #FF0000;">7</span><span style="color: #000000;">]);
+                        fbTrial.OutletDescription = listProperty[</span><span style="color: #FF0000;">8</span><span style="color: #000000;">];
+                        fbTrial.OutletId = tempFbTrial == </span><span style="color: #0000FF;">null</span><span style="color: #000000;"> ? -</span><span style="color: #FF0000;">1</span><span style="color: #000000;"> : tempFbTrial.OutletId;
+                        fbTrial.MasOutlet = </span><span style="color: #0000FF;">new</span><span style="color: #000000;"> MasOutlet {Description = listProperty[</span><span style="color: #FF0000;">8</span><span style="color: #000000;">]};
+                        fbTrial.Description = listProperty[</span><span style="color: #FF0000;">9</span><span style="color: #000000;">];
+                        fbTrial.CreatedDate = DateTime.Now;
+                        fbTrial.CreatedBy = UserContext.UserId;
+                        fbTrial.Active = </span><span style="color: #0000FF;">true</span><span style="color: #000000;">;
+                        </span><span style="color: #008000;">//Add fbTrial into Collection</span><span style="color: #000000;">
+                        fbTrialCollection.Add(fbTrial);
+                    }
+                    </span><span style="color: #0000FF;">#endregion</span><span style="color: #000000;">
+                    </span><span style="color: #0000FF;">return</span><span style="color: #000000;"> fbTrialCollection;
+                }
+            }
+        }
+        </span><span style="color: #0000FF;">catch</span><span style="color: #000000;"> (Exception ex)
+        {
+            Logger.Log(</span><span style="color: #800000;">"Read file: "</span><span style="color: #000000;"> + path + </span><span style="color: #800000;">" has error or file not right format"</span><span style="color: #000000;"> + ex.Message);
+            ExecuteOnUIThread(() =&gt; ShowToast(</span><span style="color: #0000FF;">string</span><span style="color: #000000;">.Format(FriendlyMessages.TOAST_Import_FbActivity_ErrorFile_Content, _controller.ImportPath)));
+            </span><span style="color: #0000FF;">return</span><span style="color: #000000;"> </span><span style="color: #0000FF;">null</span><span style="color: #000000;">;
+        }
+    });
+}</span></pre>
+                    </li>
+                    <li>
+                        Lưu những gì đọc được vào bảng tạm <b>Spend_FB_Trial</b>
+                        <br />
+                        Gọi <span class="Method_Name">_service.InsertFbTrialFromFileAsync()</span>: Lưu vào bảng tạm Spend_FB_Trial
+                        <ul>
+                            <li>
+                                Gọi Procedure <span class="Proc_Name">Import_FB_TryBook_DeleteTrial</span>
+                                <a href="#" class="view_code" data-target="Import_FB_TryBook_DeleteTrial">[ View Code ]</a>
+                                <div class="local-code" id="Import_FB_TryBook_DeleteTrial">
+                                    <code style='font-size: 12px;'>
+                                        <span style='color:blue'>ALTER</span>&nbsp;<span style='color:blue'>PROCEDURE</span>&nbsp;[dbo].[Import_FB_TryBook_DeleteTrial]&nbsp;<span style='color:#8b0000'>@CardTypeList</span>&nbsp;<span style='color:blue'>varchar</span>(100),<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#8b0000'>@ImportDateList</span>&nbsp;<span style='color:blue'>varchar</span>(<span style='color:#ff00dc'>max</span>)<br />
+                                        <span style='color:blue'>AS</span><br />
+                                        <span style='color:blue'>BEGIN</span><br />
+                                        &nbsp;&nbsp;<span style='color:blue'>SET</span>&nbsp;XACT_ABORT&nbsp;<span style='color:blue'>ON</span><br />
+                                        &nbsp;&nbsp;<span style='color:blue'>BEGIN</span>&nbsp;<span style='color:blue'>TRAN</span><br />
+                                        <br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>DECLARE</span>&nbsp;<span style='color:#8b0000'>@impDateTblTmp</span>&nbsp;<span style='color:blue'>AS</span>&nbsp;<span style='color:blue'>TABLE</span>&nbsp;(<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Import_Date&nbsp;date<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;)<br />
+                                        <br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>INSERT</span>&nbsp;<span style='color:blue'>INTO</span>&nbsp;<span style='color:#8b0000'>@impDateTblTmp</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>SELECT</span>&nbsp;*<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>FROM</span>&nbsp;[dbo].[func_InsertStringToTable](<span style='color:#8b0000'>@ImportDateList</span>)&nbsp;<span style='color:blue'>AS</span>&nbsp;DATE<br />
+                                        <br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>DECLARE</span>&nbsp;<span style='color:#8b0000'>@cardTypeTblTemp</span>&nbsp;<span style='color:blue'>AS</span>&nbsp;<span style='color:blue'>TABLE</span>&nbsp;(<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CardType_ID&nbsp;<span style='color:blue'>varchar</span>(10)<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;)<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>INSERT</span>&nbsp;<span style='color:blue'>INTO</span>&nbsp;<span style='color:#8b0000'>@cardTypeTblTemp</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>SELECT</span>&nbsp;*<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>FROM</span>&nbsp;[dbo].[func_InsertStringToTable](<span style='color:#8b0000'>@CardTypeList</span>)<br />
+                                        <br />
+                                        <br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>DELETE</span>&nbsp;<span style='color:blue'>FROM</span>&nbsp;Spend_FB_Trial<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>WHERE</span>&nbsp;<span style='color:#ff00dc'>CAST</span>(Book_Date&nbsp;<span style='color:blue'>AS</span>&nbsp;date)&nbsp;<span style='color:gray'>IN</span>&nbsp;(<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>SELECT</span>&nbsp;*<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>FROM</span>&nbsp;<span style='color:#8b0000'>@impDateTblTmp</span>)<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:gray'>AND</span>&nbsp;Trans_Type_ID&nbsp;=&nbsp;2<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:gray'>AND</span>&nbsp;(<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Card_ID&nbsp;<span style='color:gray'>IN</span>&nbsp;(<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>SELECT</span>&nbsp;Card_ID<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>FROM</span>&nbsp;(<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>SELECT</span>&nbsp;CardType_ID,&nbsp;Card_ID<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>FROM</span>&nbsp;dbo.func_UnionMemberCardsANDCardHistory()&nbsp;<span style='color:blue'>AS</span>&nbsp;fumcah)&nbsp;x<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>WHERE</span>&nbsp;CardType_ID&nbsp;<span style='color:gray'>IN</span>&nbsp;(<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>SELECT</span>&nbsp;*<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>FROM</span>&nbsp;<span style='color:#8b0000'>@cardTypeTblTemp</span>))<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:gray'>OR</span>&nbsp;[dbo].[func_CheckExistCardId](Card_ID)&nbsp;=&nbsp;1<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<br />
+                                        <br />
+                                        &nbsp;&nbsp;<span style='color:blue'>COMMIT</span><br />
+                                        <span style='color:blue'>END</span><br />
+                                    </code>
+                                </div>
+                            </li>
+                            <li>
+                                Gọi Procedure <span class="Proc_Name">Spend_FB_Trial_Insert</span> <a href="#" class="view_code" data-target="Spend_FB_Trial_Insert">[ View Code ]</a>
+                                <div class="local-code" id="Spend_FB_Trial_Insert">
+                                    <code style='font-size: 12px;'>
+                                        <span style='color:blue'>ALTER</span>&nbsp;<span style='color:blue'>PROCEDURE</span>&nbsp;[dbo].[Spend_FB_Trial_Insert]&nbsp;<span style='color:#8b0000'>@paramTrans_ID</span>&nbsp;<span style='color:blue'>int</span>,<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#8b0000'>@paramTrans_Date</span>&nbsp;date,<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#8b0000'>@paramCard_ID</span>&nbsp;<span style='color:blue'>nvarchar</span>(20),<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#8b0000'>@paramBook_Date</span>&nbsp;date,<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#8b0000'>@paramTrans_Type_ID</span>&nbsp;<span style='color:blue'>int</span>,<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#8b0000'>@paramCovers</span>&nbsp;<span style='color:blue'>int</span>,<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#8b0000'>@paramOutlet_ID</span>&nbsp;<span style='color:blue'>int</span>,<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#8b0000'>@paramFood</span>&nbsp;<span style='color:blue'>float</span>,<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#8b0000'>@paramBeverage</span>&nbsp;<span style='color:blue'>float</span>,<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#8b0000'>@paramDiscount</span>&nbsp;<span style='color:blue'>float</span>,<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#8b0000'>@paramCurrency</span>&nbsp;<span style='color:blue'>varchar</span>(3),<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#8b0000'>@paramExchange_Rate</span>&nbsp;<span style='color:blue'>float</span>,<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#8b0000'>@paramDescription</span>&nbsp;<span style='color:blue'>nvarchar</span>(50),<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#8b0000'>@paramApprover</span>&nbsp;<span style='color:blue'>varchar</span>(20),<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#8b0000'>@paramCreated_By</span>&nbsp;<span style='color:blue'>nvarchar</span>(20),<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#8b0000'>@paramCreated_Date</span>&nbsp;<span style='color:blue'>datetime</span>,<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#8b0000'>@paramActive</span>&nbsp;<span style='color:blue'>bit</span>,<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#8b0000'>@paramOther</span>&nbsp;<span style='color:blue'>float</span>,<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#8b0000'>@paramOutlet_Description</span>&nbsp;<span style='color:blue'>nvarchar</span>(60),<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#8b0000'>@CanLogTry</span>&nbsp;<span style='color:blue'>bit</span>,<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#8b0000'>@paramTotalRow</span>&nbsp;<span style='color:blue'>int</span>,<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#8b0000'>@CardTypeList</span>&nbsp;<span style='color:blue'>varchar</span>(100)<br />
+                                        <span style='color:#008000'>--,&nbsp;@paramIsDeleteOldData&nbsp;bit&nbsp;--N?u&nbsp;mu?n&nbsp;xóa&nbsp;d?&nbsp;li?u&nbsp;cu</span><br />
+                                        <span style='color:blue'>AS</span><br />
+                                        <span style='color:blue'>BEGIN</span><br />
+                                        &nbsp;&nbsp;<span style='color:blue'>SET</span>&nbsp;XACT_ABORT&nbsp;<span style='color:blue'>ON</span><br />
+                                        <br />
+                                        &nbsp;&nbsp;<span style='color:blue'>BEGIN</span>&nbsp;<span style='color:blue'>TRAN</span><br />
+                                        <br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#008000'>--Log&nbsp;Begin&nbsp;Import</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>IF</span>&nbsp;<span style='color:#8b0000'>@CanLogTry</span>&nbsp;=&nbsp;1<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:gray'>AND</span>&nbsp;(([dbo].[func_CheckSettingBoolean](<span style='color:red'>&#39;flgLog_ImportFB_TRY&#39;</span>))&nbsp;=&nbsp;1)<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>BEGIN</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>DECLARE</span>&nbsp;<span style='color:#8b0000'>@Action</span>&nbsp;<span style='color:blue'>AS</span>&nbsp;<span style='color:blue'>nvarchar</span>(30)&nbsp;=&nbsp;<span style='color:red'>N&#39;ImportFB:&nbsp;&#39;</span>&nbsp;+&nbsp;<span style='color:blue'>CONVERT</span>(<span style='color:blue'>varchar</span>,&nbsp;<span style='color:#8b0000'>@paramBook_Date</span>,&nbsp;101)<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>DECLARE</span>&nbsp;<span style='color:#8b0000'>@Today</span>&nbsp;<span style='color:blue'>AS</span>&nbsp;<span style='color:blue'>datetime</span>&nbsp;=&nbsp;<span style='color:#ff00dc'>GETDATE</span>()<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>DECLARE</span>&nbsp;<span style='color:#8b0000'>@Desc</span>&nbsp;<span style='color:blue'>AS</span>&nbsp;<span style='color:blue'>nvarchar</span>(254)&nbsp;=&nbsp;<span style='color:red'>N&#39;TRY&nbsp;Started.&nbsp;&#39;</span>&nbsp;+&nbsp;<span style='color:#ff00dc'>CAST</span>(<span style='color:#8b0000'>@paramTotalRow</span>&nbsp;<span style='color:blue'>AS</span>&nbsp;<span style='color:blue'>nvarchar</span>(254))&nbsp;+&nbsp;<span style='color:red'>&#39;&nbsp;rows&#39;</span><br />
+                                        <br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>EXEC</span>&nbsp;ADM_Logs_CreateLogs&nbsp;<span style='color:#8b0000'>@paramLogGroupId</span>&nbsp;=&nbsp;5,<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#8b0000'>@paramAction</span>&nbsp;=&nbsp;<span style='color:#8b0000'>@Action</span>,<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#8b0000'>@paramDescription</span>&nbsp;=&nbsp;<span style='color:#8b0000'>@Desc</span>,<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#8b0000'>@paramCreatedDate</span>&nbsp;=&nbsp;<span style='color:#8b0000'>@Today</span>,<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#8b0000'>@paramCreatedBy</span>&nbsp;=&nbsp;<span style='color:#8b0000'>@paramCreated_By</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>END</span><br />
+                                        <br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>DECLARE</span>&nbsp;<span style='color:#8b0000'>@cardTypeTblTemp</span>&nbsp;<span style='color:blue'>AS</span>&nbsp;<span style='color:blue'>TABLE</span>&nbsp;(<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CardType_ID&nbsp;<span style='color:blue'>varchar</span>(10)<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;)<br />
+                                        <br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>INSERT</span>&nbsp;<span style='color:blue'>INTO</span>&nbsp;<span style='color:#8b0000'>@cardTypeTblTemp</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>SELECT</span>&nbsp;*<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>FROM</span>&nbsp;[dbo].[func_InsertStringToTable](<span style='color:#8b0000'>@CardTypeList</span>)<br />
+                                        <br />
+                                        <br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>IF</span>&nbsp;<span style='color:blue'>EXISTS</span>&nbsp;(<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>SELECT</span>&nbsp;Card_ID<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>FROM</span>&nbsp;(<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>SELECT</span>&nbsp;CardType_ID,&nbsp;Card_ID<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>FROM</span>&nbsp;dbo.func_UnionMemberCardsANDCardHistory()&nbsp;<span style='color:blue'>AS</span>&nbsp;fumcah)&nbsp;x<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>WHERE</span>&nbsp;CardType_ID&nbsp;<span style='color:gray'>IN</span>&nbsp;(<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>SELECT</span>&nbsp;*<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>FROM</span>&nbsp;<span style='color:#8b0000'>@cardTypeTblTemp</span>)&nbsp;<span style='color:#008000'>--AND</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#008000'>--Card_ID&nbsp;like&nbsp;+&#39;%&#39;+@paramCard_ID&nbsp;AND&nbsp;[dbo].[func_CheckExistCardId](@paramCard_ID)&nbsp;=&nbsp;1</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>BEGIN</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#008000'>--//-----------------------------------------------------------</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#008000'>--//--RESEED&nbsp;ID&nbsp;COLUMN</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#008000'>--//-----------------------------------------------------------</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>DECLARE</span>&nbsp;<span style='color:#8b0000'>@max_id</span>&nbsp;<span style='color:blue'>int</span>&nbsp;=&nbsp;<span style='color:#ff00dc'>ISNULL</span>((<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>SELECT</span>&nbsp;<span style='color:#ff00dc'>MAX</span>(Trans_ID)<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>FROM</span>&nbsp;spend_Fb_trial)<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;0)<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>IF</span>&nbsp;<span style='color:#8b0000'>@max_id</span>&nbsp;=&nbsp;<span style='color:#ff00dc'>POWER</span>(2.,&nbsp;31)&nbsp;-&nbsp;1<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>BEGIN</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>ALTER</span>&nbsp;<span style='color:blue'>TABLE</span>&nbsp;spend_Fb_trial<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>DROP</span>&nbsp;<span style='color:blue'>COLUMN</span>&nbsp;Trans_ID<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>ALTER</span>&nbsp;<span style='color:blue'>TABLE</span>&nbsp;spend_Fb_trial&nbsp;<span style='color:blue'>ADD</span>&nbsp;AutoID&nbsp;<span style='color:blue'>int</span>&nbsp;<span style='color:blue'>IDENTITY</span>&nbsp;(1,&nbsp;1)<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>EXEC</span>&nbsp;sp_RENAME&nbsp;<span style='color:red'>&#39;spend_Fb_trial.AutoID&#39;</span>,<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:red'>&#39;Trans_ID&#39;</span>,<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:red'>&#39;COLUMN&#39;</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>END</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#008000'>--//Tìm&nbsp;tất&nbsp;cả&nbsp;các&nbsp;card&nbsp;có&nbsp;liên&nbsp;quan&nbsp;do&nbsp;cờ&nbsp;flgImport_AssignCard</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>DECLARE</span>&nbsp;<span style='color:#8b0000'>@setting</span>&nbsp;<span style='color:blue'>varchar</span>(8)&nbsp;=&nbsp;(<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>SELECT</span>&nbsp;SettingValue<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>FROM</span>&nbsp;ADM_Settings<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>WHERE</span>&nbsp;Setting_ID&nbsp;=&nbsp;<span style='color:red'>&#39;flgImport_AssignCard&#39;</span>)<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#008000'>--select&nbsp;@setting</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>DECLARE</span>&nbsp;<span style='color:#8b0000'>@Temp</span>&nbsp;<span style='color:blue'>TABLE</span>&nbsp;(<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Card_ID&nbsp;<span style='color:blue'>varchar</span>(20)<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>DECLARE</span>&nbsp;<span style='color:#8b0000'>@isIssued</span>&nbsp;<span style='color:blue'>bit</span>&nbsp;=&nbsp;<span style='color:blue'>CONVERT</span>(<span style='color:blue'>bit</span>,&nbsp;<span style='color:#ff00dc'>SUBSTRING</span>(<span style='color:#8b0000'>@setting</span>,&nbsp;4,&nbsp;1))&nbsp;<span style='color:#008000'>--//Issued</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>DECLARE</span>&nbsp;<span style='color:#8b0000'>@isCancel</span>&nbsp;<span style='color:blue'>bit</span>&nbsp;=&nbsp;<span style='color:blue'>CONVERT</span>(<span style='color:blue'>bit</span>,&nbsp;<span style='color:#ff00dc'>SUBSTRING</span>(<span style='color:#8b0000'>@setting</span>,&nbsp;5,&nbsp;1))&nbsp;<span style='color:#008000'>--//Canceled</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>DECLARE</span>&nbsp;<span style='color:#8b0000'>@isExp</span>&nbsp;<span style='color:blue'>bit</span>&nbsp;=&nbsp;<span style='color:blue'>CONVERT</span>(<span style='color:blue'>bit</span>,&nbsp;<span style='color:#ff00dc'>SUBSTRING</span>(<span style='color:#8b0000'>@setting</span>,&nbsp;6,&nbsp;1))&nbsp;<span style='color:#008000'>--//Expiry</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>DECLARE</span>&nbsp;<span style='color:#8b0000'>@isRef</span>&nbsp;<span style='color:blue'>bit</span>&nbsp;=&nbsp;<span style='color:blue'>CONVERT</span>(<span style='color:blue'>bit</span>,&nbsp;<span style='color:#ff00dc'>SUBSTRING</span>(<span style='color:#8b0000'>@setting</span>,&nbsp;7,&nbsp;1))&nbsp;<span style='color:#008000'>--//Refund</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>DECLARE</span>&nbsp;<span style='color:#8b0000'>@isReprint</span>&nbsp;<span style='color:blue'>bit</span>&nbsp;=&nbsp;<span style='color:blue'>CONVERT</span>(<span style='color:blue'>bit</span>,&nbsp;<span style='color:#ff00dc'>SUBSTRING</span>(<span style='color:#8b0000'>@setting</span>,&nbsp;8,&nbsp;1))&nbsp;<span style='color:#008000'>--//Reprint</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>DECLARE</span>&nbsp;<span style='color:#8b0000'>@thisCardRenewed</span>&nbsp;<span style='color:blue'>bit</span>&nbsp;=&nbsp;<span style='color:blue'>CASE</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>WHEN</span>&nbsp;<span style='color:blue'>EXISTS</span>&nbsp;(<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>SELECT</span>&nbsp;*<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>FROM</span>&nbsp;dbo.func_GetCardRenewed()&nbsp;<span style='color:blue'>AS</span>&nbsp;fgcr<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>WHERE</span>&nbsp;fgcr.Card_ID&nbsp;=&nbsp;<span style='color:#8b0000'>@paramCard_ID</span>)&nbsp;<span style='color:blue'>THEN</span>&nbsp;1<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>ELSE</span>&nbsp;0<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>END</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>INSERT</span>&nbsp;<span style='color:blue'>INTO</span>&nbsp;<span style='color:#8b0000'>@Temp</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>SELECT</span>&nbsp;(<span style='color:blue'>CASE</span>&nbsp;<span style='color:blue'>WHEN</span>&nbsp;(<span style='color:#8b0000'>@isExp</span>&nbsp;=&nbsp;1&nbsp;<span style='color:gray'>AND</span>&nbsp;<span style='color:#8b0000'>@thisCardRenewed</span>&nbsp;=&nbsp;1)&nbsp;<span style='color:blue'>THEN</span>&nbsp;(<span style='color:blue'>SELECT</span>&nbsp;Card_ID&nbsp;<span style='color:blue'>FROM</span>&nbsp;Card_History&nbsp;<span style='color:blue'>WHERE</span>&nbsp;(Old_Card_ID&nbsp;=&nbsp;<span style='color:#8b0000'>@paramCard_ID</span>&nbsp;<span style='color:gray'>AND</span>&nbsp;Type&nbsp;=&nbsp;0))&nbsp;<span style='color:blue'>WHEN</span>&nbsp;(<span style='color:#8b0000'>@isExp</span>&nbsp;=&nbsp;1&nbsp;<span style='color:gray'>AND</span>&nbsp;<span style='color:#8b0000'>@thisCardRenewed</span>&nbsp;=&nbsp;0)&nbsp;<span style='color:blue'>THEN</span>&nbsp;(<span style='color:blue'>SELECT</span>&nbsp;<span style='color:#8b0000'>@paramCard_ID</span>)&nbsp;<span style='color:blue'>END</span>)<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>UNION</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>SELECT</span>&nbsp;Card_ID<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>FROM</span>&nbsp;Card_History<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>WHERE</span>&nbsp;(<span style='color:#8b0000'>@isRef</span>&nbsp;=&nbsp;1<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:gray'>AND</span>&nbsp;Old_Card_ID&nbsp;=&nbsp;<span style='color:#8b0000'>@paramCard_ID</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:gray'>AND</span>&nbsp;Type&nbsp;=&nbsp;2)<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>UNION</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>SELECT</span>&nbsp;Card_ID<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>FROM</span>&nbsp;Card_History<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>WHERE</span>&nbsp;(<span style='color:#8b0000'>@isReprint</span>&nbsp;=&nbsp;1<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:gray'>AND</span>&nbsp;Old_Card_ID&nbsp;=&nbsp;<span style='color:#8b0000'>@paramCard_ID</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:gray'>AND</span>&nbsp;Type&nbsp;=&nbsp;1)<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>UNION</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>SELECT</span>&nbsp;Card_ID<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>FROM</span>&nbsp;Card_History<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>WHERE</span>&nbsp;(<span style='color:#8b0000'>@isCancel</span>&nbsp;=&nbsp;1<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:gray'>AND</span>&nbsp;Old_Card_ID&nbsp;=&nbsp;<span style='color:#8b0000'>@paramCard_ID</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:gray'>AND</span>&nbsp;Type&nbsp;=&nbsp;3)<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>UNION</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>SELECT</span>&nbsp;<span style='color:blue'>CASE</span>&nbsp;<span style='color:#8b0000'>@isIssued</span>&nbsp;<span style='color:blue'>WHEN</span>&nbsp;1&nbsp;<span style='color:blue'>THEN</span>&nbsp;<span style='color:#8b0000'>@paramCard_ID</span>&nbsp;<span style='color:blue'>ELSE</span>&nbsp;<span style='color:#a9a9a9'>NULL</span>&nbsp;<span style='color:blue'>END</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>DECLARE</span>&nbsp;CUR_SPEND&nbsp;<span style='color:blue'>CURSOR</span>&nbsp;READ_ONLY&nbsp;FAST_FORWARD&nbsp;<span style='color:blue'>FOR</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>SELECT</span>&nbsp;Card_ID<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>FROM</span>&nbsp;<span style='color:#8b0000'>@Temp</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>WHERE</span>&nbsp;Card_ID&nbsp;<span style='color:gray'>IS</span>&nbsp;<span style='color:gray'>NOT</span>&nbsp;<span style='color:#a9a9a9'>NULL</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>DECLARE</span>&nbsp;<span style='color:#8b0000'>@id</span>&nbsp;<span style='color:blue'>varchar</span>(20)<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>OPEN</span>&nbsp;CUR_SPEND<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>FETCH</span>&nbsp;NEXT<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>FROM</span>&nbsp;CUR_SPEND<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>INTO</span>&nbsp;<span style='color:#8b0000'>@id</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>WHILE</span>&nbsp;(<span style='color:#ff00dc'>@@FETCH_STATUS</span>&nbsp;=&nbsp;0)<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>BEGIN</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#008000'>--select&nbsp;@id</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>INSERT</span>&nbsp;[dbo].[Spend_FB_Trial]&nbsp;([Trans_Date],&nbsp;[Card_ID],&nbsp;[Book_Date],&nbsp;[Trans_Type_ID],&nbsp;[Covers],&nbsp;[Outlet_ID],&nbsp;[Food],&nbsp;[Beverage],&nbsp;[Discount],&nbsp;[Currency],&nbsp;[Exchange_Rate],&nbsp;[Description],&nbsp;[Approver],&nbsp;[Status_ID],&nbsp;[Created_By],&nbsp;[Created_Date],&nbsp;[Active],&nbsp;[Other],&nbsp;[Outlet_Description])<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>VALUES</span>&nbsp;(<span style='color:#8b0000'>@paramTrans_Date</span>,&nbsp;<span style='color:#8b0000'>@id</span>,&nbsp;<span style='color:#8b0000'>@paramBook_Date</span>,&nbsp;<span style='color:#8b0000'>@paramTrans_Type_ID</span>,&nbsp;<span style='color:#8b0000'>@paramCovers</span>,&nbsp;<span style='color:#8b0000'>@paramOutlet_ID</span>,&nbsp;<span style='color:#8b0000'>@paramFood</span>,&nbsp;<span style='color:#8b0000'>@paramBeverage</span>,&nbsp;<span style='color:#8b0000'>@paramDiscount</span>,&nbsp;<span style='color:#8b0000'>@paramCurrency</span>,&nbsp;<span style='color:#8b0000'>@paramExchange_Rate</span>,&nbsp;<span style='color:#8b0000'>@paramDescription</span>,&nbsp;<span style='color:#8b0000'>@paramApprover</span>,&nbsp;<span style='color:blue'>CASE</span>&nbsp;<span style='color:blue'>WHEN</span>&nbsp;[dbo].[func_CheckExistCardId](<span style='color:#8b0000'>@id</span>)&nbsp;=&nbsp;1&nbsp;<span style='color:blue'>THEN</span>&nbsp;3&nbsp;<span style='color:blue'>ELSE</span>&nbsp;1&nbsp;<span style='color:blue'>END</span>,&nbsp;<span style='color:#8b0000'>@paramCreated_By</span>,&nbsp;<span style='color:#8b0000'>@paramCreated_Date</span>,&nbsp;<span style='color:#8b0000'>@paramActive</span>,&nbsp;<span style='color:#8b0000'>@paramOther</span>,&nbsp;<span style='color:#8b0000'>@paramOutlet_Description</span>)<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>FETCH</span>&nbsp;NEXT<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>FROM</span>&nbsp;CUR_SPEND<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>INTO</span>&nbsp;<span style='color:#8b0000'>@id</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>END</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>CLOSE</span>&nbsp;CUR_SPEND<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>DEALLOCATE</span>&nbsp;CUR_SPEND<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>SELECT</span>&nbsp;1<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>END</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>ELSE</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>SELECT</span>&nbsp;0<br />
+                                        &nbsp;&nbsp;<span style='color:blue'>COMMIT</span><br />
+                                        <span style='color:blue'>END</span><br />
+                                    </code>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        Đọc ngược từ bảng Spend_FB_Trial và hiển thị lên view
+                        <br />
+                        Gọi <span class="Method_Name">_service.GetSpendFbTrialByDateAsync()</span>: Đọc dữ liệu lên
+                        <br />
+                        <ul>
+                            <li>
+                                Gọi Procedure <span class="Proc_Name">Spend_FB_Trial_GetByDate</span><a href="#" class="view_code" data-target="Spend_FB_Trial_GetByDate">[ View Code ]</a>
+                                <div class="local-code" id="Spend_FB_Trial_GetByDate">
+                                    <code style='font-size: 12px;'>
+                                        <span style='color:blue'>ALTER</span>&nbsp;<span style='color:blue'>PROCEDURE</span>&nbsp;[dbo].[Spend_FB_Trial_GetByDate]&nbsp;<span style='color:#8b0000'>@CardTypeList</span>&nbsp;<span style='color:blue'>varchar</span>(100),<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#8b0000'>@ImportDateList</span>&nbsp;<span style='color:blue'>varchar</span>(<span style='color:#ff00dc'>max</span>)<br />
+                                        <span style='color:blue'>AS</span><br />
+                                        <span style='color:blue'>BEGIN</span><br />
+                                        &nbsp;&nbsp;<span style='color:blue'>BEGIN</span>&nbsp;<span style='color:blue'>TRAN</span><br />
+                                        <br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#008000'>--//-------------------------------------------------</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#008000'>--//--Import&nbsp;Date&nbsp;Table&nbsp;temp&nbsp;and&nbsp;Card&nbsp;Type&nbsp;Table&nbsp;temp</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#008000'>--//-------------------------------------------------</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>DECLARE</span>&nbsp;<span style='color:#8b0000'>@impDateTblTmp</span>&nbsp;<span style='color:blue'>AS</span>&nbsp;<span style='color:blue'>TABLE</span>&nbsp;(<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Import_Date&nbsp;date<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;)<br />
+                                        <br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>INSERT</span>&nbsp;<span style='color:blue'>INTO</span>&nbsp;<span style='color:#8b0000'>@impDateTblTmp</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>SELECT</span>&nbsp;*<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>FROM</span>&nbsp;[dbo].[func_InsertStringToTable](<span style='color:#8b0000'>@ImportDateList</span>)&nbsp;<span style='color:blue'>AS</span>&nbsp;DATE<br />
+                                        <br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>DECLARE</span>&nbsp;<span style='color:#8b0000'>@cardTypeTblTemp</span>&nbsp;<span style='color:blue'>AS</span>&nbsp;<span style='color:blue'>TABLE</span>&nbsp;(<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CardType_ID&nbsp;<span style='color:blue'>varchar</span>(10)<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;)<br />
+                                        <br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>INSERT</span>&nbsp;<span style='color:blue'>INTO</span>&nbsp;<span style='color:#8b0000'>@cardTypeTblTemp</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>SELECT</span>&nbsp;*<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>FROM</span>&nbsp;[dbo].[func_InsertStringToTable](<span style='color:#8b0000'>@CardTypeList</span>)<br />
+                                        <br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>SELECT</span>&nbsp;S.Trans_ID,&nbsp;S.Book_Date,&nbsp;S.Card_ID,&nbsp;S.Trans_Type_ID,&nbsp;S.Outlet_ID,&nbsp;S.Covers,&nbsp;S.Food,&nbsp;S.Approver,&nbsp;S.Beverage,&nbsp;S.Discount,&nbsp;<span style='color:blue'>CASE</span>&nbsp;<span style='color:blue'>WHEN</span>&nbsp;[dbo].[func_CheckExistCardId](S.Card_ID)&nbsp;=&nbsp;1&nbsp;<span style='color:blue'>THEN</span>&nbsp;3&nbsp;<span style='color:blue'>ELSE</span>&nbsp;1&nbsp;<span style='color:blue'>END</span>&nbsp;<span style='color:blue'>AS</span>&nbsp;Status_ID,&nbsp;S.Created_Date,&nbsp;S.Created_by,&nbsp;S.Changed_Date,&nbsp;S.Changed_By,&nbsp;S.Active,&nbsp;s.Other,&nbsp;s.Outlet_Description,&nbsp;s.Description,&nbsp;M.Name_On_Card,&nbsp;M.Sold_Date,&nbsp;M.Expiry_Date,&nbsp;TT.Description&nbsp;<span style='color:blue'>AS</span>&nbsp;TTDescription,&nbsp;ST.Description&nbsp;<span style='color:blue'>AS</span>&nbsp;STDescription,&nbsp;O.Description&nbsp;<span style='color:blue'>AS</span>&nbsp;ODescription,&nbsp;S.ROWVERSION<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>FROM</span>&nbsp;Spend_FB_Trial&nbsp;S<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>LEFT</span>&nbsp;<span style='color:blue'>OUTER</span>&nbsp;<span style='color:blue'>JOIN</span>&nbsp;dbo.func_UnionMemberCardsANDCardHistory()&nbsp;<span style='color:blue'>AS</span>&nbsp;M<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>ON</span>&nbsp;S.Card_ID&nbsp;=&nbsp;M.Card_ID<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>LEFT</span>&nbsp;<span style='color:blue'>OUTER</span>&nbsp;<span style='color:blue'>JOIN</span>&nbsp;MAS_Outlets&nbsp;O<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>ON</span>&nbsp;S.Outlet_ID&nbsp;=&nbsp;O.Outlet_ID<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>LEFT</span>&nbsp;<span style='color:blue'>OUTER</span>&nbsp;<span style='color:blue'>JOIN</span>&nbsp;MAS_TransTypes&nbsp;TT<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>ON</span>&nbsp;S.Trans_Type_ID&nbsp;=&nbsp;TT.Trans_Type_ID<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>LEFT</span>&nbsp;<span style='color:blue'>OUTER</span>&nbsp;<span style='color:blue'>JOIN</span>&nbsp;MAS_ImportStatus&nbsp;ST<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>ON</span>&nbsp;S.Status_ID&nbsp;=&nbsp;ST.Status_ID<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>WHERE</span>&nbsp;<span style='color:#ff00dc'>CAST</span>(S.Book_Date&nbsp;<span style='color:blue'>AS</span>&nbsp;date)&nbsp;<span style='color:gray'>IN</span>&nbsp;(<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>SELECT</span>&nbsp;*<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>FROM</span>&nbsp;<span style='color:#8b0000'>@impDateTblTmp</span>)<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:gray'>AND</span>&nbsp;((<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;[dbo].[func_CheckExistCardId](S.Card_ID)&nbsp;=&nbsp;1<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:gray'>OR</span>&nbsp;CardType_ID&nbsp;<span style='color:gray'>IN</span>&nbsp;(<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>SELECT</span>&nbsp;*<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>FROM</span>&nbsp;<span style='color:#8b0000'>@cardTypeTblTemp</span>)<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;)<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:gray'>OR</span>&nbsp;[dbo].[func_CheckExistCardId](S.Card_ID)&nbsp;=&nbsp;0<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;)<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>ORDER</span>&nbsp;<span style='color:blue'>BY</span>&nbsp;Trans_ID<br />
+                                        <br />
+                                        &nbsp;&nbsp;<span style='color:blue'>COMMIT</span><br />
+                                        <span style='color:blue'>END</span><br />
+                                    </code>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </li>
+                    <li>
+                        Cập nhật trạng thái ngài import được chọn là TRY
+                        <br />
+                        Gọi <span class="Method_Name">_service.UpdateMasImportList()</span>: Cập nhật trạng thái thành TRY
+                        <br />
+                        <ul>
+                            <li>
+                                Gọi Procedure <span class="Proc_Name">MAS_Imports_Update_FBTrial</span> <a href="#" class="view_code" data-target="MAS_Imports_Update_FBTrial">[ View Code ]</a>
+                                <div class="local-code" id="MAS_Imports_Update_FBTrial">
+                                    <code style='font-size: 12px;'>
+                                        <span style='color:blue'>ALTER</span>&nbsp;<span style='color:blue'>PROCEDURE</span>&nbsp;[dbo].[MAS_Imports_Update_FBTrial]&nbsp;<span style='color:#8b0000'>@paramImportDate</span>&nbsp;date,<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#008000'>--@paramFbStatus&nbsp;int&nbsp;,</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#8b0000'>@paramStatus</span>&nbsp;<span style='color:blue'>int</span>,<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#8b0000'>@paramChangedBy</span>&nbsp;<span style='color:blue'>varchar</span>(20),<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#8b0000'>@paramChangedDate</span>&nbsp;<span style='color:blue'>datetime</span>,<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#8b0000'>@Case</span>&nbsp;<span style='color:blue'>int</span><br />
+                                        <br />
+                                        <span style='color:blue'>AS</span><br />
+                                        <span style='color:blue'>BEGIN</span><br />
+                                        &nbsp;&nbsp;<span style='color:blue'>SET</span>&nbsp;<span style='color:blue'>TRANSACTION</span>&nbsp;ISOLATION&nbsp;LEVEL&nbsp;SERIALIZABLE<br />
+                                        <br />
+                                        &nbsp;&nbsp;<span style='color:blue'>BEGIN</span>&nbsp;<span style='color:blue'>TRAN</span><br />
+                                        <br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>IF</span>&nbsp;<span style='color:blue'>EXISTS</span>&nbsp;(<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>SELECT</span>&nbsp;Import_Date<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>FROM</span>&nbsp;MAS_Imports<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>WHERE</span>&nbsp;Import_Date&nbsp;=&nbsp;<span style='color:#8b0000'>@paramImportDate</span>)<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>BEGIN</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>IF</span>&nbsp;<span style='color:#8b0000'>@Case</span>&nbsp;=&nbsp;0<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>BEGIN</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>UPDATE</span>&nbsp;MAS_Imports<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>SET</span>&nbsp;FB_Status&nbsp;=&nbsp;<span style='color:#8b0000'>@paramStatus</span>,<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Changed_By&nbsp;=&nbsp;<span style='color:#8b0000'>@paramChangedBy</span>,<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Changed_Date&nbsp;=&nbsp;<span style='color:#8b0000'>@paramChangedDate</span>,<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Active&nbsp;=&nbsp;1<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>WHERE</span>&nbsp;Import_Date&nbsp;=&nbsp;<span style='color:#8b0000'>@paramImportDate</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>END</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>ELSE</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>IF</span>&nbsp;<span style='color:#8b0000'>@Case</span>&nbsp;=&nbsp;1<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>BEGIN</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>UPDATE</span>&nbsp;MAS_Imports<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>SET</span>&nbsp;Stay_Status&nbsp;=&nbsp;<span style='color:#8b0000'>@paramStatus</span>,<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Changed_By&nbsp;=&nbsp;<span style='color:#8b0000'>@paramChangedBy</span>,<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Changed_Date&nbsp;=&nbsp;<span style='color:#8b0000'>@paramChangedDate</span>,<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Active&nbsp;=&nbsp;1<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>WHERE</span>&nbsp;Import_Date&nbsp;=&nbsp;<span style='color:#8b0000'>@paramImportDate</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>END</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>ELSE</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>IF</span>&nbsp;<span style='color:#8b0000'>@Case</span>&nbsp;=&nbsp;2<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>BEGIN</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>UPDATE</span>&nbsp;MAS_Imports<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>SET</span>&nbsp;Booker_Status&nbsp;=&nbsp;<span style='color:#8b0000'>@paramStatus</span>,<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Changed_By&nbsp;=&nbsp;<span style='color:#8b0000'>@paramChangedBy</span>,<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Changed_Date&nbsp;=&nbsp;<span style='color:#8b0000'>@paramChangedDate</span>,<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Active&nbsp;=&nbsp;1<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>WHERE</span>&nbsp;Import_Date&nbsp;=&nbsp;<span style='color:#8b0000'>@paramImportDate</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>END</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>ELSE</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>IF</span>&nbsp;<span style='color:#8b0000'>@Case</span>&nbsp;=&nbsp;3<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>BEGIN</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>UPDATE</span>&nbsp;MAS_Imports<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>SET</span>&nbsp;Banq_Status&nbsp;=&nbsp;<span style='color:#8b0000'>@paramStatus</span>,<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Changed_By&nbsp;=&nbsp;<span style='color:#8b0000'>@paramChangedBy</span>,<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Changed_Date&nbsp;=&nbsp;<span style='color:#8b0000'>@paramChangedDate</span>,<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Active&nbsp;=&nbsp;1<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>WHERE</span>&nbsp;Import_Date&nbsp;=&nbsp;<span style='color:#8b0000'>@paramImportDate</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>END</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>END</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>ELSE</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>BEGIN</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>INSERT</span>&nbsp;<span style='color:blue'>INTO</span>&nbsp;[dbo].[MAS_Imports]&nbsp;([Import_Date]<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;[FB_Status]<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;[Stay_Status]<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;[Booker_Status]<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;[Banq_Status]<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;[Created_By]<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;[Created_Date]<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;[Changed_By]<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;[Changed_Date]<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;[Active])<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>VALUES</span>&nbsp;(<span style='color:#8b0000'>@paramImportDate</span>,&nbsp;<span style='color:blue'>CASE</span>&nbsp;<span style='color:#8b0000'>@case</span>&nbsp;<span style='color:blue'>WHEN</span>&nbsp;0&nbsp;<span style='color:blue'>THEN</span>&nbsp;<span style='color:#8b0000'>@paramStatus</span>&nbsp;<span style='color:blue'>ELSE</span>&nbsp;1&nbsp;<span style='color:blue'>END</span>,&nbsp;<span style='color:blue'>CASE</span>&nbsp;<span style='color:#8b0000'>@case</span>&nbsp;<span style='color:blue'>WHEN</span>&nbsp;1&nbsp;<span style='color:blue'>THEN</span>&nbsp;<span style='color:#8b0000'>@paramStatus</span>&nbsp;<span style='color:blue'>ELSE</span>&nbsp;1&nbsp;<span style='color:blue'>END</span>,&nbsp;<span style='color:blue'>CASE</span>&nbsp;<span style='color:#8b0000'>@case</span>&nbsp;<span style='color:blue'>WHEN</span>&nbsp;2&nbsp;<span style='color:blue'>THEN</span>&nbsp;<span style='color:#8b0000'>@paramStatus</span>&nbsp;<span style='color:blue'>ELSE</span>&nbsp;1&nbsp;<span style='color:blue'>END</span>,&nbsp;<span style='color:blue'>CASE</span>&nbsp;<span style='color:#8b0000'>@case</span>&nbsp;<span style='color:blue'>WHEN</span>&nbsp;3&nbsp;<span style='color:blue'>THEN</span>&nbsp;<span style='color:#8b0000'>@paramStatus</span>&nbsp;<span style='color:blue'>ELSE</span>&nbsp;1&nbsp;<span style='color:blue'>END</span>,&nbsp;<span style='color:#8b0000'>@paramChangedBy</span>,&nbsp;<span style='color:#ff00dc'>GETDATE</span>(),&nbsp;<span style='color:#a9a9a9'>NULL</span>,&nbsp;<span style='color:#a9a9a9'>NULL</span>,&nbsp;1)<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>END</span><br />
+                                        <br />
+                                        &nbsp;&nbsp;<span style='color:blue'>COMMIT</span>&nbsp;<span style='color:blue'>TRAN</span><br />
+                                        <span style='color:blue'>END</span><br />
+                                    </code>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <!--| BOOK |-->
+                <h3 class="para_title">BOOK</h3>
+                <ul style="list-style: decimal">
+                    <li>
+                        Lưu danh sánh Spend FB hiển thị trên manh hình vào bảng Spend_FB
+                        <br />
+                        Gọi <span class="Method_Name">BookExcute()</span> ->  <span class="Method_Name">ImportActivity()</span> <a href="#" class="view_code" data-target="BookExcute">[ View Code ]</a>
+                        <div class="local-code" id="BookExcute">
+                            <div><font color='Blue'>private</font>&nbsp;async&nbsp;<font color='Blue'>void</font>&nbsp;ImportActivity(<font color='Blue'>object</font>&nbsp;command) <br />{ <br />&nbsp;&nbsp;&nbsp;&nbsp;<font color='Blue'>string</font>&nbsp;error&nbsp;=&nbsp;<font color='Blue'>null</font>; <br />&nbsp;&nbsp;&nbsp;&nbsp;<font color='Blue'>try</font> <br />&nbsp;&nbsp;&nbsp;&nbsp;{ <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var&nbsp;cmd&nbsp;=&nbsp;command.GetValueByPropName&lt;CommandType&gt;(<font color='Maroon'>"Command"</font>); <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color='Blue'>switch</font>&nbsp;(cmd) <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color='Green'>//[&nbsp;...&nbsp;]</font> <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color='Green'>//--BOOK------------------------------------------------------</font> <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color='Blue'>case</font>&nbsp;CommandType.Book: <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error&nbsp;=&nbsp;<font color='Maroon'>"Can&nbsp;not&nbsp;BOOK"</font>; <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetBusy(FriendlyMessages.BusySavingMsg); <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SpendFbTrials&nbsp;fbColToBook&nbsp;=&nbsp;<font color='Blue'>new</font>&nbsp;SpendFbTrials(_controller.FbTrialCollection.Where(trial&nbsp;=&gt;&nbsp;trial.StatusId&nbsp;==&nbsp;(<font color='Blue'>int</font>)&nbsp;GlobalEnum.ImportStatus.Check)); <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color='Blue'>if</font>&nbsp;(fbColToBook.Count&nbsp;==&nbsp;<font color='Maroon'>0</font>) <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ShowToast(FriendlyMessages.TOAST_Import_FbActivity_BookNotifyNoRecord_Content); <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color='Blue'>break</font>; <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetCallBackToActivity(GlobalEnum.ImportStatus.Book); <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color='Blue'>bool</font>&nbsp;canClear&nbsp;=&nbsp;CheckSetting(SettingId.FlgImportFBClearDataTrial); <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var&nbsp;countResult&nbsp;=&nbsp;await&nbsp;_service.BookFbTrialAsync(fbColToBook,&nbsp;canClear,&nbsp;_controller.CardTypeList,&nbsp;o&nbsp;=&gt; <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetBusy(<font color='Blue'>string</font>.Format(<font color='Maroon'>"Booking&nbsp;{0}/{1}&nbsp;items"</font>,&nbsp;o,&nbsp;fbColToBook.Count)); <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},&nbsp;DateList,&nbsp;_controller.IsDeletePreviousData); <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FbTrialCollection.Clear(); <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;await&nbsp;Task.Delay(<font color='Maroon'>700</font>); <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ShowToast(<font color='Blue'>string</font>.Format(<font color='Maroon'>"BOOK&nbsp;success&nbsp;with&nbsp;{0}&nbsp;record(s)"</font>,&nbsp;countResult)); <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color='Blue'>break</font>; <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color='Green'>//[&nbsp;...&nbsp;]</font> <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EventAggregator.GetEvent&lt;CountFoundEvent&gt;().Publish(FbTrialCollection&nbsp;==&nbsp;<font color='Blue'>null</font>&nbsp;?&nbsp;<font color='Maroon'>0</font>&nbsp;:&nbsp;FbTrialCollection.Count); <br /> <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetBusy(); <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_controller.CloseFbDetail(); <br />&nbsp;&nbsp;&nbsp;&nbsp;} <br />&nbsp;&nbsp;&nbsp;&nbsp;<font color='Blue'>catch</font>&nbsp;(Exception&nbsp;ex) <br />&nbsp;&nbsp;&nbsp;&nbsp;{ <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetBusy(); <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color='Blue'>new</font>&nbsp;Action(async&nbsp;()&nbsp;=&gt;&nbsp;SetCallBackToActivity(GlobalEnum.ImportStatus.Failed)).Invoke(); <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ShowingError(ex,&nbsp;<font color='Maroon'>"ImportActivity&nbsp;method&nbsp;in&nbsp;BookerMasterVm&nbsp;has&nbsp;error"</font>,&nbsp;error); <br />&nbsp;&nbsp;&nbsp;&nbsp;} <br />}</div>
+                        </div>
+                        <ul>
+                            <li>
+                                Gọi Procedure: <span class="Proc_Name">Import_FB_Book_Delete</span> <a href="#" class="view_code" data-target="BookDel">[ View Code ]</a>
+                                <br />
+                                <div class="local-code" id="BookDel">
+                                    <code style='font-size: 12px;'>
+                                        <br />
+                                        <span style='color:blue'>ALTER</span>&nbsp;<span style='color:blue'>PROCEDURE</span>&nbsp;[dbo].[Import_fb_book_delete]&nbsp;<span style='color:#8b0000'>@CardTypeList</span>&nbsp;<span style='color:blue'>varchar</span>(100),<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#8b0000'>@ImportDateList</span>&nbsp;<span style='color:blue'>varchar</span>(<span style='color:#ff00dc'>max</span>)<br />
+                                        <span style='color:blue'>AS</span><br />
+                                        <span style='color:blue'>BEGIN</span><br />
+                                        &nbsp;&nbsp;<span style='color:blue'>SET</span>&nbsp;XACT_ABORT&nbsp;<span style='color:blue'>ON</span><br />
+                                        <br />
+                                        &nbsp;&nbsp;<span style='color:blue'>BEGIN</span>&nbsp;<span style='color:blue'>TRAN</span><br />
+                                        <br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>DECLARE</span>&nbsp;<span style='color:#8b0000'>@impDateTblTmp</span>&nbsp;<span style='color:blue'>AS</span>&nbsp;<span style='color:blue'>TABLE</span>&nbsp;(<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;import_date&nbsp;date<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;)<br />
+                                        <br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>INSERT</span>&nbsp;<span style='color:blue'>INTO</span>&nbsp;<span style='color:#8b0000'>@impDateTblTmp</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>SELECT</span>&nbsp;*<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>FROM</span>&nbsp;[dbo].[Func_insertstringtotable](<span style='color:#8b0000'>@ImportDateList</span>)&nbsp;<span style='color:blue'>AS</span>&nbsp;DATE<br />
+                                        <br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>DECLARE</span>&nbsp;<span style='color:#8b0000'>@cardTypeTblTemp</span>&nbsp;<span style='color:blue'>AS</span>&nbsp;<span style='color:blue'>TABLE</span>&nbsp;(<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cardtype_id&nbsp;<span style='color:blue'>varchar</span>(10)<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;)<br />
+                                        <br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>INSERT</span>&nbsp;<span style='color:blue'>INTO</span>&nbsp;<span style='color:#8b0000'>@cardTypeTblTemp</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>SELECT</span>&nbsp;*<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>FROM</span>&nbsp;[dbo].[Func_insertstringtotable](<span style='color:#8b0000'>@CardTypeList</span>)<br />
+                                        <br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>DELETE</span>&nbsp;<span style='color:blue'>FROM</span>&nbsp;spend_fb<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>WHERE</span>&nbsp;<span style='color:#ff00dc'>CAST</span>(book_date&nbsp;<span style='color:blue'>AS</span>&nbsp;date)&nbsp;<span style='color:gray'>IN</span>&nbsp;(<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>SELECT</span>&nbsp;*<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>FROM</span>&nbsp;<span style='color:#8b0000'>@impDateTblTmp</span>)<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:gray'>AND</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#008000'>--&nbsp;Trans_Type_ID&nbsp;=&nbsp;2&nbsp;AND&nbsp;</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;card_id&nbsp;<span style='color:gray'>IN</span>&nbsp;(<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>SELECT</span>&nbsp;card_id<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>FROM</span>&nbsp;(<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>SELECT</span>&nbsp;cardtype_id,&nbsp;card_id<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>FROM</span>&nbsp;dbo.Func_unionmembercardsandcardhistory()<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>AS</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fumcah)&nbsp;x<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>WHERE</span>&nbsp;cardtype_id&nbsp;<span style='color:gray'>IN</span>&nbsp;(<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>SELECT</span>&nbsp;*<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>FROM</span>&nbsp;<span style='color:#8b0000'>@cardTypeTblTemp</span>))<br />
+                                        <br />
+                                        &nbsp;&nbsp;<span style='color:blue'>COMMIT</span><br />
+                                        <span style='color:blue'>END</span><br />
+                                    </code>
+                                </div>
+
+                            </li>
+                            <li>
+                                Gọi Procedure: <span class="Proc_Name">Import_FB_BookProcess</span>
+                                <a href="#" class="view_code" data-target="Import_FB_BookProcess">[ View Code ]</a>
+                                <div class="local-code" id="Import_FB_BookProcess">
+                                    <code style='font-size: 12px;'>
+                                        <span style='color:blue'>ALTER</span>&nbsp;<span style='color:blue'>PROCEDURE</span>&nbsp;[dbo].[Import_FB_BookProcess]&nbsp;<span style='color:#8b0000'>@StatusParam</span>&nbsp;<span style='color:blue'>int</span>,<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#8b0000'>@CardIdParam</span>&nbsp;<span style='color:blue'>nvarchar</span>(20),<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#8b0000'>@BookDateParam</span>&nbsp;date,<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#8b0000'>@CoversParam</span>&nbsp;<span style='color:blue'>int</span>,<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#8b0000'>@OtherParam</span>&nbsp;<span style='color:blue'>float</span>,<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#8b0000'>@OutletIdParam</span>&nbsp;<span style='color:blue'>int</span>,<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#8b0000'>@TransTypeIdParam</span>&nbsp;<span style='color:blue'>int</span>,<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#8b0000'>@FoodParam</span>&nbsp;<span style='color:blue'>float</span>,<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#8b0000'>@BeverageParam</span>&nbsp;<span style='color:blue'>float</span>,<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#8b0000'>@DiscountParam</span>&nbsp;<span style='color:blue'>float</span>,<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#8b0000'>@DescriptionParam</span>&nbsp;<span style='color:blue'>nvarchar</span>(50),<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#8b0000'>@CreatedDateParam</span>&nbsp;<span style='color:blue'>datetime</span>,<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#8b0000'>@CreatedByParam</span>&nbsp;<span style='color:blue'>nvarchar</span>(20),<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#8b0000'>@CanLogBeginImport</span>&nbsp;<span style='color:blue'>bit</span>,<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#8b0000'>@CanLogEndImport</span>&nbsp;<span style='color:blue'>bit</span>,<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#8b0000'>@TotalRow</span>&nbsp;<span style='color:blue'>int</span>,<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#8b0000'>@CardTypeList</span>&nbsp;<span style='color:blue'>varchar</span>(20)<br />
+                                        <span style='color:blue'>AS</span><br />
+                                        <span style='color:blue'>BEGIN</span><br />
+                                        &nbsp;&nbsp;<span style='color:blue'>SET</span>&nbsp;XACT_ABORT&nbsp;<span style='color:blue'>ON</span><br />
+                                        <br />
+                                        &nbsp;&nbsp;<span style='color:blue'>BEGIN</span>&nbsp;<span style='color:blue'>TRAN</span><br />
+                                        <br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#008000'>--Kiểm&nbsp;tra&nbsp;co&nbsp;cho&nbsp;phép&nbsp;tạo&nbsp;log&nbsp;hay&nbsp;không</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>DECLARE</span>&nbsp;<span style='color:#8b0000'>@CheckCanLog</span>&nbsp;<span style='color:blue'>AS</span>&nbsp;<span style='color:blue'>varchar</span>(250)&nbsp;=&nbsp;(<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>SELECT</span>&nbsp;SettingValue<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>FROM</span>&nbsp;ADM_Settings<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>WHERE</span>&nbsp;Setting_ID&nbsp;=&nbsp;<span style='color:red'>&#39;flgLog_ImportFB_BOOK&#39;</span>)<br />
+                                        <br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#008000'>--select&nbsp;@CheckCanLog&nbsp;</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#008000'>--Log&nbsp;Begin&nbsp;Import</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>IF</span>&nbsp;<span style='color:#8b0000'>@CanLogBeginImport</span>&nbsp;=&nbsp;1<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:gray'>AND</span>&nbsp;(<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#8b0000'>@CheckCanLog</span>&nbsp;=&nbsp;<span style='color:red'>&#39;True&#39;</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:gray'>OR</span>&nbsp;<span style='color:#8b0000'>@CheckCanLog</span>&nbsp;=&nbsp;<span style='color:red'>&#39;true&#39;</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>BEGIN</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>DECLARE</span>&nbsp;<span style='color:#8b0000'>@Action</span>&nbsp;<span style='color:blue'>AS</span>&nbsp;<span style='color:blue'>nvarchar</span>(30)<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>DECLARE</span>&nbsp;<span style='color:#8b0000'>@TodayBegin</span>&nbsp;<span style='color:blue'>AS</span>&nbsp;<span style='color:blue'>datetime</span>&nbsp;=&nbsp;<span style='color:#ff00dc'>GETDATE</span>()<br />
+                                        <br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>SET</span>&nbsp;<span style='color:#8b0000'>@action</span>&nbsp;=&nbsp;<span style='color:red'>N&#39;ImportFB:&nbsp;&#39;</span>&nbsp;+&nbsp;<span style='color:blue'>CONVERT</span>(<span style='color:blue'>varchar</span>,&nbsp;<span style='color:#8b0000'>@BookDateParam</span>,&nbsp;101)<br />
+                                        <br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>EXEC</span>&nbsp;ADM_Logs_CreateLogs&nbsp;<span style='color:#8b0000'>@paramLogGroupId</span>&nbsp;=&nbsp;5,<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#8b0000'>@paramAction</span>&nbsp;=&nbsp;<span style='color:#8b0000'>@Action</span>,<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#8b0000'>@paramDescription</span>&nbsp;=&nbsp;<span style='color:red'>N&#39;Import&nbsp;Started&#39;</span>,<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#8b0000'>@paramCreatedDate</span>&nbsp;=&nbsp;<span style='color:#8b0000'>@TodayBegin</span>,<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#8b0000'>@paramCreatedBy</span>&nbsp;=&nbsp;<span style='color:#8b0000'>@CreatedByParam</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>END</span><br />
+                                        <br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>DECLARE</span>&nbsp;<span style='color:#8b0000'>@cardTypeTblTemp</span>&nbsp;<span style='color:blue'>AS</span>&nbsp;<span style='color:blue'>TABLE</span>&nbsp;(<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CardType_ID&nbsp;<span style='color:blue'>varchar</span>(10)<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;)<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>DECLARE</span>&nbsp;<span style='color:#8b0000'>@isExist</span>&nbsp;<span style='color:blue'>bit</span>&nbsp;=&nbsp;0<br />
+                                        <br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>INSERT</span>&nbsp;<span style='color:blue'>INTO</span>&nbsp;<span style='color:#8b0000'>@cardTypeTblTemp</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>SELECT</span>&nbsp;*<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>FROM</span>&nbsp;[dbo].[func_InsertStringToTable](<span style='color:#8b0000'>@CardTypeList</span>)<br />
+                                        <br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>IF</span>&nbsp;<span style='color:blue'>EXISTS</span>&nbsp;(<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>SELECT</span>&nbsp;Card_ID<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>FROM</span>&nbsp;(<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>SELECT</span>&nbsp;CardType_ID,&nbsp;Card_ID<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>FROM</span>&nbsp;dbo.func_UnionMemberCardsANDCardHistory()&nbsp;<span style='color:blue'>AS</span>&nbsp;fumcah)&nbsp;x<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>WHERE</span>&nbsp;CardType_ID&nbsp;<span style='color:gray'>IN</span>&nbsp;(<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>SELECT</span>&nbsp;*<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>FROM</span>&nbsp;<span style='color:#8b0000'>@cardTypeTblTemp</span>)<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:gray'>AND</span>&nbsp;Card_ID&nbsp;=&nbsp;<span style='color:#8b0000'>@CardIdParam</span>)<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>BEGIN</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>DECLARE</span>&nbsp;<span style='color:#8b0000'>@maxId</span>&nbsp;<span style='color:blue'>int</span>&nbsp;=&nbsp;((<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>SELECT</span>&nbsp;<span style='color:#ff00dc'>MAX</span>(Trans_ID)<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>FROM</span>&nbsp;Spend_FB)<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<br />
+                                        <br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>IF</span>&nbsp;<span style='color:#8b0000'>@maxId</span>&nbsp;<span style='color:gray'>IS</span>&nbsp;<span style='color:#a9a9a9'>NULL</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>SET</span>&nbsp;<span style='color:#8b0000'>@maxId</span>&nbsp;=&nbsp;0<br />
+                                        <br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>INSERT</span>&nbsp;<span style='color:blue'>INTO</span>&nbsp;Spend_FB&nbsp;(Trans_ID<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;Status_ID<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;Card_ID<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;Book_Date<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;Covers<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;Other<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;Outlet_ID<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;Trans_Type_ID<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;Food<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;Beverage<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;Discount<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;Description<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;Created_Date<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;Created_By<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;Active)<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>VALUES</span>&nbsp;(<span style='color:#8b0000'>@maxId</span>&nbsp;+&nbsp;1,&nbsp;<span style='color:#8b0000'>@StatusParam</span>,&nbsp;<span style='color:#8b0000'>@CardIdParam</span>,&nbsp;<span style='color:#8b0000'>@BookDateParam</span>,&nbsp;<span style='color:#8b0000'>@CoversParam</span>,&nbsp;<span style='color:#8b0000'>@OtherParam</span>,&nbsp;<span style='color:#8b0000'>@OutletIdParam</span>,&nbsp;<span style='color:#8b0000'>@TransTypeIdParam</span>,&nbsp;<span style='color:#8b0000'>@FoodParam</span>,&nbsp;<span style='color:#8b0000'>@BeverageParam</span>,&nbsp;<span style='color:#8b0000'>@DiscountParam</span>,&nbsp;<span style='color:#8b0000'>@DescriptionParam</span>,&nbsp;<span style='color:#8b0000'>@CreatedDateParam</span>,&nbsp;<span style='color:#8b0000'>@CreatedByParam</span>,&nbsp;1)<br />
+                                        <br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>SET</span>&nbsp;<span style='color:#8b0000'>@isExist</span>&nbsp;=&nbsp;1<br />
+                                        <br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#008000'>--Log&nbsp;row&nbsp;import</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#008000'>--&nbsp;Log&nbsp;:&nbsp;Call&nbsp;Store&nbsp;ADM_Logs_InsertLog&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>DECLARE</span>&nbsp;<span style='color:#8b0000'>@desc</span>&nbsp;<span style='color:blue'>AS</span>&nbsp;<span style='color:blue'>nvarchar</span>(254)<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>DECLARE</span>&nbsp;<span style='color:#8b0000'>@act</span>&nbsp;<span style='color:blue'>AS</span>&nbsp;<span style='color:blue'>nvarchar</span>(30)<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>DECLARE</span>&nbsp;<span style='color:#8b0000'>@TodayInsert</span>&nbsp;<span style='color:blue'>AS</span>&nbsp;<span style='color:blue'>datetime</span>&nbsp;=&nbsp;<span style='color:#ff00dc'>GETDATE</span>()<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>DECLARE</span>&nbsp;<span style='color:#8b0000'>@maxTransId</span>&nbsp;<span style='color:blue'>AS</span>&nbsp;<span style='color:blue'>int</span><br />
+                                        <br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>SET</span>&nbsp;<span style='color:#8b0000'>@maxTransId</span>&nbsp;=&nbsp;(<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>SELECT</span>&nbsp;<span style='color:#ff00dc'>MAX</span>(Trans_ID)<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>FROM</span>&nbsp;Spend_FB)<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>SET</span>&nbsp;<span style='color:#8b0000'>@act</span>&nbsp;=&nbsp;<span style='color:red'>N&#39;Add&nbsp;SpendFB:&nbsp;&#39;</span>&nbsp;+&nbsp;<span style='color:#8b0000'>@CardIdParam</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>SET</span>&nbsp;<span style='color:#8b0000'>@desc</span>&nbsp;=&nbsp;<span style='color:red'>N&#39;TransID:&nbsp;&#39;</span>&nbsp;+&nbsp;<span style='color:#ff00dc'>CAST</span>(<span style='color:#8b0000'>@maxTransId</span>&nbsp;<span style='color:blue'>AS</span>&nbsp;<span style='color:blue'>varchar</span>)&nbsp;+&nbsp;<span style='color:red'>&#39;&nbsp;;&nbsp;BookDate:&nbsp;&#39;</span>&nbsp;+&nbsp;<span style='color:blue'>CONVERT</span>(<span style='color:blue'>varchar</span>,&nbsp;<span style='color:#8b0000'>@BookDateParam</span>,&nbsp;101)&nbsp;+&nbsp;<span style='color:red'>&#39;&nbsp;;&nbsp;Cover:&nbsp;&#39;</span>&nbsp;+&nbsp;<span style='color:#ff00dc'>CAST</span>(<span style='color:#8b0000'>@CoversParam</span>&nbsp;<span style='color:blue'>AS</span>&nbsp;<span style='color:blue'>varchar</span>)&nbsp;+&nbsp;<span style='color:red'>&#39;&nbsp;;&nbsp;Food:&nbsp;&#39;</span>&nbsp;+&nbsp;<span style='color:#ff00dc'>LTRIM</span>(<span style='color:#ff00dc'>STR</span>(<span style='color:#ff00dc'>CAST</span>(<span style='color:#8b0000'>@FoodParam</span>&nbsp;<span style='color:blue'>AS</span>&nbsp;<span style='color:blue'>varchar</span>),&nbsp;13,&nbsp;2))&nbsp;+&nbsp;<span style='color:red'>&#39;&nbsp;;&nbsp;Bev:&nbsp;&#39;</span>&nbsp;+&nbsp;<span style='color:#ff00dc'>LTRIM</span>(<span style='color:#ff00dc'>STR</span>(<span style='color:#ff00dc'>CAST</span>(<span style='color:#8b0000'>@BeverageParam</span>&nbsp;<span style='color:blue'>AS</span>&nbsp;<span style='color:blue'>varchar</span>),&nbsp;13,&nbsp;2))&nbsp;+&nbsp;<span style='color:red'>&#39;&nbsp;;&nbsp;Other:&nbsp;&#39;</span>&nbsp;+&nbsp;<span style='color:#ff00dc'>CAST</span>(<span style='color:#8b0000'>@OtherParam</span>&nbsp;<span style='color:blue'>AS</span>&nbsp;<span style='color:blue'>varchar</span>)&nbsp;+&nbsp;<span style='color:red'>&#39;&nbsp;;&nbsp;Discount:&nbsp;&#39;</span>&nbsp;+&nbsp;<span style='color:#ff00dc'>LTRIM</span>(<span style='color:#ff00dc'>STR</span>(<span style='color:#ff00dc'>CAST</span>(<span style='color:#8b0000'>@DiscountParam</span>&nbsp;<span style='color:blue'>AS</span>&nbsp;<span style='color:blue'>varchar</span>),&nbsp;13,&nbsp;2))&nbsp;+&nbsp;<span style='color:red'>&#39;&nbsp;;&nbsp;OutLet:&nbsp;&#39;</span>&nbsp;+&nbsp;<span style='color:#ff00dc'>CAST</span>(<span style='color:#8b0000'>@OutletIdParam</span>&nbsp;<span style='color:blue'>AS</span>&nbsp;<span style='color:blue'>varchar</span>)&nbsp;+&nbsp;<span style='color:red'>&#39;&nbsp;;&nbsp;ServingPeriod:&nbsp;&#39;</span>&nbsp;+&nbsp;<span style='color:#8b0000'>@DescriptionParam</span><br />
+                                        <br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>EXEC</span>&nbsp;ADM_Logs_CreateLogs&nbsp;<span style='color:#8b0000'>@paramLogGroupId</span>&nbsp;=&nbsp;5,<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#8b0000'>@paramAction</span>&nbsp;=&nbsp;<span style='color:#8b0000'>@act</span>,<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#8b0000'>@paramDescription</span>&nbsp;=&nbsp;<span style='color:#8b0000'>@desc</span>,<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#8b0000'>@paramCreatedDate</span>&nbsp;=&nbsp;<span style='color:#8b0000'>@TodayInsert</span>,<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#8b0000'>@paramCreatedBy</span>&nbsp;=&nbsp;<span style='color:#8b0000'>@CreatedByParam</span><br />
+                                        <br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#008000'>--Log&nbsp;End&nbsp;Import</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>IF</span>&nbsp;<span style='color:#8b0000'>@CanLogEndImport</span>&nbsp;=&nbsp;1<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:gray'>AND</span>&nbsp;(<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#8b0000'>@CheckCanLog</span>&nbsp;=&nbsp;<span style='color:red'>&#39;True&#39;</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:gray'>OR</span>&nbsp;<span style='color:#8b0000'>@CheckCanLog</span>&nbsp;=&nbsp;<span style='color:red'>&#39;true&#39;</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>BEGIN</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>DECLARE</span>&nbsp;<span style='color:#8b0000'>@ActionEnd</span>&nbsp;<span style='color:blue'>AS</span>&nbsp;<span style='color:blue'>nvarchar</span>(30)&nbsp;=&nbsp;<span style='color:red'>N&#39;ImportFB:&nbsp;&#39;</span>&nbsp;+&nbsp;<span style='color:blue'>CONVERT</span>(<span style='color:blue'>varchar</span>,&nbsp;<span style='color:#8b0000'>@BookDateParam</span>,&nbsp;101)<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>DECLARE</span>&nbsp;<span style='color:#8b0000'>@TodayEnd</span>&nbsp;<span style='color:blue'>AS</span>&nbsp;<span style='color:blue'>datetime</span>&nbsp;=&nbsp;<span style='color:#ff00dc'>DATEADD</span>(SECOND,&nbsp;1,&nbsp;<span style='color:#ff00dc'>GETDATE</span>())<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>DECLARE</span>&nbsp;<span style='color:#8b0000'>@DescEnd</span>&nbsp;<span style='color:blue'>AS</span>&nbsp;<span style='color:blue'>nvarchar</span>(254)&nbsp;=&nbsp;<span style='color:red'>N&#39;Import&nbsp;Done:&nbsp;&#39;</span>&nbsp;+&nbsp;<span style='color:#ff00dc'>CAST</span>(<span style='color:#8b0000'>@TotalRow</span>&nbsp;<span style='color:blue'>AS</span>&nbsp;<span style='color:blue'>nvarchar</span>(<span style='color:#ff00dc'>max</span>))&nbsp;+&nbsp;<span style='color:red'>&#39;&nbsp;rows&#39;</span><br />
+                                        <br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>EXEC</span>&nbsp;ADM_Logs_CreateLogs&nbsp;<span style='color:#8b0000'>@paramLogGroupId</span>&nbsp;=&nbsp;5,<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#8b0000'>@paramAction</span>&nbsp;=&nbsp;<span style='color:#8b0000'>@ActionEnd</span>,<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#8b0000'>@paramDescription</span>&nbsp;=&nbsp;<span style='color:#8b0000'>@DescEnd</span>,<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#8b0000'>@paramCreatedDate</span>&nbsp;=&nbsp;<span style='color:#8b0000'>@TodayEnd</span>,<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#8b0000'>@paramCreatedBy</span>&nbsp;=&nbsp;<span style='color:#8b0000'>@CreatedByParam</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>END</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>END</span><br />
+                                        <br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>SELECT</span>&nbsp;<span style='color:#8b0000'>@isExist</span><br />
+                                        <br />
+                                        &nbsp;&nbsp;<span style='color:blue'>COMMIT</span><br />
+                                        <span style='color:blue'>END</span><br />
+                                    </code>
+                                </div>
+                            </li>
+                        </ul>
+                        <br />
+                    </li>
+                    <li>Cập nhật trạng thái ngài import được chọn là BOOK <font color="red" >(như TRY 4. nhưng tham số là Book)</font></li>
+                </ul>
+
+                <!--| REOPEN |-->
+                <h3 class="para_title">REOPEN</h3>
+                <ol>
+                    <li>Chọn ngày cần Reopen</li>
+                    <li>Chuyển trạng thái ngày được chọn sang REOPEN</li>
+                    <li>
+                        Gọi <span class="Method_Name">ReOpenExcute()</span> ->  <span class="Method_Name">ImportActivity()</span> <a href="#" class="view_code" data-target="ImportActivity">[ View Code ]</a>
+                        <div class="local-code" id="ImportActivity">
+                            <div>
+                                <font color='Blue'>private</font>&nbsp;async&nbsp;<font color='Blue'>void</font>&nbsp;ImportActivity(<font color='Blue'>object</font>&nbsp;command) <br />{ <br />&nbsp;&nbsp;&nbsp;&nbsp;<font color='Blue'>string</font>&nbsp;error&nbsp;=&nbsp;<font color='Blue'>null</font>; <br />&nbsp;&nbsp;&nbsp;&nbsp;<font color='Blue'>try</font> <br />&nbsp;&nbsp;&nbsp;&nbsp;{ <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var&nbsp;cmd&nbsp;=&nbsp;command.GetValueByPropName&lt;CommandType&gt;(<font color='Maroon'>"Command"</font>); <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color='Blue'>switch</font>&nbsp;(cmd) <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color='Green'>//[&nbsp;...&nbsp;]</font> <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color='Green'>//--REOPEN------------------------------------------------------</font> <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color='Blue'>case</font>&nbsp;CommandType.Reopen: <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error&nbsp;=&nbsp;<font color='Maroon'>"Can&nbsp;not&nbsp;REOPEN"</font>; <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetBusy(FriendlyMessages.BusyLoaddingMsg); <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetCallBackToActivity(GlobalEnum.ImportStatus.ReOpen); <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var&nbsp;resultReopen&nbsp;=&nbsp;await&nbsp;_service.GetAllSpendFbForReOpenAsync(_controller.CardTypeList,&nbsp;_controller.ImportDateList.GetStringListSeparated(import&nbsp;=&gt;&nbsp;import.ImportDate.ToString(<font color='Maroon'>"MM/dd/yyyy"</font>)),canClearFB:&nbsp;<font color='Maroon'>true</font>); <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color='Blue'>if</font>&nbsp;(resultReopen&nbsp;==&nbsp;<font color='Blue'>null</font>&nbsp;||&nbsp;resultReopen.Count&nbsp;==&nbsp;<font color='Maroon'>0</font>) <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color='Blue'>if</font>&nbsp;(CheckSetting(SettingId.FlgImportFBClearDataTrial)) <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ShowToast(<font color='Maroon'>"No&nbsp;data&nbsp;found.&nbsp;You&nbsp;may&nbsp;be&nbsp;should&nbsp;check&nbsp;the&nbsp;setting&nbsp;about&nbsp;allow&nbsp;clear&nbsp;temp&nbsp;data&nbsp;after&nbsp;BOOK.&nbsp;Or&nbsp;try&nbsp;TRY&nbsp;to&nbsp;read&nbsp;data&nbsp;again"</font>); <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color='Blue'>else</font> <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ShowToast(<font color='Maroon'>"No&nbsp;data&nbsp;found.&nbsp;"</font>); <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetCallBackToActivity(GlobalEnum.ImportStatus.Book); <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color='Blue'>else</font> <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetCallBackToActivity(GlobalEnum.ImportStatus.Check); <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FbTrialCollection&nbsp;=&nbsp;resultReopen; <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EventAggregator.GetEvent&lt;CountFoundEvent&gt;().Publish(FbTrialCollection.Count); <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;await&nbsp;Task.Delay(<font color='Maroon'>700</font>); <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ShowToast(<font color='Blue'>string</font>.Format(<font color='Maroon'>"REOPEN&nbsp;success&nbsp;with&nbsp;{0}&nbsp;record(s)"</font>,&nbsp;resultReopen.Count)); <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color='Blue'>break</font>; <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EventAggregator.GetEvent&lt;CountFoundEvent&gt;().Publish(FbTrialCollection&nbsp;==&nbsp;<font color='Blue'>null</font>&nbsp;?&nbsp;<font color='Maroon'>0</font>&nbsp;:&nbsp;FbTrialCollection.Count); <br /> <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetBusy(); <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_controller.CloseFbDetail(); <br />&nbsp;&nbsp;&nbsp;&nbsp;} <br />&nbsp;&nbsp;&nbsp;&nbsp;<font color='Blue'>catch</font>&nbsp;(Exception&nbsp;ex) <br />&nbsp;&nbsp;&nbsp;&nbsp;{ <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetBusy(); <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color='Blue'>new</font>&nbsp;Action(async&nbsp;()&nbsp;=&gt;&nbsp;SetCallBackToActivity(GlobalEnum.ImportStatus.Failed)).Invoke(); <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ShowingError(ex,&nbsp;<font color='Maroon'>"ImportActivity&nbsp;method&nbsp;in&nbsp;BookerMasterVm&nbsp;has&nbsp;error"</font>,&nbsp;error); <br />&nbsp;&nbsp;&nbsp;&nbsp;} <br />}
+                            </div>
+                        </div>
+                        <ul>
+                            <li>
+                                Gọi <span class="Proc_Name">Import_FB_Activity_GetSpendFTrialbForReOpen</span>:
+                                <br />+ Xóa dữ liệu bảng Spend_FB thỏa: ngày Book_Date = Import_Date được chọn
+                                <br />+ Đọc lại dữ liệu trong bảng Spend_FB_Trial thỏa: Book_Datre = Import_Date được chọn. Hiển thị lên view
+                                <br /><a href="#" class="view_code" data-target="Import_FB_Activity_GetSpendFTrialbForReOpen">[ View Code ]</a>
+                                <div class="local-code" id="Import_FB_Activity_GetSpendFTrialbForReOpen">
+                                    <code style='font-size: 12px;'>
+                                        <span style='color:blue'>ALTER</span>&nbsp;<span style='color:blue'>PROCEDURE</span>&nbsp;[dbo].[Import_FB_Activity_GetSpendFTrialbForReOpen]&nbsp;<span style='color:#8b0000'>@ImportDateList</span>&nbsp;<span style='color:blue'>VARCHAR</span>(<span style='color:#ff00dc'>max</span>)<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;,<span style='color:#8b0000'>@CreatedByParam</span>&nbsp;<span style='color:blue'>NVARCHAR</span>(20)<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;,<span style='color:#8b0000'>@CardTypeList</span>&nbsp;<span style='color:blue'>VARCHAR</span>(100)<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;,<span style='color:#8b0000'>@CanClearFB</span>&nbsp;<span style='color:blue'>bit</span><br />
+                                        <span style='color:blue'>AS</span><br />
+                                        <span style='color:blue'>BEGIN</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>SET</span>&nbsp;XACT_ABORT&nbsp;<span style='color:blue'>ON</span><br />
+                                        <br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>BEGIN</span>&nbsp;<span style='color:blue'>TRAN</span><br />
+                                        <br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#008000'>--//----------------------------------------------------</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#008000'>--//--Import&nbsp;Date&nbsp;Table&nbsp;temp&nbsp;AND&nbsp;Card&nbsp;Type&nbsp;table&nbsp;temp</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#008000'>--//----------------------------------------------------</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>DECLARE</span>&nbsp;<span style='color:#8b0000'>@impDateTblTmp</span>&nbsp;<span style='color:blue'>AS</span>&nbsp;<span style='color:blue'>TABLE</span>&nbsp;(Import_Date&nbsp;DATE)<br />
+                                        <br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>INSERT</span>&nbsp;<span style='color:blue'>INTO</span>&nbsp;<span style='color:#8b0000'>@impDateTblTmp</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>SELECT</span>&nbsp;*<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>FROM</span>&nbsp;[dbo].[func_InsertStringToTable](<span style='color:#8b0000'>@ImportDateList</span>)&nbsp;<span style='color:blue'>AS</span>&nbsp;DATE<br />
+                                        <br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>DECLARE</span>&nbsp;<span style='color:#8b0000'>@cardTypeTblTemp</span>&nbsp;<span style='color:blue'>AS</span>&nbsp;<span style='color:blue'>TABLE</span>&nbsp;(CardType_ID&nbsp;<span style='color:blue'>VARCHAR</span>(10))<br />
+                                        <br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>INSERT</span>&nbsp;<span style='color:blue'>INTO</span>&nbsp;<span style='color:#8b0000'>@cardTypeTblTemp</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>SELECT</span>&nbsp;*<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>FROM</span>&nbsp;[dbo].[func_InsertStringToTable](<span style='color:#8b0000'>@CardTypeList</span>)<br />
+                                        <br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#008000'>--//--Create&nbsp;Log</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#008000'>--//--Kiểm&nbsp;tra&nbsp;co&nbsp;cho&nbsp;phép&nbsp;tạo&nbsp;log&nbsp;hay&nbsp;không</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>DECLARE</span>&nbsp;<span style='color:#8b0000'>@CheckCanLog</span>&nbsp;<span style='color:blue'>AS</span>&nbsp;<span style='color:blue'>VARCHAR</span>(250)&nbsp;=&nbsp;(<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>SELECT</span>&nbsp;SettingValue<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>FROM</span>&nbsp;ADM_Settings<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>WHERE</span>&nbsp;Setting_ID&nbsp;=&nbsp;<span style='color:red'>&#39;flgLog_ImportFB_REOPEN&#39;</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>DECLARE</span>&nbsp;<span style='color:#8b0000'>@CountRowDel</span>&nbsp;<span style='color:blue'>AS</span>&nbsp;<span style='color:blue'>VARCHAR</span>(10)&nbsp;=&nbsp;(<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>SELECT</span>&nbsp;<span style='color:#ff00dc'>count</span>(*)<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>FROM</span>&nbsp;Spend_FB<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>WHERE</span>&nbsp;Trans_Type_ID&nbsp;=&nbsp;2<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:gray'>AND</span>&nbsp;Status_ID&nbsp;=&nbsp;4<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:gray'>AND</span>&nbsp;<span style='color:#ff00dc'>cast</span>(Book_Date&nbsp;<span style='color:blue'>AS</span>&nbsp;DATE)&nbsp;<span style='color:gray'>IN</span>&nbsp;(<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>SELECT</span>&nbsp;*<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>FROM</span>&nbsp;<span style='color:#8b0000'>@impDateTblTmp</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:gray'>AND</span>&nbsp;Card_ID&nbsp;<span style='color:gray'>IN</span>&nbsp;(<span style='color:blue'>select</span>&nbsp;Card_ID&nbsp;<span style='color:blue'>from</span>(<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>SELECT</span>&nbsp;CardType_ID,&nbsp;Card_ID<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>FROM</span>&nbsp;dbo.func_UnionMemberCardsANDCardHistory()&nbsp;<span style='color:blue'>AS</span>&nbsp;fumcah)x<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>WHERE</span>&nbsp;CardType_ID&nbsp;<span style='color:gray'>IN</span>&nbsp;(<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>SELECT</span>&nbsp;*<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>FROM</span>&nbsp;<span style='color:#8b0000'>@cardTypeTblTemp</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;))<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<br />
+                                        <br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#008000'>--//--Xóa&nbsp;dữ&nbsp;liệu&nbsp;trong&nbsp;bảng&nbsp;Spend_FB&nbsp;đi</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>IF</span>&nbsp;<span style='color:#8b0000'>@CanClearFB</span>=1<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>BEGIN</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>DELETE</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>FROM</span>&nbsp;Spend_FB<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>WHERE</span>&nbsp;Trans_Type_ID&nbsp;=&nbsp;2<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:gray'>AND</span>&nbsp;Status_ID&nbsp;=&nbsp;4<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:gray'>AND</span>&nbsp;<span style='color:#ff00dc'>cast</span>(Book_Date&nbsp;<span style='color:blue'>AS</span>&nbsp;DATE)&nbsp;<span style='color:gray'>IN</span>&nbsp;(<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>SELECT</span>&nbsp;*<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>FROM</span>&nbsp;<span style='color:#8b0000'>@impDateTblTmp</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:gray'>AND</span>&nbsp;Card_ID&nbsp;<span style='color:gray'>IN</span>&nbsp;(<span style='color:blue'>select</span>&nbsp;Card_ID&nbsp;<span style='color:blue'>from</span>(<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>SELECT</span>&nbsp;CardType_ID,&nbsp;Card_ID<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>FROM</span>&nbsp;dbo.func_UnionMemberCardsANDCardHistory()&nbsp;<span style='color:blue'>AS</span>&nbsp;fumcah)x<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>WHERE</span>&nbsp;CardType_ID&nbsp;<span style='color:gray'>IN</span>&nbsp;(<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>SELECT</span>&nbsp;*<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>FROM</span>&nbsp;<span style='color:#8b0000'>@cardTypeTblTemp</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;))<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>END</span><br />
+                                        <br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#008000'>--//--Log&nbsp;Begin&nbsp;Import</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>IF</span>&nbsp;(<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:#8b0000'>@CheckCanLog</span>&nbsp;=&nbsp;<span style='color:red'>&#39;True&#39;</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:gray'>OR</span>&nbsp;<span style='color:#8b0000'>@CheckCanLog</span>&nbsp;=&nbsp;<span style='color:red'>&#39;true&#39;</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>BEGIN</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>DECLARE</span>&nbsp;<span style='color:#8b0000'>@dateStr</span>&nbsp;<span style='color:blue'>varchar</span>(50)=<span style='color:#ff00dc'>cast</span>((<span style='color:blue'>SELECT</span>&nbsp;<span style='color:#ff00dc'>MIN</span>(Import_Date)&nbsp;<span style='color:blue'>FROM</span>&nbsp;<span style='color:#8b0000'>@impDateTblTmp</span>)<span style='color:blue'>as</span>&nbsp;<span style='color:blue'>varchar</span>)+<span style='color:red'>&#39;&nbsp;to&nbsp;&#39;</span>+<span style='color:#ff00dc'>cast</span>((<span style='color:blue'>SELECT</span>&nbsp;<span style='color:#ff00dc'>MAX</span>(Import_Date)&nbsp;<span style='color:blue'>FROM</span>&nbsp;<span style='color:#8b0000'>@impDateTblTmp</span>)&nbsp;<span style='color:blue'>as</span>&nbsp;<span style='color:blue'>varchar</span>)<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>DECLARE</span>&nbsp;<span style='color:#8b0000'>@Action</span>&nbsp;<span style='color:blue'>AS</span>&nbsp;<span style='color:blue'>NVARCHAR</span>(30)&nbsp;=&nbsp;<span style='color:red'>N&#39;ImportFB:&nbsp;&#39;</span>&nbsp;+<span style='color:#8b0000'>@dateStr</span>&nbsp;<span style='color:#008000'>--convert(VARCHAR,&nbsp;@CreateDateParam,&nbsp;101)</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>DECLARE</span>&nbsp;<span style='color:#8b0000'>@Today</span>&nbsp;<span style='color:blue'>AS</span>&nbsp;<span style='color:blue'>DATETIME</span>&nbsp;=&nbsp;<span style='color:#ff00dc'>getdate</span>()<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>DECLARE</span>&nbsp;<span style='color:#8b0000'>@Desc</span>&nbsp;<span style='color:blue'>AS</span>&nbsp;<span style='color:blue'>NVARCHAR</span>(254)&nbsp;=&nbsp;<span style='color:red'>N&#39;RE-OPEN&nbsp;Started.&nbsp;&#39;</span>&nbsp;+&nbsp;<span style='color:#8b0000'>@CountRowDel</span>&nbsp;+&nbsp;<span style='color:red'>&#39;&nbsp;deleted&#39;</span><br />
+                                        <br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>EXEC</span>&nbsp;ADM_Logs_CreateLogs&nbsp;<span style='color:#8b0000'>@paramLogGroupId</span>&nbsp;=&nbsp;5<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,<span style='color:#8b0000'>@paramAction</span>&nbsp;=&nbsp;<span style='color:#8b0000'>@Action</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,<span style='color:#8b0000'>@paramDescription</span>&nbsp;=&nbsp;<span style='color:#8b0000'>@Desc</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,<span style='color:#8b0000'>@paramCreatedDate</span>&nbsp;=&nbsp;<span style='color:#8b0000'>@Today</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,<span style='color:#8b0000'>@paramCreatedBy</span>&nbsp;=&nbsp;<span style='color:#8b0000'>@CreatedByParam</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>END</span><br />
+                                        <br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>SELECT</span>&nbsp;S.Trans_ID<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,S.Book_Date<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,S.Card_ID<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,S.Trans_Type_ID<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,S.Outlet_ID<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,S.Covers<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,S.Food<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,S.Approver<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,S.Beverage<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,S.Discount<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,<span style='color:blue'>CASE</span>&nbsp;<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>WHEN</span>&nbsp;[dbo].[func_CheckExistCardId](S.Card_ID)&nbsp;=&nbsp;1<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>THEN</span>&nbsp;3<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>ELSE</span>&nbsp;1<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>END</span>&nbsp;<span style='color:blue'>AS</span>&nbsp;Status_ID<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,S.Created_Date<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,S.Created_by<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,S.Changed_Date<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,S.Changed_By<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,S.Active<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,M.Name_On_Card<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,TT.Description&nbsp;<span style='color:blue'>AS</span>&nbsp;TTDescription<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,M.Sold_Date<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,M.Expiry_Date<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,ST.Description&nbsp;<span style='color:blue'>AS</span>&nbsp;STDescription<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,O.Description&nbsp;<span style='color:blue'>AS</span>&nbsp;ODescription<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,S.ROWVERSION<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>FROM</span>&nbsp;Spend_FB_Trial&nbsp;S<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>LEFT</span>&nbsp;<span style='color:blue'>OUTER</span>&nbsp;<span style='color:blue'>JOIN</span>&nbsp;dbo.func_UnionMemberCardsANDCardHistory()&nbsp;M&nbsp;<span style='color:blue'>ON</span>&nbsp;S.Card_ID&nbsp;=&nbsp;M.Card_ID<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>LEFT</span>&nbsp;<span style='color:blue'>OUTER</span>&nbsp;<span style='color:blue'>JOIN</span>&nbsp;MAS_Outlets&nbsp;O&nbsp;<span style='color:blue'>ON</span>&nbsp;S.Outlet_ID&nbsp;=&nbsp;O.Outlet_ID<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>LEFT</span>&nbsp;<span style='color:blue'>OUTER</span>&nbsp;<span style='color:blue'>JOIN</span>&nbsp;MAS_TransTypes&nbsp;TT&nbsp;<span style='color:blue'>ON</span>&nbsp;S.Trans_Type_ID&nbsp;=&nbsp;TT.Trans_Type_ID<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>LEFT</span>&nbsp;<span style='color:blue'>OUTER</span>&nbsp;<span style='color:blue'>JOIN</span>&nbsp;MAS_ImportStatus&nbsp;ST&nbsp;<span style='color:blue'>ON</span>&nbsp;S.Status_ID&nbsp;=&nbsp;ST.Status_ID<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>WHERE</span>&nbsp;s.Trans_Type_ID&nbsp;=&nbsp;2<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:gray'>AND</span>&nbsp;s.Book_Date&nbsp;<span style='color:gray'>IN</span>&nbsp;(<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>SELECT</span>&nbsp;*<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>FROM</span>&nbsp;<span style='color:#8b0000'>@impDateTblTmp</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:gray'>AND</span>&nbsp;(s.Card_ID&nbsp;<span style='color:gray'>IN</span>&nbsp;(<span style='color:blue'>select</span>&nbsp;Card_ID&nbsp;<span style='color:blue'>from</span>(<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>SELECT</span>&nbsp;CardType_ID,&nbsp;Card_ID<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>FROM</span>&nbsp;dbo.func_UnionMemberCardsANDCardHistory()&nbsp;<span style='color:blue'>AS</span>&nbsp;fumcah)x<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>WHERE</span>&nbsp;CardType_ID&nbsp;<span style='color:gray'>IN</span>&nbsp;(<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>SELECT</span>&nbsp;*<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>FROM</span>&nbsp;<span style='color:#8b0000'>@cardTypeTblTemp</span><br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;))<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:gray'>or</span>&nbsp;[dbo].[func_CheckExistCardId](S.Card_ID)&nbsp;=0<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>ORDER</span>&nbsp;<span style='color:blue'>BY</span>&nbsp;Trans_ID<br />
+                                        <br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span style='color:blue'>COMMIT</span><br />
+                                        <span style='color:blue'>END</span><br />
+                                        <br />
+                                        <br />
+                                        <br />
+                                    </code>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                </ol>
+                <br />
+                <div class="alert alert-info" role="alert">
+                    Tất cả các xử trên đều kiểm tra Card Type và Programme mà User chọn để working
+                </div>
+            </div>
+        </div>
+        <div id="mem_footer">
+            <div class="wrapper">
+                Copyright &copy; 2014 | phamnguyenco.com
+            </div>
+        </div>
+
+
+        <script src="../../IncludeFiles/jquery-1.11.1.min.js"></script>
+        <script src="../../IncludeFiles/bootstrap.min.js"></script>
+        <script src="../../IncludeFiles/app.js"></script>
+    </body>
+</html>
